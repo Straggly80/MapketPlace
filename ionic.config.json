@@ -1,0 +1,7 @@
+{
+  "name": "MapketPlace",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
