@@ -1,0 +1,260 @@
+/* ----------------- NAV DE ARRIBA------------------------- */
+
+
+
+/* ----------------------------------------- */
+ion-content {
+  --background: #ffffff;
+  background-color: #ffffff;
+  height: 100vh;
+  overflow: hidden;
+  --overflow: hidden; // <-- ¡este es crucial!
+  --padding-bottom: 0;
+}
+// ---------------------------------------------------------------------
+// MAPA DE IONIC
+html, body {
+  overscroll-behavior: none;
+  overflow: hidden;
+  height: 100%;
+}
+
+ion-app, ion-content {
+  touch-action: none !important; // previene desplazamientos táctiles no deseados
+}
+// Contenedor del mapa
+.map-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+// Estilos para el mapa
+// Asegúrate de que el mapa ocupe toda la pantalla
+
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+
+.heart-btn {
+  position: absolute;
+  bottom: 400px; 
+  right: 16px;
+  z-index: 3; // sobre el mapa
+  --background: transparent;
+  --box-shadow: none;
+}
+
+
+/* --------------------------------------------------------------------- */
+      //FONDO DE PANTALLA
+.letters {
+  color: #3e3e3e; /* letras blancas */
+  font-weight: 100; /* sin px */
+  font-family: 'Patrick Hand', cursive;
+  font-size: clamp(1rem, 4vw, 1.5rem);
+  text-align: center;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  display: block;
+  width: 100%;
+  margin-top: 40px;
+}
+
+/* --------------------------------------------------------------------- */
+   //TARJETAS DE IONC-CARD
+/* --------------------------------------------------------------------- */
+
+
+.custom-card {
+  font-family: 'Patrick Hand', cursive;
+  margin: 16px auto; // Centrado horizontal
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  background: #ffffff;
+
+  // Limita el ancho y lo adapta
+  width: 100%;
+  max-width: 400px; // Puedes ajustar a 360px, 500px, etc.
+
+  ion-card-header {
+    background: #ffffff;
+    padding: 16px;
+
+    ion-card-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #333;
+    }
+  }
+
+  ion-card-content {
+    padding: 6px;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    color: #555;
+  }
+
+  img {
+    width: 100%;
+    height: 300px;
+    display: block;
+    object-fit: cover;
+    border-top: 1px solid #ffffff;
+  }
+}
+
+
+/* ------------------------------------------------------------------- */
+      //NAV BAR DE ABAJO
+/* ------------------------------------------------------------------- */
+ion-content {
+   --background: #ffffff; /* o el color que tú quieras para el fondo de toda la pantalla */
+  background-color: #ffffff;
+  --padding-bottom: 150px;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+/* nav fijo con posición visual simulada */
+.bottom-nav {
+  position: fixed;
+  top: 16px;
+  right: 15px; /* valor oculto por defecto */
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-end;
+  transition: right 0.3s ease; /* animación suave */
+}
+
+/* Botón fijo abajo */
+.crear-boton {
+  background-color: #ffffff;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(103, 103, 103);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 11;
+}
+
+
+/* Botón fijo */
+.home-box {
+  background-color: #ffffff;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(103, 103, 103);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 11;
+}
+
+
+/* Icono dentro del botón home */
+.home-box ion-icon {
+  font-size: 1.9rem;
+  transition: transform 0.3s ease, color 0.4s ease;
+}
+
+.home-box:hover {
+  transform: scale(1.10);
+}
+
+.home-box:hover ion-icon {
+  transform: scale(1.1);
+  color: #619def;
+}
+
+/* Contenedor para centrar la caja con 3 iconos */
+.right-box-container {
+  flex: 1; /* ocupa todo el espacio restante */
+  display: flex;
+  justify-content: center; /* centra horizontalmente el contenido */
+}
+
+/* Menú justo debajo */
+.right-box {
+  position: absolute;
+  top: 70px; /* debajo del botón */
+  right: 0;
+  background-color: #ffffff;
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column; /* <-- aquí está el cambio clave */
+  gap: 12px; /* espacio vertical entre íconos */
+  align-items: center;
+  box-sizing: border-box;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform-origin: top right;
+  z-index: 9;
+}
+
+/* Iconos individuales */
+.right-box a {
+  background-color: #ffffff;
+  border-radius: 50%;
+  width: 32px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(103, 103, 103);
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.right-box a ion-icon {
+  font-size: 1.9rem;
+  transition: transform 0.3s ease, color 0.4s ease;
+}
+
+/* Hover: borde negro y escala suave */
+.right-box a:hover {
+  transform: scale(1.12);
+  color: #ef6161;
+}
+
+.home-box ion-icon,
+.right-box a ion-icon {
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Oculto: sube hacia arriba */
+.right-box.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-20px); /* se oculta hacia arriba */
+}
+
+/* Visible: aparece debajo */
+.right-box.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
