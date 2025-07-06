@@ -5,7 +5,7 @@ import { AuthPage } from './auth.page';
 
 const routes: Routes = [
   {
-    path: 'welcome',
+    path: '',
     component: AuthPage
   },
   {
@@ -15,7 +15,8 @@ const routes: Routes = [
   {
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
-  },  {
+  },
+  {
     path: 'welcome',
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
   },

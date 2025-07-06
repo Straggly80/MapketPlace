@@ -1,6 +1,6 @@
+<ion-toolbar class="toolbar-color"></ion-toolbar>
 <ion-content>
 <app-header [showMenu]="true" title="Inicio"></app-header>
-
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -36,7 +36,7 @@
           </ion-chip>
         </ion-label>
       </ion-item>
-      <!-- ====== OPCIONES ====== -->
+        <!-- ====== OPCIONES ====== -->
       <ion-item-options>
         <!-- ====== EDITAR ====== -->
         <ion-item-option (click)="addUpdateProduct(p)">
@@ -70,16 +70,16 @@
 
   <!-- =============== SIN PRODUCTOS DISPONIBLES =============== -->
   <div *ngIf="!loading && !products.length" class="empty">
-    <ion-icon name="shield-outline"></ion-icon>
-    <h3>No hayproductos disponibles</h3>
+    <ion-icon name="cart-outline"></ion-icon>
+    <h3>No hay productos disponibles</h3>
   </div>
 
 
 
   <!-- ============ NUEVO PRODUCTO ============ -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addUpdateProduct()">
-      <ion-icon name="add"></ion-icon>
+    <ion-fab-button (click)="addUpdateProduct()" style="--background: rgb(255, 102, 102);">
+      <ion-icon class="color-boton" name="cart"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>

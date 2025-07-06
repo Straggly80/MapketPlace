@@ -4,7 +4,6 @@
   background-color: #555;
 }
 
-
 /* ----------------------------------------- */
 ion-content {
   --background: #3e3e3e;
@@ -59,6 +58,13 @@ ion-app, ion-content {
   margin-top: 40px;
 }
 
+ ion-toolbar {
+     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
+     height: var(--min-height); /* Aplica la altura definida */
+     --background:#619def;
+   }
 
-
+.toolbar-color{
+  text-align: justify;
+}
 

@@ -41,3 +41,9 @@ ion-avatar {
 .empty-icon{
     font-size: 100px;
 }
+
+ ion-toolbar {
+     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
+     height: var(--min-height); /* Aplica la altura definida */
+     --background:#619def;
+   }

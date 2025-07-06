@@ -29,6 +29,14 @@ ion-button {
     text-transform: none;
 }
 
+ion-toolbar {
+     --min-height: 44px; /* Ajusta este valor al tamaño deseado */
+     --max-height: 48px; /* Ajusta este valor al tamaño deseado */
+     height: var(--min-height); /* Aplica la altura definida */
+     height: var(--max-height); /* Aplica la altura definida */
+}
+
+
 // safe padding for ios
 .safe-p-bottom{
     padding-bottom: constant(safe-area-inset-bottom); // for ios 13+

@@ -1,17 +1,13 @@
-<app-header backButton="/auth" title="Welcome"></app-header>
-<ion-content>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>welcome</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-  <div class="d-flex-center">
-
-  <app-logo></app-logo>
-
-
-   <ion-button>
-  Iniciar
-  <ion-icon slot="end" name="person-add-outline"></ion-icon>
- </ion-button>
-
-  </div>
- 
- 
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">welcome</ion-title>
+    </ion-toolbar>
+  </ion-header>
 </ion-content>

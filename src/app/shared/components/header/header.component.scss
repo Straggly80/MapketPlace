@@ -3,6 +3,20 @@
     
 }
 .toolbar-color{
-    --background: #3e3e3e;
-    color: rgb(242, 242, 242);
+    --background: #619def;
+    color: rgb(255, 255, 255);
+
 }
+
+ ion-toolbar {
+     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
+     height: var(--min-height); /* Aplica la altura definida */
+   }
+
+/* .box-total{
+ 
+}
+
+app-header{
+    
+} */

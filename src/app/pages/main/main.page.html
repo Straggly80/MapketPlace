@@ -1,4 +1,6 @@
+
 <ion-menu contentId="menu-content" menuId="menu-content" side="start">
+  <ion-toolbar class="toolbar-color"></ion-toolbar>
   <app-header title="Menu"></app-header>
   <ion-content class="ion-text-center">
 
@@ -11,6 +13,7 @@
 
 
     <ion-menu-toggle auto-hide="false" *ngFor="let p of pages">
+      
       <ion-item [ngClass]="{active: currentPath === p.url}" [routerLink]="p.url" routerDirection="root" detail>
         <ion-icon slot="start" [name]="p.icon"></ion-icon>
         <ion-label>{{p.title}}</ion-label>

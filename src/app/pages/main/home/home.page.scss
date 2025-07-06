@@ -7,3 +7,13 @@ ion-card {
 ion-content{
     --padding-bottom: 70px;
 }
+
+ ion-toolbar {
+     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
+     height: var(--min-height); /* Aplica la altura definida */
+     --background:#619def;
+   }
+
+.color-boton{
+
+}

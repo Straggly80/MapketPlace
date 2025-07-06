@@ -7,6 +7,7 @@ ion-avatar {
 .photo-btn {
     position:relative;
     bottom: 25px;
+    --background: rgb(237, 163, 237);
 }
 
 h2{
@@ -21,3 +22,9 @@ ion-item {
     font-size: 140px;
     opacity: 30%;
 }
+
+ ion-toolbar {
+     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
+     height: var(--min-height); /* Aplica la altura definida */
+     --background:#619def;
+   }
