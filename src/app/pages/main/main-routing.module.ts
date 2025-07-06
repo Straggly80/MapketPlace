@@ -28,8 +28,11 @@ const routes: Routes = [
         loadChildren: () => 
           import('./mapa/mapa.module').then( m => m.MapaPageModule)
       },
+     
     ],
   },
+ 
+
  
 
 ];
