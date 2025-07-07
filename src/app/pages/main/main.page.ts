@@ -17,7 +17,6 @@ export class MainPage implements OnInit {
     { title: 'Favoritos', url: '/main/ventas', icon: 'heart-outline' },
     { title: 'Ventas', url: '/main/home', icon: 'cart-outline' },
     { title: 'Compras', url: '/main/compras', icon: 'bag-outline' },
-    { title: 'Welcome', url: '/auth/welcome', icon: 'diamond-outline' },
     { title: 'Chat', url: '/main/chat', icon: 'chatbubbles-outline' },
   ];
 

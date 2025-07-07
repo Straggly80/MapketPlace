@@ -1,9 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { FormControl, Validators } from '@angular/forms';
-import { User } from 'src/app/models/user.model';
-import { FirebaseService } from 'src/app/services/firebase.service';
-import { UtilsService } from 'src/app/services/utils.service';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-auth',
@@ -11,80 +9,36 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./auth.page.scss'],
   standalone: false,
 })
-export class AuthPage implements OnInit {
-  form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-  });
+export class AuthPage {
+   constructor(private router: Router) {}
 
-  firebaseSvc = inject(FirebaseService);
-  utilSvc = inject(UtilsService);
-
-  ngOnInit() {}
-
-  async submit() {
-    if (this.form.valid) {
-      const loading = await this.utilSvc.loading();
-      await loading.present();
-
-      this.firebaseSvc
-        .signIn(this.form.value as User)
-        .then((res) => {
-          this.getUserInfo(res.user.uid);
-        })
-        .catch((error) => {
-          console.log(error);
-
-          this.utilSvc.presentToast({
-            message: error.message,
-            duration: 2500,
-            color: 'primary',
-            position: 'middle',
-            icon: 'alert-circle-outline',
-          });
-        })
-        .finally(() => {
-          loading.dismiss();
-        });
-    }
+  goLogin() {
+    this.router.navigate(['/sign-up']);
   }
 
-  async getUserInfo(uid: string) {
-    if (this.form.valid) {
-      const loading = await this.utilSvc.loading();
-      await loading.present();
+  goRegister() {
+    this.router.navigate(['/sign-up']);
+  }
 
-      let path = `users/${uid}`;
+    forgotpassword() {
+    this.router.navigate(['forgot-password']);
+  }
 
-      this.firebaseSvc
-        .getDocument(path)
-        .then((user: User) => {
-          this.utilSvc.saveInLocalStorage('user', user);
-          this.utilSvc.routerLink('/main/home');
-          this.form.reset();
 
-          this.utilSvc.presentToast({
-            message: `Te damos la bienvenida a MapketPlace ${user.name}`,
-            duration: 1500,
-            color: 'primary',
-            position: 'middle',
-            icon: 'person-circle-outline',
-          });
-        })
-        .catch((error) => {
-          console.log(error);
+  // 🔵 Funciones para los íconos de redes sociales:
+  loginWithFacebook() {
+    console.log('Iniciar sesión con Facebook (pendiente)');
+  }
 
-          this.utilSvc.presentToast({
-            message: error.message,
-            duration: 2500,
-            color: 'primary',
-            position: 'middle',
-            icon: 'alert-circle-outline',
-          });
-        })
-        .finally(() => {
-          loading.dismiss();
-        });
-    }
+  loginWithGoogle() {
+    console.log('Iniciar sesión con Google (pendiente)');
+  }
+
+  loginWithApple() {
+    console.log('Iniciar sesión con Apple (pendiente)');
+  }
+
+  loginWithGithub() {
+    console.log('Iniciar sesión con GitHub (pendiente)');
   }
 }

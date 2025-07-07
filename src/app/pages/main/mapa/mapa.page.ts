@@ -65,7 +65,7 @@ export class MapaPage implements OnInit {
 
     const map = new google.maps.Map(mapDiv, {
       center: userLocation,
-      zoom: 14,
+      zoom: 12,
       disableDefaultUI: true,
       clickableIcons: false,
       mapTypeId: 'roadmap',
