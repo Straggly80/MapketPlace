@@ -1,15 +1,13 @@
-
-
-<ion-header [translucent]="true" class="ion-no-border">
-  <ion-toolbar class="toolbar-class"></ion-toolbar>
-<app-header [showMenu]="true" title="Mapa"></app-header>
-</ion-header>
-
+<app-header title="MapketPlace"></app-header>
 <ion-content fullscreen>
-  <div class="map-container">
-    
-    <!-- Mapa -->
-    <div id="map"></div>
 
-  </div>
-</ion-content>    
+  <div id="map"></div>
+
+  <!-- Botón flotante -->
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="abrirFormulario()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

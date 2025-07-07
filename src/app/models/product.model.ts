@@ -3,5 +3,8 @@ export interface Product {
     image: string,
     name: string,
     price: number,
-    id: string
+    id: string,
+    descripcion: string;
+    lat: number;
+    lng: number;
 }

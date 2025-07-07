@@ -76,10 +76,17 @@ export class FirebaseService {
   /* ============================== DATABASE ============================== */
 
   /* =========== OBTENER DOCUMENTOS DE UNA COLECCION ========= */
-  getCollectionData(path: string, collectionQuery?: any) {
-    const ref = collection(getFirestore('geohub-origin77'), path);
+  getCollectionData(path: string, collectionQuery?: any[]) {
+  const ref = collection(getFirestore('geohub-origin77'), path);
+
+  // Verificamos si collectionQuery fue enviado
+  if (collectionQuery && Array.isArray(collectionQuery)) {
     return collectionData(query(ref, ...collectionQuery), { idField: 'id' });
+  } else {
+    return collectionData(ref, { idField: 'id' });
   }
+}
+
 
   /* ========= SETEAR UN DOCUMENTO */
   setDocument(path: string, data: any) {

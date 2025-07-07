@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Product } from 'src/app/models/product.model';
+import { v4 as uuidv4 } from 'uuid';
+
+import { AlertController } from '@ionic/angular';
+
+import { ModalController } from '@ionic/angular';
+import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 declare const google: any;
 
@@ -10,15 +18,45 @@ declare const google: any;
 })
 export class MapaPage implements OnInit {
 
-  constructor(){ }
+  productos: Product[] = [];
 
-  ngOnInit(){}
+  nuevoProducto: Partial<Product> = {
+    name: '',
+    descripcion: '',
+    price: 0,
+    image: '',
+    soldUnits: 0,
+  };
 
-    ngAfterViewInit() {
+  map!: google.maps.Map;
+  markers: google.maps.Marker[] = [];  // arreglo para guardar marcadores
+
+  constructor(
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController,
+    private firebaseSvc: FirebaseService
+  ) {}
+
+  ngOnInit() {
+    this.firebaseSvc.getCollectionData('productos').subscribe((productos: Product[]) => {
+      this.productos = productos;
+      if (this.map) {
+        this.clearMarkers();
+        this.productos.forEach(p => this.agregarMarcador(p));
+      }
+    });
+  }
+
+  clearMarkers() {
+    this.markers.forEach(marker => marker.setMap(null));
+    this.markers = [];
+  }
+
+  ngAfterViewInit() {
     this.loadGoogleMaps().then(() => this.initMap());
   }
 
-      loadGoogleMaps(): Promise<void> {
+  loadGoogleMaps(): Promise<void> {
     return new Promise((resolve) => {
       if ((window as any).google && (window as any).google.maps) {
         resolve();
@@ -45,12 +83,17 @@ export class MapaPage implements OnInit {
           },
           (error) => {
             console.warn('Geolocation failed:', error.message);
-            resolve({ lat: 19.4326, lng: -99.1332 }); // CDMX por defecto
+            resolve({ lat: 19.4326, lng: -99.1332 }); // fallback a CDMX
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0,
           }
         );
       } else {
         console.warn('Geolocation is not supported by this browser.');
-        resolve({ lat: 20.4326, lng: -59.1332 });
+        resolve({ lat: 19.4326, lng: -99.1332 });
       }
     });
   }
@@ -60,29 +103,20 @@ export class MapaPage implements OnInit {
     const mapDiv = document.getElementById('map');
     if (!mapDiv) return;
 
-
-    // Inicializar el mapa  
-
-    const map = new google.maps.Map(mapDiv, {
+    this.map = new google.maps.Map(mapDiv, {
       center: userLocation,
-      zoom: 12,
+      zoom: 15,
       disableDefaultUI: true,
+      zoomControl: true,
       clickableIcons: false,
       mapTypeId: 'roadmap',
-      styles: [
-        { featureType: 'poi', elementType: 'all', stylers: [{ visibility: 'on' }] },
-        { featureType: 'transit', elementType: 'all', stylers: [{ visibility: 'on' }] },
-        { featureType: 'road', elementType: 'geometry', stylers: [{ visibility: 'on' }] },
-        { featureType: 'road', elementType: 'labels.icon', stylers: [{ visibility: 'on'}] },
-        { featureType: 'administrative', elementType: 'labels', stylers: [{ visibility: 'on' }] },
-        { featureType: 'water', elementType: 'labels', stylers: [{ visibility: 'on' }] }
-      ]
+      styles: [/* Puedes agregar estilos personalizados aquí */]
     });
 
-    // Marca tu ubicación actual
-    new google.maps.Marker({
+    // Marcador de ubicación del usuario
+    const userMarker = new google.maps.Marker({
       position: userLocation,
-      map,
+      map: this.map,
       title: 'Tu ubicación',
       icon: {
         path: google.maps.SymbolPath.CIRCLE,
@@ -94,10 +128,68 @@ export class MapaPage implements OnInit {
       }
     });
 
-    setTimeout(() => {
-      google.maps.event.trigger(map, 'resize');
-      map.setCenter(userLocation);
-    }, 500);
+    // Guardar el marcador del usuario también si quieres manejarlo luego
+    this.markers.push(userMarker);
+
+    // Agregar marcadores de productos/publicaciones
+    this.productos.forEach(p => this.agregarMarcador(p));
+  }
+
+  agregarMarcador(product: Product) {
+    const marker = new google.maps.Marker({
+      position: { lat: product.lat, lng: product.lng },
+      map: this.map,
+      title: product.name,
+      icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+    });
+
+    const infoWindow = new google.maps.InfoWindow({
+      content: `<strong>${product.name}</strong><br>${product.descripcion}<br>Precio: $${product.price}`,
+    });
+
+    marker.addListener('click', () => {
+      infoWindow.open(this.map, marker);
+    });
+
+    this.markers.push(marker);
+  }
+
+  async abrirFormulario() {
+    const coords = this.map.getCenter().toJSON();
+
+    const modal = await this.modalCtrl.create({
+      component: AddUpdateProductComponent,
+      componentProps: {
+        lat: coords.lat,
+        lng: coords.lng
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+
+    if (data) {
+      this.productos.push(data);
+      this.agregarMarcador(data);
+    }
+  }
+
+  agregarProductoDesdeFormulario(data: any) {
+    const userLatLng = this.map.getCenter().toJSON();
+
+    const nuevo: Product = {
+      id: new Date().getTime().toString(),
+      name: data.name,
+      descripcion: data.descripcion,
+      price: parseFloat(data.price),
+      image: '',
+      soldUnits: 0,
+      lat: userLatLng.lat,
+      lng: userLatLng.lng
+    };
+
+    this.productos.push(nuevo);
+    this.agregarMarcador(nuevo);
   }
 }
-

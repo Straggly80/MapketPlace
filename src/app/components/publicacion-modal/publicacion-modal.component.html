@@ -1,0 +1,36 @@
+<ion-content class="ion-padding">
+  <h2>Nueva Publicación</h2>
+
+  <ion-item>
+    <ion-label position="stacked">Nombre</ion-label>
+    <ion-input [(ngModel)]="producto.name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Descripción</ion-label>
+    <ion-textarea [(ngModel)]="producto.descripcion"></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Precio</ion-label>
+    <ion-input type="number" [(ngModel)]="producto.price"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Imagen</ion-label>
+    <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+  </ion-item>
+
+  <div id="mini-map" style="width: 100%; height: 200px; border-radius: 10px;"></div>
+
+  <ion-text color="medium">
+    <p style="margin: 8px 0">Ubicación seleccionada:</p>
+    <small>{{ direccion }}</small>
+  </ion-text>
+
+
+
+
+  <ion-button expand="block" (click)="enviar()">Publicar</ion-button>
+  <ion-button expand="block" color="medium" (click)="cancelar()">Cancelar</ion-button>
+</ion-content>
