@@ -22,11 +22,12 @@ form {
 }
 
 #botonPSN {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10;
-  border-radius: 15px;
+    height: 50px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    border-radius: 5px;
 
   --background: rgba(255, 255, 255, 0.1);
   --color: rgb(46, 46, 46);
@@ -34,12 +35,12 @@ form {
   --border-width: 1px;
   --border-color: rgba(255, 255, 255, 0.3);
 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(1px);
 
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.25),
-    inset 0 5 12px rgba(255, 255, 255, 0.2);
+    inset 5 12 30px rgba(255, 255, 255, 0.4);
 
   /* font-weight: 600;
   padding: 12px 24px;*/
