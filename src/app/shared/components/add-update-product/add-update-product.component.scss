@@ -18,36 +18,41 @@ ion-avatar{
    }
 
 form {
-  position: relative; // Necesario para que el botón se posicione de forma absoluta dentro del formulario
+  position: relative;
 }
 
 #botonPSN {
-    height: 50px;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    z-index: 10;
-    border-radius: 5px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+
+  height: 50px;
 
   --background: rgba(255, 255, 255, 0.1);
   --color: rgb(46, 46, 46);
   --border-radius: 16px;
-  --border-width: 1px;
-  --border-color: rgba(255, 255, 255, 0.3);
+  --border-width: 0px;
+  --box-shadow: none;
 
   backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(2px);
+
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
 
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.25),
-    inset 5 12 30px rgba(255, 255, 255, 0.4);
+    inset 2px 2px 6px rgba(255, 255, 255, 0.3),
+    inset -2px -2px 6px rgba(0, 0, 0, 0.2),
+    0 2px 10px rgba(0, 0, 0, 0.2);
 
-  /* font-weight: 600;
-  padding: 12px 24px;*/
-  transition: transform 0.2s ease, box-shadow 0.2s ease; 
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 #botonPSN:hover {
   transform: scale(1.05);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    inset 2px 2px 6px rgba(255, 255, 255, 0.3),
+    inset -2px -2px 6px rgba(0, 0, 0, 0.2),
+    0 4px 6px rgba(0, 0, 0, 0.3);
 }
