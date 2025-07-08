@@ -49,10 +49,9 @@
     ></app-custom-input>
 
     <!-- COORDINATES (Readonly) -->
-    <div id="mini-map" style="height: 200px; width: 100%; margin-top: 15px; border-radius: 10px;"></div>
+    <div id="mini-map" style="height: 320px; width: 100%; margin-top: 15px; border-radius: 10px;"></div>
 
-
-    <ion-button mode="ios" class="ion-margin" type="submit" [disabled]="form.invalid">
+    <ion-button id="botonPSN" mode="ios" class="ion-margin" type="submit" [disabled]="form.invalid">
       {{product ? 'Actualizar Producto' : 'Agregar Producto'}}
       <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
     </ion-button>
