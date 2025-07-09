@@ -32,6 +32,9 @@ import {
   deleteObject
 } from 'firebase/storage';
 
+import { Product } from '../models/product.model';
+import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -87,7 +90,25 @@ export class FirebaseService {
   }
 }
 
+  getAllUserProducts(): Observable<Product[]> {
+    return this.firestore.collection('users').snapshotChanges().pipe(
+      switchMap(userDocs => {
+        const observables = userDocs.map(userDoc => {
+          const uid = userDoc.payload.doc.id;
+          return this.firestore
+            .collection<Product>(`users/${uid}/products`)
+            .valueChanges();
+        });
 
+        return observables.length
+          ? combineLatest(observables).pipe(
+              map(productArrays => [].concat(...productArrays)) // aplanado sin .flat()
+            )
+          : of([]);
+      })
+    );
+  }
+  
   /* ========= SETEAR UN DOCUMENTO */
   setDocument(path: string, data: any) {
     return setDoc(doc(getFirestore('geohub-origin77'), path), data);

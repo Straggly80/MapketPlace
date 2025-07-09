@@ -3,10 +3,11 @@ import { Product } from 'src/app/models/product.model';
 import { v4 as uuidv4 } from 'uuid';
 
 import { AlertController } from '@ionic/angular';
-
 import { ModalController } from '@ionic/angular';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
+
+
 
 declare const google: any;
 
@@ -29,7 +30,7 @@ export class MapaPage implements OnInit {
   };
 
   map!: google.maps.Map;
-  markers: google.maps.Marker[] = [];  // arreglo para guardar marcadores
+  markers: google.maps.Marker[] = [];
 
   constructor(
     private alertCtrl: AlertController,
@@ -38,18 +39,7 @@ export class MapaPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.firebaseSvc.getCollectionData('productos').subscribe((productos: Product[]) => {
-      this.productos = productos;
-      if (this.map) {
-        this.clearMarkers();
-        this.productos.forEach(p => this.agregarMarcador(p));
-      }
-    });
-  }
-
-  clearMarkers() {
-    this.markers.forEach(marker => marker.setMap(null));
-    this.markers = [];
+    this.cargarYMostrarProductos(); // Mover lógica a una función reutilizable
   }
 
   ngAfterViewInit() {
@@ -115,7 +105,6 @@ export class MapaPage implements OnInit {
         { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
         { elementType: 'labels.text.fill', stylers: [{ color: '#5f5f5f' }] },
         { elementType: 'labels.text.stroke', stylers: [{ color: '#f5f5f5' }] },
-
         {
           featureType: 'administrative',
           elementType: 'geometry',
@@ -165,7 +154,6 @@ export class MapaPage implements OnInit {
           stylers: [{ color: '#7f9fae' }],
         }
       ]
-
     });
 
     // Marcador de ubicación del usuario
@@ -183,14 +171,51 @@ export class MapaPage implements OnInit {
       }
     });
 
-    // Guardar el marcador del usuario también si quieres manejarlo luego
     this.markers.push(userMarker);
 
-    // Agregar marcadores de productos/publicaciones
-    this.productos.forEach(p => this.agregarMarcador(p));
+    // Mostrar productos una vez que el mapa ya está disponible
+    this.cargarYMostrarProductos();
+  }
+
+  cargarYMostrarProductos() {
+    this.firebaseSvc.getAllUserProducts().subscribe((productos: Product[]) => {
+      console.log('Productos de todos los usuarios:', productos);
+      this.productos = productos;
+
+      if (this.map) {
+        this.clearMarkers();
+
+        this.getCurrentLocation().then((loc) => {
+          const userMarker = new google.maps.Marker({
+            position: loc,
+            map: this.map,
+            title: 'Tu ubicación',
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 7,
+              fillColor: 'aqua',
+              fillOpacity: 1,
+              strokeWeight: 2,
+              strokeColor: 'black'
+            }
+          });
+          this.markers.push(userMarker);
+        });
+
+        this.productos.forEach(p => this.agregarMarcador(p));
+      }
+    });
+  }
+
+
+  clearMarkers() {
+    this.markers.forEach(marker => marker.setMap(null));
+    this.markers = [];
   }
 
   agregarMarcador(product: Product) {
+    if (!product.lat || !product.lng) return;
+
     const marker = new google.maps.Marker({
       position: { lat: product.lat, lng: product.lng },
       map: this.map,
