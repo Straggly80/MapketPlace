@@ -219,7 +219,7 @@ ionViewWillEnter() {
 
     this.map = new google.maps.Map(mapDiv, {
       center: userLocation,
-      zoom: 13.5,
+      zoom: 12,
       disableDefaultUI: true,
       zoomControl: true,
       clickableIcons: false,
