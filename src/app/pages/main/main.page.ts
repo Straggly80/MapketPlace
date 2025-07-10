@@ -25,6 +25,7 @@ export class MainPage implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
   currentPath: string = '';
+  
 
   ngOnInit() {
     this.router.events.subscribe((event: any) => {

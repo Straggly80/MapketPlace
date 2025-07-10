@@ -1,14 +1,6 @@
-.admin {
-    font-size: 13px;
-    
-}
 .toolbar-color{
     --background: #619def;
     color: rgb(255, 255, 255);
 
 }
 
- ion-toolbar {
-     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
-     height: var(--min-height); /* Aplica la altura definida */
-   }

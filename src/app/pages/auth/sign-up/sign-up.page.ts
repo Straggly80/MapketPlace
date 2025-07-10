@@ -4,7 +4,6 @@ import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
