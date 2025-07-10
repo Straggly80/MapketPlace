@@ -1,4 +1,3 @@
-<ion-toolbar class="toolbar-color"></ion-toolbar>
 <ion-content>
 <app-header [showMenu]="true" title="Inicio"></app-header>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
@@ -19,7 +18,7 @@
 
   <!-- ============ PRODUCTOS ============ -->
   <ion-list *ngIf="!loading">
-    <ion-item-sliding class="product-item" *ngFor="let p of products">
+    <ion-item-sliding class="product-item"  *ngFor="let p of products">
       <ion-item>
         <ion-avatar slot="start">
           <img [src]="p.image" />
@@ -82,4 +81,7 @@
       <ion-icon class="color-boton" name="cart"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <!-- (click)="agregarProducto()"  -->
+
 </ion-content>

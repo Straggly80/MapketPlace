@@ -1,13 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  sendPasswordResetEmail,
-} from 'firebase/auth';
+import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,updateProfile,sendPasswordResetEmail,} from 'firebase/auth';
 
 import { User } from '../models/user.model';
 
@@ -134,6 +128,40 @@ export class FirebaseService {
   addDocument(path: string, data: any) {
     return addDoc(collection(getFirestore('geohub-origin77'), path), data);
   }
+
+    /* ========== AGREGAR PRODUCTO GENERAL ========== */
+   agregarProducto(data: any) {
+    return addDoc(collection(getFirestore('geohub-origin77'), 'productGeneral'), data);
+  }
+
+  /* =================OBTENER PRODUCTO GENERAL================================ */
+
+  
+  /* ========= OBTENER UN DOCUMENTO ======== */
+  async getDocumentos(path: string, data: any) {
+    return (await getDoc(doc(getFirestore('geohub-origin77'), 'productGeneral'))).data();
+  }
+
+  /* =========== OBTENER LOS PRODUCTOS GENERAL=========== */
+  getAllUserProductGeneral(): Observable<Product[]> {
+    return this.firestore.collection('/productGeneral').snapshotChanges().pipe(
+      switchMap(userDocs => {
+        const observables = userDocs.map(userDoc => {
+          const uid = userDoc.payload.doc.id;
+          return this.firestore
+            .collection<Product>(``)
+            .valueChanges();
+        });
+
+        return observables.length
+          ? combineLatest(observables).pipe(
+              map(productArrays => [].concat(...productArrays)) // aplanado sin .flat()
+            )
+          : of([]);
+      })
+    );
+  }
+
 
   /* ============================== ALMACENAMIENTO ============================== */
 

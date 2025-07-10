@@ -4,6 +4,7 @@ import { Product } from 'src/app/models/product.model';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { orderBy } from 'firebase/firestore';
 
 declare const google: any;
 
@@ -14,6 +15,12 @@ declare const google: any;
   standalone: false
 })
 export class AddUpdateProductComponent implements OnInit, AfterViewInit {
+  constructor(private firebaseService: FirebaseService) {}
+
+  products: Product[] = [];
+  loading: boolean = false;
+
+
   @Input() product: Product;
   @Input() lat: number;
   @Input() lng: number;
@@ -211,6 +218,7 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
       .finally(() => loading.dismiss());
   }
 
+  /* =============== Actualizar Producto ================= */
   async updateProduct() {
     const path = `users/${this.user.uid}/products/${this.product.id}`;
     const loading = await this.utilSvc.loading();
@@ -248,4 +256,68 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
       })
       .finally(() => loading.dismiss());
   }
+
+  /* =================AGREGAR PRODUCTO GENERAL====================================== */
+   async createProductS() {
+    const path = `/productGeneral`;
+    const loading = await this.utilSvc.loading();
+    await loading.present();
+
+    const dataUrl = this.form.value.image;
+    const imagePath = `${this.user.uid}/${Date.now()}`;
+    const imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
+    this.form.controls.image.setValue(imageUrl);
+
+    delete this.form.value.uid;
+
+    this.firebaseSvc.addDocument(path, this.form.value)
+      .then(() => {
+        this.utilSvc.dismissModal({ success: true });
+        this.utilSvc.presentToast({
+          message: 'Producto creado exitosamente!',
+          duration: 1500,
+          color: 'success',
+          position: 'middle',
+          icon: 'checkmark-circle-outline',
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        this.utilSvc.presentToast({
+          message: error.message,
+          duration: 2500,
+          color: 'danger',
+          position: 'middle',
+          icon: 'alert-circle-outline',
+        });
+      })
+      .finally(() => loading.dismiss());
+  }
+
+    /* =========================OBTENER PRODUCTO GENERAL============================= */
+
+    getDocumentos() {
+    let path = `/productGeneral`;
+
+    this.loading = true;
+
+    let query = [orderBy('soldUnits', 'desc')];
+
+    let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.products = res;
+        this.loading = false;
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('complete');
+        sub.unsubscribe();
+      },
+    });
+  } 
+
 }

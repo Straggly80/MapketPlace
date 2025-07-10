@@ -45,17 +45,47 @@ export class MapaPage implements OnInit {
   user(): User {
     return this.utilsSvc.getFromLocalStorage('user');
   }
-  
-  ionViewWillEnter() {
-    this.getProducts();
+
+   product(): Product {
+    return this.utilsSvc.getFromLocalStorage('productGeneral');
   }
+  
+ionViewWillEnter() {
+  this.loading = true;
+  let userProducts: Product[] = [];
+  let generalProducts: Product[] = [];
+
+  const done = () => {
+    this.products = [...userProducts, ...generalProducts];
+    this.loading = false;
+    this.mostrarMarcadores();
+  };
+
+  this.firebaseSvc.getCollectionData(`users/${this.user().uid}/products`, [orderBy('soldUnits', 'desc')]).subscribe({
+    next: (res: Product[]) => {
+      userProducts = res;
+      if (generalProducts.length !== 0) done();
+    },
+    error: () => { this.loading = false; }
+  });
+
+  this.firebaseSvc.getCollectionData('productGeneral/', [orderBy('soldUnits', 'desc')]).subscribe({
+    next: (res: Product[]) => {
+      generalProducts = res;
+      if (userProducts.length !== 0) done();
+    },
+    error: () => { this.loading = false; }
+  });
+}
 
   doRefresh(event) {
     setTimeout(() => {
       this.getProducts();
+      this.getDocumentos();
       event.target.complete();
     }, 1000);
   }
+
 
 
   loadGoogleMaps(): Promise<void> {
@@ -74,7 +104,7 @@ export class MapaPage implements OnInit {
   }
 
   /* ======================= OBTENER PRODUCTOS ======================== */
-  getProducts() {
+   getProducts() {
     const path = `users/${this.user().uid}/products`;
     this.loading = true;
     const query = [orderBy('soldUnits', 'desc')];
@@ -95,9 +125,36 @@ export class MapaPage implements OnInit {
         sub.unsubscribe();
       },
     });
-  }
+  } 
+
+  /* =================OBTENER PRODUCTO GENERAL================================ */
 
 
+    getDocumentos() {
+    const path = `productGeneral/`;
+
+    this.loading = true;
+    const query = [orderBy('soldUnits', 'desc')];
+
+    const sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
+      next: (res: Product[]) => {
+        console.log('📦 Productos obtenidos:', res);
+        this.products = res;
+        this.loading = false;
+        this.mostrarMarcadores(); // 👈 AQUI
+      },
+      error: (err: any) => {
+        console.error('❌ Error al obtener productos:', err);
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('✅ Consulta de productos completada');
+        sub.unsubscribe();
+      },
+    });
+  } 
+
+  /* ======================================================================== */
   mostrarMarcadores() {
     this.clearMarkers(); // Limpia los anteriores
 
@@ -110,13 +167,12 @@ export class MapaPage implements OnInit {
         });
 
         const infoWindow = new google.maps.InfoWindow({
-          content: `
-            <div style="min-width:150px">
-              <strong>${product.name}</strong><br>
-              ${product.descripcion}<br>
-              Precio: $${product.price}
-            </div>
-          `
+          content : `<div style="min-width: 10%; min-height: 20%;">
+          <img src="${product.image}" style="width:30px; height: 30px; display:block;"> <br>
+          <strong>${product.name}</strong><br>
+          ${product.descripcion}<br>
+          Precio: $${product.price}
+        </div>`
         });
 
         marker.addListener('click', () => {
@@ -141,7 +197,7 @@ export class MapaPage implements OnInit {
           },
           (error) => {
             console.warn('Geolocation failed:', error.message);
-            resolve({ lat: 19.4326, lng: -99.1332 }); // fallback CDMX
+            resolve({ lat: 31.327409, lng: -113.522065 }); // fallback CDMX
           },
           {
             enableHighAccuracy: true,
@@ -151,7 +207,7 @@ export class MapaPage implements OnInit {
         );
       } else {
         console.warn('Geolocation is not supported by this browser.');
-        resolve({ lat: 19.4326, lng: -99.1332 });
+        resolve({ lat: 31.327409, lng: -113.522065 });
       }
     });
   }
@@ -163,7 +219,7 @@ export class MapaPage implements OnInit {
 
     this.map = new google.maps.Map(mapDiv, {
       center: userLocation,
-      zoom: 15,
+      zoom: 13.5,
       disableDefaultUI: true,
       zoomControl: true,
       clickableIcons: false,

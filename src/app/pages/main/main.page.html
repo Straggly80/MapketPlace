@@ -11,6 +11,16 @@
     <h4>{{user().name}}</h4>
 
 
+      <ion-menu-toggle auto-hide="false">
+      <ion-item lines="none">
+          <ion-avatar class="avatar2">
+            <img *ngIf="user()?.image" [src]="user()?.image" />
+            <ion-icon *ngIf="!user()?.image" name="person-circle-outline"></ion-icon>
+            <ion-label>Perfil</ion-label>
+          </ion-avatar>
+      </ion-item>
+    </ion-menu-toggle>
+
     <ion-menu-toggle auto-hide="false" *ngFor="let p of pages">
       
       <ion-item [ngClass]="{active: currentPath === p.url}" [routerLink]="p.url" routerDirection="root" detail>

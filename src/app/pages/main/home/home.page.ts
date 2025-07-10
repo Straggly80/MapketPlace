@@ -6,6 +6,7 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
 import { orderBy, where } from 'firebase/firestore';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -13,6 +14,8 @@ import { orderBy, where } from 'firebase/firestore';
   standalone: false,
 })
 export class HomePage implements OnInit {
+  constructor(private firebaseService: FirebaseService) {}
+
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
@@ -66,6 +69,30 @@ export class HomePage implements OnInit {
       },
     });
   }
+  /* =======================OBTENER PRODUCTOS GENERAL=============================================== */
+   getDocumentos() {
+    let path = `productGeneral`;
+
+    this.loading = true;
+
+    let query = [orderBy('soldUnits', 'desc')];
+
+    let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.products = res;
+        this.loading = false;
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('complete');
+        sub.unsubscribe();
+      },
+    });
+  } 
 
   /* ==================== AGREGAR O ACTUALIZAR PRODUCTO ==================== */
 
@@ -78,6 +105,43 @@ export class HomePage implements OnInit {
 
     if (success) this.getProducts();
   }
+
+  /* ====================AGREGAR PRODUCTO GENERAL=============================== */
+ /*  async createProductS() {
+    const path = `/productGeneral`;
+    const loading = await this.utilSvc.loading();
+    await loading.present();
+
+    const dataUrl = this.form.value.image;
+    const imagePath = `${this.user.uid}/${Date.now()}`;
+    const imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
+    this.form.controls.image.setValue(imageUrl);
+
+    delete this.form.value.uid;
+
+    this.firebaseSvc.addDocument(path, this.form.value)
+      .then(() => {
+        this.utilSvc.dismissModal({ success: true });
+        this.utilSvc.presentToast({
+          message: 'Producto creado exitosamente!',
+          duration: 1500,
+          color: 'success',
+          position: 'middle',
+          icon: 'checkmark-circle-outline',
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        this.utilSvc.presentToast({
+          message: error.message,
+          duration: 2500,
+          color: 'danger',
+          position: 'middle',
+          icon: 'alert-circle-outline',
+        });
+      })
+      .finally(() => loading.dismiss());
+  } */
 
   /* =================== CONFIRMAR ELIMINACION DEL PRODUCTO ==================== */
 
