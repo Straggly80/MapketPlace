@@ -68,9 +68,9 @@ export class WelcomePage implements OnInit {
           this.form.reset();
 
           this.utilSvc.presentToast({
-            message: `Te damos la bienvenida a MapketPlace ${user.name}`,
+            message: `Bienvenid@ a MapketPlace ${user.name}`,
             duration: 1500,
-            color: 'primary',
+            color: 'secondary',
             position: 'middle',
             icon: 'person-circle-outline',
           });
