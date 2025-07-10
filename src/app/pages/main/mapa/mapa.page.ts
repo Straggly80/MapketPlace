@@ -38,9 +38,7 @@ export class MapaPage implements OnInit {
     private firebaseSvc: FirebaseService
   ) {}
 
-  ngOnInit() {
-    this.cargarYMostrarProductos(); // Mover lógica a una función reutilizable
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.loadGoogleMaps().then(() => this.initMap());
@@ -156,56 +154,8 @@ export class MapaPage implements OnInit {
       ]
     });
 
-    // Marcador de ubicación del usuario
-    const userMarker = new google.maps.Marker({
-      position: userLocation,
-      map: this.map,
-      title: 'Tu ubicación',
-      icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 7,
-        fillColor: 'aqua',
-        fillOpacity: 1,
-        strokeWeight: 2,
-        strokeColor: 'black'
-      }
-    });
-
-    this.markers.push(userMarker);
-
-    // Mostrar productos una vez que el mapa ya está disponible
-    this.cargarYMostrarProductos();
   }
 
-  cargarYMostrarProductos() {
-    this.firebaseSvc.getAllUserProducts().subscribe((productos: Product[]) => {
-      console.log('Productos de todos los usuarios:', productos);
-      this.productos = productos;
-
-      if (this.map) {
-        this.clearMarkers();
-
-        this.getCurrentLocation().then((loc) => {
-          const userMarker = new google.maps.Marker({
-            position: loc,
-            map: this.map,
-            title: 'Tu ubicación',
-            icon: {
-              path: google.maps.SymbolPath.CIRCLE,
-              scale: 7,
-              fillColor: 'aqua',
-              fillOpacity: 1,
-              strokeWeight: 2,
-              strokeColor: 'black'
-            }
-          });
-          this.markers.push(userMarker);
-        });
-
-        this.productos.forEach(p => this.agregarMarcador(p));
-      }
-    });
-  }
 
 
   clearMarkers() {
@@ -213,26 +163,6 @@ export class MapaPage implements OnInit {
     this.markers = [];
   }
 
-  agregarMarcador(product: Product) {
-    if (!product.lat || !product.lng) return;
-
-    const marker = new google.maps.Marker({
-      position: { lat: product.lat, lng: product.lng },
-      map: this.map,
-      title: product.name,
-      icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
-    });
-
-    const infoWindow = new google.maps.InfoWindow({
-      content: `<strong>${product.name}</strong><br>${product.descripcion}<br>Precio: $${product.price}`,
-    });
-
-    marker.addListener('click', () => {
-      infoWindow.open(this.map, marker);
-    });
-
-    this.markers.push(marker);
-  }
 
   async abrirFormulario() {
     const coords = this.map.getCenter().toJSON();
@@ -249,10 +179,6 @@ export class MapaPage implements OnInit {
 
     const { data } = await modal.onDidDismiss();
 
-    if (data) {
-      this.productos.push(data);
-      this.agregarMarcador(data);
-    }
   }
 
   agregarProductoDesdeFormulario(data: any) {
@@ -268,8 +194,5 @@ export class MapaPage implements OnInit {
       lat: userLatLng.lat,
       lng: userLatLng.lng
     };
-
-    this.productos.push(nuevo);
-    this.agregarMarcador(nuevo);
   }
 }
