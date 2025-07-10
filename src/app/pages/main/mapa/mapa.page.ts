@@ -163,7 +163,7 @@ export class MapaPage implements OnInit {
       mapTypeId: 'roadmap',
       styles: [
         { elementType: 'geometry', stylers: [{ color: '#e0e0e0' }] },
-        { elementType: 'labels.icon', stylers: [{ visibility: 'off' }] },
+        { elementType: 'labels.icon', stylers: [{ visibility: 'on' }] },
         { elementType: 'labels.text.fill', stylers: [{ color: '#5f5f5f' }] },
         { elementType: 'labels.text.stroke', stylers: [{ color: '#f5f5f5' }] },
         {
@@ -183,7 +183,7 @@ export class MapaPage implements OnInit {
         },
         {
           featureType: 'poi',
-          stylers: [{ visibility: 'off' }],
+          stylers: [{ visibility: 'on' }],
         },
         {
           featureType: 'road',
