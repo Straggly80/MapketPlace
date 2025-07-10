@@ -50,6 +50,13 @@ export class MapaPage implements OnInit {
     this.getProducts();
   }
 
+  doRefresh(event) {
+    setTimeout(() => {
+      this.getProducts();
+      event.target.complete();
+    }, 1000);
+  }
+
 
   loadGoogleMaps(): Promise<void> {
     return new Promise((resolve) => {
