@@ -11,13 +11,13 @@ import { UtilsService } from 'src/app/services/utils.service';
   standalone:false,
 })
 export class VentasPage implements OnInit {
-   pages = [
+  pages = [
     { title: 'Inicio', url: '/main/home', icon: 'home-outline' },
     { title: 'Perfil', url: '/main/profile', icon: 'person-outline' },
     { title: 'Mapa', url: '/main/mapa', icon: 'heart-outline' },
   ];
 
-   router = inject(Router);
+  router = inject(Router);
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
   currentPath: string = '';

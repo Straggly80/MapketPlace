@@ -10,6 +10,7 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./main.page.scss'],
   standalone: false,
 })
+
 export class MainPage implements OnInit {
   pages = [
     { title: 'Inicio', url: '/main/mapa', icon: 'map-outline' },

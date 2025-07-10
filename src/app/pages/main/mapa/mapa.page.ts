@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { v4 as uuidv4 } from 'uuid';
 
-import { AlertController } from '@ionic/angular';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
+import { Router } from '@angular/router';
+import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
-
-
+import { UtilsService } from 'src/app/services/utils.service';
+import { orderBy } from 'firebase/firestore';
 
 declare const google: any;
 
@@ -19,30 +20,36 @@ declare const google: any;
 })
 export class MapaPage implements OnInit {
 
-  productos: Product[] = [];
+  products: Product[] = [];
+  loading: boolean = false;
 
-  nuevoProducto: Partial<Product> = {
-    name: '',
-    descripcion: '',
-    price: 0,
-    image: '',
-    soldUnits: 0,
-  };
+  router = inject(Router);
+  firebaseSvc = inject(FirebaseService);
+  utilsSvc = inject(UtilsService);
+  modalCtrl = inject(ModalController);
 
+  currentPath: string = '';
   map!: google.maps.Map;
   markers: google.maps.Marker[] = [];
 
-  constructor(
-    private alertCtrl: AlertController,
-    private modalCtrl: ModalController,
-    private firebaseSvc: FirebaseService
-  ) {}
-
-  ngOnInit() {}
+  ngOnInit() {
+    this.router.events.subscribe((event: any) => {
+      if (event?.url) this.currentPath = event.url;
+    });
+  }
 
   ngAfterViewInit() {
     this.loadGoogleMaps().then(() => this.initMap());
   }
+
+  user(): User {
+    return this.utilsSvc.getFromLocalStorage('user');
+  }
+  
+  ionViewWillEnter() {
+    this.getProducts();
+  }
+
 
   loadGoogleMaps(): Promise<void> {
     return new Promise((resolve) => {
@@ -59,6 +66,62 @@ export class MapaPage implements OnInit {
     });
   }
 
+  /* ======================= OBTENER PRODUCTOS ======================== */
+  getProducts() {
+    const path = `users/${this.user().uid}/products`;
+    this.loading = true;
+    const query = [orderBy('soldUnits', 'desc')];
+
+    const sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
+      next: (res: Product[]) => {
+        console.log('📦 Productos obtenidos:', res);
+        this.products = res;
+        this.loading = false;
+        this.mostrarMarcadores(); // 👈 AQUI
+      },
+      error: (err: any) => {
+        console.error('❌ Error al obtener productos:', err);
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('✅ Consulta de productos completada');
+        sub.unsubscribe();
+      },
+    });
+  }
+
+
+  mostrarMarcadores() {
+    this.clearMarkers(); // Limpia los anteriores
+
+    this.products.forEach(product => {
+      if (product.lat && product.lng) {
+        const marker = new google.maps.Marker({
+          position: { lat: product.lat, lng: product.lng },
+          map: this.map,
+          title: product.name,
+        });
+
+        const infoWindow = new google.maps.InfoWindow({
+          content: `
+            <div style="min-width:150px">
+              <strong>${product.name}</strong><br>
+              ${product.descripcion}<br>
+              Precio: $${product.price}
+            </div>
+          `
+        });
+
+        marker.addListener('click', () => {
+          infoWindow.open(this.map, marker);
+        });
+
+        this.markers.push(marker);
+      }
+    });
+  }
+
+
   async getCurrentLocation(): Promise<{ lat: number; lng: number }> {
     return new Promise((resolve) => {
       if (navigator.geolocation) {
@@ -71,7 +134,7 @@ export class MapaPage implements OnInit {
           },
           (error) => {
             console.warn('Geolocation failed:', error.message);
-            resolve({ lat: 19.4326, lng: -99.1332 }); // fallback a CDMX
+            resolve({ lat: 19.4326, lng: -99.1332 }); // fallback CDMX
           },
           {
             enableHighAccuracy: true,
@@ -156,13 +219,10 @@ export class MapaPage implements OnInit {
 
   }
 
-
-
   clearMarkers() {
     this.markers.forEach(marker => marker.setMap(null));
     this.markers = [];
   }
-
 
   async abrirFormulario() {
     const coords = this.map.getCenter().toJSON();
@@ -178,7 +238,7 @@ export class MapaPage implements OnInit {
     await modal.present();
 
     const { data } = await modal.onDidDismiss();
-
+    // puedes manejar el resultado si lo necesitas
   }
 
   agregarProductoDesdeFormulario(data: any) {
