@@ -1,8 +1,13 @@
+  <ion-toolbar class="toolbar-color">
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title>
+    <ion-icon name="arrow-back-outline" routerLink="../" style="width: 22px; height: 22px; color: white; display: flex; margin-top:2px;"></ion-icon>
+      <strong style="text-align: center; display: block; margin-left: -170px; margin-top: -24px; color: whitesmoke; font-size: 1.4rem;" >Registrar</strong>
+  </ion-title>
+  </ion-toolbar>
+
 <ion-content>
-  <ion-toolbar class="toolbar-color"></ion-toolbar>
-  <app-header backButton="/auth" title="Registro" expand="block"></app-header>
-
-
   <div class="d-flex-center">
     <form [formGroup]="form" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
 
@@ -28,7 +33,7 @@
 
       <!-- PASSWORD -->
       <app-custom-input [control]="form.controls.password" icon="lock-closed-outline" type="password"
-        label="password"></app-custom-input>
+        label="Password"></app-custom-input>
 
       <div class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
         <div *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida</div>
