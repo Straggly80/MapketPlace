@@ -85,11 +85,11 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
             resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude });
           },
           () => {
-            resolve({ lat: 19.4326, lng: -99.1332 }); // fallback CDMX
+            resolve({ lat: 31.327409, lng: -113.522065 }); // fallback CDMX
           }
         );
       } else {
-        resolve({ lat: 19.4326, lng: -99.1332 });
+        resolve({ lat: 31.327409, lng: -113.522065 });
       }
     });
   }
@@ -107,7 +107,7 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
 
     this.map = new google.maps.Map(document.getElementById('mini-map') as HTMLElement, {
       center: coords,
-      zoom: 15,
+      zoom: 12,
       disableDefaultUI: true,
       clickableIcons: false,
       mapTypeId: 'roadmap',
