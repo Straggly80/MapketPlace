@@ -16,10 +16,11 @@ export class MainPage implements OnInit {
     
     { title: 'Inicio', url: '/main/mapa', icon: 'map' },
     { title: 'Favoritos', url: '/main/ventas', icon: 'heart-outline' },
-    { title: 'Ventas', url: '/main/home', icon:"bi bi-cart3" }, /* o este: <i class="bi bi-cart3"></i>, o este: <i class="bi bi-cart2"></i> */
+    { title: 'Ventas', url: '/main/home', icon: 'bi bi-cart3' }, /* o este: <i class="bi bi-cart3"></i>, o este: <i class="bi bi-cart2"></i> */
     { title: 'Compras', url: '/main/compras', icon: 'bag-outline' }, /* o este: bi bi-handbag */
     { title: 'Chat', url: '/main/chat', icon: 'chatbubbles-outline' },
     { title: 'Perfil', url: '/main/profile', icon:'[src="user()?.image"'},
+
   ];
 
   router = inject(Router);
