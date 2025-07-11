@@ -1,40 +1,50 @@
-
 <ion-menu contentId="menu-content" menuId="menu-content" side="start">
   <app-header title="Menu"></app-header>
+
   <ion-content class="ion-text-center">
-
-    <ion-avatar>
+    <!-- Avatar superior del menú -->
+    <!-- <ion-avatar>
       <img *ngIf="user()?.image" [src]="user()?.image" />
-
-      <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
+      <ion-icon
+        *ngIf="!user()?.image"
+        class="empty-icon"
+        name="person-circle-outline"
+      ></ion-icon>
     </ion-avatar>
-    <h4>{{user().name}}</h4>
+    <h4>{{ user().name }}</h4> -->
 
+    <!-- LISTA DE MENÚ -->
+    <ion-list>
+      <ion-menu-toggle auto-hide="false" *ngFor="let p of pages">
+        <ion-item [routerLink]="p.url" routerDirection="root" lines="none">
+          <!-- Imagen solo para Perfil -->
+          <ng-container *ngIf="p.title === 'Perfil'; else defaultIcon">
+            <ion-avatar id="imgDeAvatar" slot="start">
+              <img [src]="user()?.image || 'assets/usuario-no-picture.png'" />
+            </ion-avatar>
+          </ng-container>
 
-      <ion-menu-toggle auto-hide="false">
-      <ion-item lines="none">
-          <ion-avatar class="avatar2">
-            <img *ngIf="user()?.image" [src]="user()?.image" />
-            <ion-icon *ngIf="!user()?.image" name="person-circle-outline"></ion-icon>
-            <ion-label>Perfil</ion-label>
-          </ion-avatar>
-      </ion-item>
-    </ion-menu-toggle>
+          <!-- Ícono normal para los demás -->
+          <ng-template #defaultIcon>
+            <ion-icon [name]="p.icon" slot="start"></ion-icon>
+          </ng-template>
 
-    <ion-menu-toggle auto-hide="false" *ngFor="let p of pages">
-      
-      <ion-item [ngClass]="{active: currentPath === p.url}" [routerLink]="p.url" routerDirection="root" detail>
-        <ion-icon slot="start" [name]="p.icon"></ion-icon>
-        <ion-label>{{p.title}}</ion-label>
-      </ion-item>
-    </ion-menu-toggle>
+          <ion-label>{{ p.title }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
   </ion-content>
 
+  <!-- Cerrar sesión -->
   <ion-footer class="ion-no-border">
-    <ion-menu-toggle auto-hide="false" >
-      <ion-item (click)="signOut()" lines="none" >
-        <ion-icon slot="start" name="log-out-outline"  style="margin-top: -10px;"></ion-icon>
-        <ion-label style="margin-top: -10px;">Cerrar sesion</ion-label>
+    <ion-menu-toggle auto-hide="false">
+      <ion-item (click)="signOut()" lines="none">
+        <ion-icon
+          slot="start"
+          name="log-out-outline"
+          style="margin-top: -10px"
+        ></ion-icon>
+        <ion-label style="margin-top: -10px">Cerrar sesión</ion-label>
       </ion-item>
     </ion-menu-toggle>
   </ion-footer>

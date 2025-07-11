@@ -31,11 +31,23 @@ export class MapaPage implements OnInit {
   currentPath: string = '';
   map!: google.maps.Map;
   markers: google.maps.Marker[] = [];
+  activeInfoWindow: google.maps.InfoWindow | null = null;
 
   ngOnInit() {
     this.router.events.subscribe((event: any) => {
       if (event?.url) this.currentPath = event.url;
     });
+
+    this.getProducts();
+    this.getDocumentos();
+  }
+
+  doRefresh(event) {
+    setTimeout(() => {
+      this.getProducts();
+      this.getDocumentos();
+      event.target.complete();
+    }, 1000);
   }
 
   ngAfterViewInit() {
@@ -49,44 +61,39 @@ export class MapaPage implements OnInit {
    product(): Product {
     return this.utilsSvc.getFromLocalStorage('productGeneral');
   }
+
   
-ionViewWillEnter() {
-  this.loading = true;
-  let userProducts: Product[] = [];
-  let generalProducts: Product[] = [];
+  ionViewWillEnter() {
+    this.loading = true;
+    let userProducts: Product[] = [];
+    let generalProducts: Product[] = [];
 
-  const done = () => {
-    this.products = [...userProducts, ...generalProducts];
-    this.loading = false;
-    this.mostrarMarcadores();
-  };
+    const done = () => {
+      this.products = [...userProducts, ...generalProducts];
+      this.loading = false;
 
-  this.firebaseSvc.getCollectionData(`users/${this.user().uid}/products`, [orderBy('soldUnits', 'desc')]).subscribe({
-    next: (res: Product[]) => {
-      userProducts = res;
-      if (generalProducts.length !== 0) done();
-    },
-    error: () => { this.loading = false; }
-  });
+      // 👇 Si el mapa ya está cargado, muestra los marcadores
+      if (this.map) {
+        this.mostrarMarcadores();
+      }
+    };
 
-  this.firebaseSvc.getCollectionData('productGeneral/', [orderBy('soldUnits', 'desc')]).subscribe({
-    next: (res: Product[]) => {
-      generalProducts = res;
-      if (userProducts.length !== 0) done();
-    },
-    error: () => { this.loading = false; }
-  });
-}
+    this.firebaseSvc.getCollectionData(`users/${this.user().uid}/products`, [orderBy('soldUnits', 'desc')]).subscribe({
+      next: (res: Product[]) => {
+        userProducts = res;
+        if (generalProducts.length !== 0) done();
+      },
+      error: () => { this.loading = false; }
+    });
 
-  doRefresh(event) {
-    setTimeout(() => {
-      this.getProducts();
-      this.getDocumentos();
-      event.target.complete();
-    }, 1000);
+    this.firebaseSvc.getCollectionData('productGeneral/', [orderBy('soldUnits', 'desc')]).subscribe({
+      next: (res: Product[]) => {
+        generalProducts = res;
+        if (userProducts.length !== 0) done();
+      },
+      error: () => { this.loading = false; }
+    });
   }
-
-
 
   loadGoogleMaps(): Promise<void> {
     return new Promise((resolve) => {
@@ -156,33 +163,55 @@ ionViewWillEnter() {
 
   /* ======================================================================== */
   mostrarMarcadores() {
-    this.clearMarkers(); // Limpia los anteriores
+  this.clearMarkers(); // Limpia anteriores
 
-    this.products.forEach(product => {
-      if (product.lat && product.lng) {
-        const marker = new google.maps.Marker({
-          position: { lat: product.lat, lng: product.lng },
-          map: this.map,
-          title: product.name,
-        });
+  this.products.forEach(product => {
+    if (product.lat && product.lng) {
+      const marker = new google.maps.Marker({
+        position: { lat: product.lat, lng: product.lng },
+        map: this.map,
+        title: product.name,
+      });
 
-        const infoWindow = new google.maps.InfoWindow({
-          content : `<div style="min-width: 10%; min-height: 20%;">
-          <img src="${product.image}" style="width:30px; height: 30px; display:block;"> <br>
-          <strong>${product.name}</strong><br>
-          ${product.descripcion}<br>
-          Precio: $${product.price}
-        </div>`
-        });
+      const infoWindow = new google.maps.InfoWindow({
+        content: `
+          <div style="width: 220px; font-family: Arial, sans-serif;">
+            <img src="${product.image}" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
+            <div style="padding: 8px;">
+              <strong>${product.name}</strong><br>
+              ${product.descripcion}<br>
+              Precio:<strong> $${product.price}</strong>
+            </div>
+          </div>
+        `,
+      });
 
-        marker.addListener('click', () => {
-          infoWindow.open(this.map, marker);
-        });
+      marker.addListener('click', () => {
+        // Cierra el InfoWindow anterior si está abierto
+        if (this.activeInfoWindow) {
+          this.activeInfoWindow.close();
+        }
 
-        this.markers.push(marker);
-      }
-    });
-  }
+        infoWindow.open(this.map, marker);
+        this.activeInfoWindow = infoWindow;
+      });
+
+      this.markers.push(marker);
+    }
+  });
+
+  // Cierra el InfoWindow si el usuario da clic fuera (en el mapa)
+  this.map.addListener('click', () => {
+    if (this.activeInfoWindow) {
+      this.activeInfoWindow.close();
+      this.activeInfoWindow = null;
+    }
+  });
+}
+
+
+
+
 
 
   async getCurrentLocation(): Promise<{ lat: number; lng: number }> {
@@ -219,7 +248,7 @@ ionViewWillEnter() {
 
     this.map = new google.maps.Map(mapDiv, {
       center: userLocation,
-      zoom: 12,
+      zoom: 13,
       disableDefaultUI: true,
       zoomControl: true,
       clickableIcons: false,
@@ -301,7 +330,11 @@ ionViewWillEnter() {
     await modal.present();
 
     const { data } = await modal.onDidDismiss();
-    // puedes manejar el resultado si lo necesitas
+
+    if (data) {
+      this.getProducts();
+      this.getDocumentos();
+    }
   }
 
   agregarProductoDesdeFormulario(data: any) {

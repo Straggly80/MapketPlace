@@ -13,8 +13,8 @@ import { UtilsService } from 'src/app/services/utils.service';
 
 export class MainPage implements OnInit {
   pages = [
-    { title: 'Inicio', url: '/main/mapa', icon: 'map-outline' },
     { title: 'Perfil', url: '/main/profile', icon:'[src="user()?.image"'},
+    { title: 'Inicio', url: '/main/mapa', icon: 'map-outline' },
     { title: 'Favoritos', url: '/main/ventas', icon: 'heart-outline' },
     { title: 'Ventas', url: '/main/home', icon: 'cart-outline' },
     { title: 'Compras', url: '/main/compras', icon: 'bag-outline' },

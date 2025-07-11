@@ -37,6 +37,7 @@ ion-avatar {
     height: 120px;
     margin: 0 auto;
     z-index: 11;
+    background: transparent;
 }
 
 .empty-icon{
@@ -84,3 +85,14 @@ ion-avatar {
     margin-top: -35px;
     background-color: aqua;
 }
+
+ion-list{
+    background-color: #619cef48;
+}
+
+#imgDeAvatar {
+    height: 26px;
+    width:  26px;
+    margin-right: 27px;
+}
+
