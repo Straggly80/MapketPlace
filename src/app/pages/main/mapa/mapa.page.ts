@@ -209,11 +209,6 @@ export class MapaPage implements OnInit {
   });
 }
 
-
-
-
-
-
   async getCurrentLocation(): Promise<{ lat: number; lng: number }> {
     return new Promise((resolve) => {
       if (navigator.geolocation) {
@@ -230,7 +225,7 @@ export class MapaPage implements OnInit {
           },
           {
             enableHighAccuracy: true,
-            timeout: 10000,
+            timeout: 1000,
             maximumAge: 0,
           }
         );
