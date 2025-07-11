@@ -254,59 +254,61 @@ export class MapaPage implements OnInit {
       clickableIcons: false,
       mapTypeId: 'roadmap',
       styles: [
-        { elementType: 'geometry', stylers: [{ color: '#e0e0e0' }] },
-        { elementType: 'labels.icon', stylers: [{ visibility: 'on' }] },
-        { elementType: 'labels.text.fill', stylers: [{ color: '#5f5f5f' }] },
-        { elementType: 'labels.text.stroke', stylers: [{ color: '#f5f5f5' }] },
-        {
-          featureType: 'administrative',
-          elementType: 'geometry',
-          stylers: [{ color: '#c0c0c0' }],
-        },
-        {
-          featureType: 'administrative.country',
-          elementType: 'labels.text.fill',
-          stylers: [{ color: '#888888' }],
-        },
-        {
-          featureType: 'landscape',
-          elementType: 'geometry',
-          stylers: [{ color: '#f2f2f2' }],
-        },
-        {
-          featureType: 'poi',
-          stylers: [{ visibility: 'on' }],
-        },
-        {
-          featureType: 'road',
-          elementType: 'geometry',
-          stylers: [{ color: '#d0d0d0' }],
-        },
-        {
-          featureType: 'road',
-          elementType: 'geometry.stroke',
-          stylers: [{ color: '#b0b0b0' }],
-        },
-        {
-          featureType: 'road',
-          elementType: 'labels.text.fill',
-          stylers: [{ color: '#606060' }],
-        },
-        {
-          featureType: 'transit',
-          stylers: [{ visibility: 'off' }],
-        },
-        {
-          featureType: 'water',
-          elementType: 'geometry',
-          stylers: [{ color: '#cbe7f0' }],
-        },
-        {
-          featureType: 'water',
-          elementType: 'labels.text.fill',
-          stylers: [{ color: '#7f9fae' }],
-        }
-      ]
+    {
+        "featureType": "all",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "color": "#878787"
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#f9f5ed"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#f5f5f5"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#c9c9c9"
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [
+            {
+                "color": "#aee0f4"
+            }
+        ]
+    }
+]
     });
 
   }
