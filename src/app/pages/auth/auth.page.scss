@@ -2,13 +2,9 @@
    TÍTULO PRINCIPAL
 --------------------------------------------- */
 .title {
-  color: #ffffff; /* color1 */
-  font-size: clamp(1.8rem, 5vw, 3rem);
-  text-align: start;
-  margin-top: 40px;
-  font-family: 'Poppins', sans-serif;
-  font-size: 70px;
-  font-weight: 400;
+  margin-top: 180px;
+  width: 300px;
+  /* filter: drop-shadow(0 4px 12px #efb66188); */
 }
 
 .letters {
@@ -16,6 +12,7 @@
   font-weight: 100; /* sin px */
   font-family: 'Poppins', sans-serif;
   font-size: clamp(0.8rem, 3vw, 1rem);
+  text-align: center;
   text-align: justify;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -24,37 +21,47 @@
 }
 
 /* ------------------------------------------
-   BOTÓN DE LOGIN
+   BOTÓN DE LOGIN - GLASSMORPHISM
 --------------------------------------------- */
 #login-button {
-  margin-top: 350px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
 }
 
 #login-button::part(native) {
-  background: #619def; /* color1 */
-  color: #ffffff; /* blanco */
-  border: none;
-  border-radius: 70px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-radius: 15px;
   font-family: 'Poppins', sans-serif;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   font-size: clamp(1.2rem, 4.5vw, 1.7rem);
-  padding: 1.2rem 8.5rem;
+  padding: 1.2rem 6.5rem;
   width: 100%;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  /* GLASS EFFECT */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 1px 1px 3px rgba(255, 255, 255, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.2); /* brillo + sombra */
 }
 
 #login-button::part(native):hover {
   transform: scale(1.03);
-  background-color: #7cb6f3; /* color2 */
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 2px 2px 5px rgba(255, 255, 255, 0.3),
+    0 12px 28px rgba(0, 0, 0, 0.3);
 }
 
 /* ------------------------------------------
-   BOTÓN DE REGISTER
+   BOTÓN DE REGISTER - GLASSMORPHISM
 --------------------------------------------- */
 #register-button {
   display: flex;
@@ -62,25 +69,36 @@
 }
 
 #register-button::part(native) {
-  background: #619def; /* color1 */
-  color: #ffffff; /* blanco */
-  border: none;
-  border-radius: 70px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-radius: 15px;
   font-family: 'Poppins', sans-serif;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   font-size: clamp(1.2rem, 4.5vw, 1.7rem);
-  padding: 1.2rem 7.4rem;
+  padding: 1.2rem 7.1rem;
   width: 100%;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  /* GLASS EFFECT */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 1px 1px 3px rgba(255, 255, 255, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 #register-button::part(native):hover {
-  transform: scale(1.02);
-  background-color: #7cb6f3; /* color2 */
+  transform: scale(1.03);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    inset 2px 2px 5px rgba(255, 255, 255, 0.3),
+    0 12px 28px rgba(0, 0, 0, 0.3);
 }
+
 
 /* ------------------------------------------
    CONTENEDOR DE BOTONES
@@ -108,28 +126,17 @@ ion-content {
   z-index: 0;
 }
 
-ion-content::before {
+ion-content {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #619def; /* color1 */
+  background-color: #353535; /* color1 */
   z-index: -2;
 }
 
-ion-content::after {
-  content: "";
-  position: absolute;
-  top: 40vh;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: #7cb6f3; /* color2 */
-  clip-path: inset(0px round 60px);
-  z-index: -1;
-}
 
 /* ------------------------------------------
    ICONOS SOCIALES (colores originales)
