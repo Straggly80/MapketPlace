@@ -8,6 +8,7 @@ import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { orderBy } from 'firebase/firestore';
+import { Geolocation } from '@capacitor/geolocation';
 
 declare const google: any;
 
@@ -31,13 +32,30 @@ export class MapaPage implements OnInit {
   markers: google.maps.Marker[] = [];
   activeInfoWindow: google.maps.InfoWindow | null = null;
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.solicitarPermisosUbicacion();
+    const ubicacion = await this.getCurrentLocation();
+    console.log('📍 Ubicación actual:', ubicacion);
+
     this.router.events.subscribe((event: any) => {
       if (event?.url) this.currentPath = event.url;
     });
 
     this.getProducts();
     this.getDocumentos();
+  }
+
+  async solicitarPermisosUbicacion() {
+    try {
+      const permiso = await Geolocation.requestPermissions();
+      if (permiso.location === 'granted') {
+        console.log('✅ Permiso de ubicación concedido');
+      } else {
+        console.warn('❌ Permiso de ubicación denegado');
+      }
+    } catch (error) {
+      console.error('⚠️ Error al solicitar permiso', error);
+    }
   }
 
   doRefresh(event) {
@@ -70,11 +88,11 @@ export class MapaPage implements OnInit {
       this.loading = false;
 
       if (this.map) {
-        this.mostrarMarcadores(); // 👈 Esta línea asegura que los marcadores se muestren siempre
+        this.mostrarMarcadores();
       } else {
         this.loadGoogleMaps().then(() => {
           this.initMap().then(() => {
-            this.mostrarMarcadores(); // 👈 Se aseguran los marcadores incluso si el mapa se estaba cargando apenas
+            this.mostrarMarcadores();
           });
         });
       }
@@ -122,7 +140,6 @@ export class MapaPage implements OnInit {
     });
   }
 
-  /* ======================= OBTENER PRODUCTOS ======================== */
   getProducts() {
     const path = `users/${this.user().uid}/products`;
     this.loading = true;
@@ -133,7 +150,7 @@ export class MapaPage implements OnInit {
         console.log('📦 Productos obtenidos:', res);
         this.products = res;
         this.loading = false;
-        this.mostrarMarcadores(); // 👈 AQUI
+        this.mostrarMarcadores();
       },
       error: (err: any) => {
         console.error('❌ Error al obtener productos:', err);
@@ -145,8 +162,6 @@ export class MapaPage implements OnInit {
       },
     });
   }
-
-  /* =================OBTENER PRODUCTO GENERAL================================ */
 
   getDocumentos() {
     const path = `productGeneral/`;
@@ -159,7 +174,7 @@ export class MapaPage implements OnInit {
         console.log('📦 Productos obtenidos:', res);
         this.products = res;
         this.loading = false;
-        this.mostrarMarcadores(); // 👈 AQUI
+        this.mostrarMarcadores();
       },
       error: (err: any) => {
         console.error('❌ Error al obtener productos:', err);
@@ -172,9 +187,8 @@ export class MapaPage implements OnInit {
     });
   }
 
-  /* ======================================================================== */
   mostrarMarcadores() {
-    this.clearMarkers(); // Limpia anteriores
+    this.clearMarkers();
 
     this.products.forEach((product) => {
       if (product.lat && product.lng) {
@@ -199,11 +213,9 @@ export class MapaPage implements OnInit {
         });
 
         marker.addListener('click', () => {
-          // Cierra el InfoWindow anterior si está abierto
           if (this.activeInfoWindow) {
             this.activeInfoWindow.close();
           }
-
           infoWindow.open(this.map, marker);
           this.activeInfoWindow = infoWindow;
         });
@@ -212,7 +224,6 @@ export class MapaPage implements OnInit {
       }
     });
 
-    // Cierra el InfoWindow si el usuario da clic fuera (en el mapa)
     this.map.addListener('click', () => {
       if (this.activeInfoWindow) {
         this.activeInfoWindow.close();
@@ -222,28 +233,22 @@ export class MapaPage implements OnInit {
   }
 
   async getCurrentLocation(): Promise<{ lat: number; lng: number }> {
-    return new Promise((resolve) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            resolve({
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            });
-          },
-          (error) => {
-            console.warn('Geolocation failed:', error.message);
-          },
-          {
-            enableHighAccuracy: true, // 👈 necesario
-            timeout: 10000,
-            maximumAge: 0,
-          }
-        );
-      } else {
-        console.warn('Geolocation is not supported by this browser.');
-      }
-    });
+    try {
+      const position = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: true,
+      });
+
+      return {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+    } catch (error) {
+      console.error('Error al obtener la ubicación:', error);
+      return {
+        lat: 31.327409,
+        lng: -113.522065,
+      };
+    }
   }
 
   async initMap() {
@@ -262,56 +267,32 @@ export class MapaPage implements OnInit {
         {
           featureType: 'all',
           elementType: 'labels.text',
-          stylers: [
-            {
-              color: '#878787',
-            },
-          ],
+          stylers: [{ color: '#878787' }],
         },
         {
           featureType: 'all',
           elementType: 'labels.text.stroke',
-          stylers: [
-            {
-              visibility: 'off',
-            },
-          ],
+          stylers: [{ visibility: 'off' }],
         },
         {
           featureType: 'landscape',
           elementType: 'all',
-          stylers: [
-            {
-              color: '#f9f5ed',
-            },
-          ],
+          stylers: [{ color: '#f9f5ed' }],
         },
         {
           featureType: 'road.highway',
           elementType: 'all',
-          stylers: [
-            {
-              color: '#f5f5f5',
-            },
-          ],
+          stylers: [{ color: '#f5f5f5' }],
         },
         {
           featureType: 'road.highway',
           elementType: 'geometry.stroke',
-          stylers: [
-            {
-              color: '#c9c9c9',
-            },
-          ],
+          stylers: [{ color: '#c9c9c9' }],
         },
         {
           featureType: 'water',
           elementType: 'all',
-          stylers: [
-            {
-              color: '#aee0f4',
-            },
-          ],
+          stylers: [{ color: '#aee0f4' }],
         },
       ],
     });
