@@ -233,17 +233,15 @@ export class MapaPage implements OnInit {
           },
           (error) => {
             console.warn('Geolocation failed:', error.message);
-            resolve({ lat: 31.327409, lng: -113.522065 }); // fallback Puerto Peñasco
           },
           {
-            enableHighAccuracy: true,
-            timeout: 1000,
+            enableHighAccuracy: true, // 👈 necesario
+            timeout: 10000,
             maximumAge: 0,
           }
         );
       } else {
         console.warn('Geolocation is not supported by this browser.');
-        resolve({ lat: 31.327409, lng: -113.522065 });
       }
     });
   }
