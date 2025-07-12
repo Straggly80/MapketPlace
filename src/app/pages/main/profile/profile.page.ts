@@ -45,8 +45,7 @@ export class ProfilePage implements OnInit {
       await this.utilSvc.presentToast({
         message: 'Imagen actualizada exitosamente!',
         duration: 1500,
-        color: 'success',
-        position: 'middle',
+        color: 'light',
         icon: 'checkmark-circle-outline',
       });
     } catch (error: any) {
@@ -54,8 +53,7 @@ export class ProfilePage implements OnInit {
       await this.utilSvc.presentToast({
         message: error.message || 'Error al actualizar la imagen.',
         duration: 2500,
-        color: 'primary',
-        position: 'middle',
+        color: 'danger',
         icon: 'alert-circle-outline',
       });
     } finally {

@@ -167,10 +167,11 @@ export class MapaPage implements OnInit {
             <div style="width: 220px; font-family: Arial, sans-serif;">
               <img src="${product.image}" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
               <div style="padding: 8px;">
+                Usuario:<strong></strong><br>
                 Nombre:<strong>${product.name}</strong><br>
                 Descripcion:<strong>${product.descripcion}</strong><br>
                 Precio:<strong> $${product.price}</strong><br>
-                Usuario:<strong> ${product.lat}</strong>
+                
               </div>
             </div>
           `,

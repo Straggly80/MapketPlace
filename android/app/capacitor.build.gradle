@@ -11,14 +11,12 @@ apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
     implementation project(':capacitor-app')
     implementation project(':capacitor-camera')
- /*    implementation project(':capacitor-geolocation') */
+    implementation project(':capacitor-geolocation')
     implementation project(':capacitor-haptics')
     implementation project(':capacitor-keyboard')
+    implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
 
-/* ====================FACEBOOK================================= */
-     implementation("com.firebaseui:firebase-ui-auth:9.0.0")
-    implementation("com.facebook.android:facebook-android-sdk:8.x")
 }
 
 
