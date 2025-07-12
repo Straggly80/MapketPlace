@@ -41,8 +41,7 @@ export class MapaPage implements OnInit {
       if (event?.url) this.currentPath = event.url;
     });
 
-    this.getProducts();
-    this.getDocumentos();
+    this.getAllProducts();
   }
 
   async solicitarPermisosUbicacion() {
@@ -60,8 +59,7 @@ export class MapaPage implements OnInit {
 
   doRefresh(event) {
     setTimeout(() => {
-      this.getProducts();
-      this.getDocumentos();
+      this.getAllProducts();
       event.target.complete();
     }, 1000);
   }
@@ -79,33 +77,34 @@ export class MapaPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.getAllProducts();
+  }
+
+  getAllProducts() {
     this.loading = true;
     let userProducts: Product[] = [];
     let generalProducts: Product[] = [];
+    let userLoaded = false;
+    let generalLoaded = false;
 
     const done = () => {
-      this.products = [...userProducts, ...generalProducts];
+      // Combina ambos arrays y elimina duplicados por id
+      const all = [...userProducts, ...generalProducts];
+      const unique = all.filter(
+        (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+      );
+      this.products = unique;
       this.loading = false;
-
-      if (this.map) {
-        this.mostrarMarcadores();
-      } else {
-        this.loadGoogleMaps().then(() => {
-          this.initMap().then(() => {
-            this.mostrarMarcadores();
-          });
-        });
-      }
+      this.mostrarMarcadores();
     };
 
     this.firebaseSvc
-      .getCollectionData(`users/${this.user().uid}/products`, [
-        orderBy('soldUnits', 'desc'),
-      ])
+      .getCollectionData(`users/${this.user().uid}/products`, [orderBy('soldUnits', 'desc')])
       .subscribe({
         next: (res: Product[]) => {
           userProducts = res;
-          if (generalProducts.length !== 0) done();
+          userLoaded = true;
+          if (generalLoaded) done();
         },
         error: () => {
           this.loading = false;
@@ -117,7 +116,8 @@ export class MapaPage implements OnInit {
       .subscribe({
         next: (res: Product[]) => {
           generalProducts = res;
-          if (userProducts.length !== 0) done();
+          generalLoaded = true;
+          if (userLoaded) done();
         },
         error: () => {
           this.loading = false;
@@ -137,53 +137,6 @@ export class MapaPage implements OnInit {
           }
         }, 100);
       }
-    });
-  }
-
-  getProducts() {
-    const path = `users/${this.user().uid}/products`;
-    this.loading = true;
-    const query = [orderBy('soldUnits', 'desc')];
-
-    const sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
-      next: (res: Product[]) => {
-        console.log('📦 Productos obtenidos:', res);
-        this.products = res;
-        this.loading = false;
-        this.mostrarMarcadores();
-      },
-      error: (err: any) => {
-        console.error('❌ Error al obtener productos:', err);
-        this.loading = false;
-      },
-      complete: () => {
-        console.log('✅ Consulta de productos completada');
-        sub.unsubscribe();
-      },
-    });
-  }
-
-  getDocumentos() {
-    const path = `productGeneral/`;
-
-    this.loading = true;
-    const query = [orderBy('soldUnits', 'desc')];
-
-    const sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
-      next: (res: Product[]) => {
-        console.log('📦 Productos obtenidos:', res);
-        this.products = res;
-        this.loading = false;
-        this.mostrarMarcadores();
-      },
-      error: (err: any) => {
-        console.error('❌ Error al obtener productos:', err);
-        this.loading = false;
-      },
-      complete: () => {
-        console.log('✅ Consulta de productos completada');
-        sub.unsubscribe();
-      },
     });
   }
 
@@ -328,8 +281,7 @@ export class MapaPage implements OnInit {
     const { data } = await modal.onDidDismiss();
 
     if (data) {
-      this.getProducts();
-      this.getDocumentos();
+      this.getAllProducts();
     }
   }
 

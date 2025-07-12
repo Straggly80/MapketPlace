@@ -5,6 +5,7 @@ import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { orderBy } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
 
 declare const google: any;
 
@@ -19,7 +20,6 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
 
   products: Product[] = [];
   loading: boolean = false;
-
 
   @Input() product: Product;
   @Input() lat: number;
@@ -85,7 +85,7 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
             resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude });
           },
           () => {
-            resolve({ lat: 31.327409, lng: -113.522065 }); // fallback CDMX
+            resolve({ lat: 31.327409, lng: -113.522065 }); // fallback
           }
         );
       } else {
@@ -97,7 +97,6 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
   async initMiniMap() {
     this.geocoder = new google.maps.Geocoder();
 
-    // Usar posición inicial del formulario o geolocalización
     let coords = { lat: this.form.value.lat, lng: this.form.value.lng };
     if (!coords.lat || !coords.lng) {
       coords = await this.getCurrentLocation();
@@ -112,61 +111,37 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
       clickableIcons: false,
       mapTypeId: 'roadmap',
       styles: [
-    {
-        "featureType": "all",
-        "elementType": "labels.text",
-        "stylers": [
-            {
-                "color": "#878787"
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.text.stroke",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "all",
-        "stylers": [
-            {
-                "color": "#f9f5ed"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "all",
-        "stylers": [
-            {
-                "color": "#f5f5f5"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [
-            {
-                "color": "#c9c9c9"
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "all",
-        "stylers": [
-            {
-                "color": "#aee0f4"
-            }
-        ]
-    }
-]
+        {
+          "featureType": "all",
+          "elementType": "labels.text",
+          "stylers": [{ "color": "#878787" }]
+        },
+        {
+          "featureType": "all",
+          "elementType": "labels.text.stroke",
+          "stylers": [{ "visibility": "off" }]
+        },
+        {
+          "featureType": "landscape",
+          "elementType": "all",
+          "stylers": [{ "color": "#f9f5ed" }]
+        },
+        {
+          "featureType": "road.highway",
+          "elementType": "all",
+          "stylers": [{ "color": "#f5f5f5" }]
+        },
+        {
+          "featureType": "road.highway",
+          "elementType": "geometry.stroke",
+          "stylers": [{ "color": "#c9c9c9" }]
+        },
+        {
+          "featureType": "water",
+          "elementType": "all",
+          "stylers": [{ "color": "#aee0f4" }]
+        }
+      ]
     });
 
     this.marker = new google.maps.Marker({
@@ -238,142 +213,93 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
     if (price.value) price.setValue(parseFloat(price.value));
   }
 
+  // Crear producto en ambas colecciones con el mismo ID
   async createProduct() {
-    const path = `users/${this.user.uid}/products`;
+    const userPath = `users/${this.user.uid}/products`;
+    const generalPath = `/productGeneral`;
     const loading = await this.utilSvc.loading();
     await loading.present();
 
-    const dataUrl = this.form.value.image;
-    const imagePath = `${this.user.uid}/${Date.now()}`;
-    const imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
-    this.form.controls.image.setValue(imageUrl);
-
-    delete this.form.value.uid;
-
-    this.firebaseSvc.addDocument(path, this.form.value)
-      .then(() => {
-        this.utilSvc.dismissModal({ success: true });
-        this.utilSvc.presentToast({
-          message: 'Producto creado exitosamente!',
-          duration: 1500,
-          color: 'success',
-          position: 'middle',
-          icon: 'checkmark-circle-outline',
-        });
-      })
-      .catch(error => {
-        console.error(error);
-        this.utilSvc.presentToast({
-          message: error.message,
-          duration: 2500,
-          color: 'danger',
-          position: 'middle',
-          icon: 'alert-circle-outline',
-        });
-      })
-      .finally(() => loading.dismiss());
-  }
-
-  /* =============== Actualizar Producto ================= */
-  async updateProduct() {
-    const path = `users/${this.user.uid}/products/${this.product.id}`;
-    const loading = await this.utilSvc.loading();
-    await loading.present();
-
-    if (this.form.value.image !== this.product.image) {
+    try {
       const dataUrl = this.form.value.image;
-      const imagePath = await this.firebaseSvc.getFilePath(this.product.image);
+      const imagePath = `${this.user.uid}/${Date.now()}`;
       const imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
       this.form.controls.image.setValue(imageUrl);
+
+      delete this.form.value.uid;
+
+      // Genera un ID único
+      const newId = uuidv4();
+      const productData = { ...this.form.value, id: newId };
+
+      await Promise.all([
+        this.firebaseSvc.setDocument(`${userPath}/${newId}`, productData),
+        this.firebaseSvc.setDocument(`${generalPath}/${newId}`, productData)
+      ]);
+
+      this.utilSvc.dismissModal({ success: true });
+      this.utilSvc.presentToast({
+        message: 'Producto creado exitosamente!',
+        duration: 1500,
+        color: 'success',
+        position: 'middle',
+        icon: 'checkmark-circle-outline',
+      });
+    } catch (error) {
+      console.error(error);
+      this.utilSvc.presentToast({
+        message: error.message,
+        duration: 2500,
+        color: 'danger',
+        position: 'middle',
+        icon: 'alert-circle-outline',
+      });
+    } finally {
+      loading.dismiss();
     }
-
-    delete this.form.value.uid;
-
-    this.firebaseSvc.updateDocument(path, this.form.value)
-      .then(() => {
-        this.utilSvc.dismissModal({ success: true });
-        this.utilSvc.presentToast({
-          message: 'Producto actualizado exitosamente!',
-          duration: 1500,
-          color: 'success',
-          position: 'middle',
-          icon: 'checkmark-circle-outline',
-        });
-      })
-      .catch(error => {
-        console.error(error);
-        this.utilSvc.presentToast({
-          message: error.message,
-          duration: 2500,
-          color: 'danger',
-          position: 'middle',
-          icon: 'alert-circle-outline',
-        });
-      })
-      .finally(() => loading.dismiss());
   }
 
-  /* =================AGREGAR PRODUCTO GENERAL====================================== */
-   async createProductS() {
-    const path = `/productGeneral`;
+  // Actualizar producto en ambas colecciones (mismo ID)
+  async updateProduct() {
+    const userPath = `users/${this.user.uid}/products/${this.product.id}`;
+    const generalPath = `/productGeneral/${this.product.id}`;
     const loading = await this.utilSvc.loading();
     await loading.present();
 
-    const dataUrl = this.form.value.image;
-    const imagePath = `${this.user.uid}/${Date.now()}`;
-    const imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
-    this.form.controls.image.setValue(imageUrl);
+    try {
+      if (this.form.value.image !== this.product.image) {
+        const dataUrl = this.form.value.image;
+        const imagePath = await this.firebaseSvc.getFilePath(this.product.image);
+        const imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
+        this.form.controls.image.setValue(imageUrl);
+      }
 
-    delete this.form.value.uid;
+      delete this.form.value.uid;
 
-    this.firebaseSvc.addDocument(path, this.form.value)
-      .then(() => {
-        this.utilSvc.dismissModal({ success: true });
-        this.utilSvc.presentToast({
-          message: 'Producto creado exitosamente!',
-          duration: 1500,
-          color: 'success',
-          position: 'middle',
-          icon: 'checkmark-circle-outline',
-        });
-      })
-      .catch(error => {
-        console.error(error);
-        this.utilSvc.presentToast({
-          message: error.message,
-          duration: 2500,
-          color: 'danger',
-          position: 'middle',
-          icon: 'alert-circle-outline',
-        });
-      })
-      .finally(() => loading.dismiss());
+      await Promise.all([
+        this.firebaseSvc.updateDocument(userPath, this.form.value),
+        this.firebaseSvc.updateDocument(generalPath, this.form.value)
+      ]);
+
+      this.utilSvc.dismissModal({ success: true });
+      this.utilSvc.presentToast({
+        message: 'Producto actualizado exitosamente!',
+        duration: 1500,
+        color: 'success',
+        position: 'middle',
+        icon: 'checkmark-circle-outline',
+      });
+    } catch (error) {
+      console.error(error);
+      this.utilSvc.presentToast({
+        message: error.message,
+        duration: 2500,
+        color: 'danger',
+        position: 'middle',
+        icon: 'alert-circle-outline',
+      });
+    } finally {
+      loading.dismiss();
+    }
   }
-
-    /* =========================OBTENER PRODUCTO GENERAL============================= */
-
-    getDocumentos() {
-    let path = `/productGeneral`;
-
-    this.loading = true;
-
-    let query = [orderBy('soldUnits', 'desc')];
-
-    let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
-      next: (res: any) => {
-        console.log(res);
-        this.products = res;
-        this.loading = false;
-      },
-      error: (err: any) => {
-        console.log(err);
-        this.loading = false;
-      },
-      complete: () => {
-        console.log('complete');
-        sub.unsubscribe();
-      },
-    });
-  } 
-
 }
