@@ -18,7 +18,6 @@ declare const google: any;
   standalone: false,
 })
 export class MapaPage implements OnInit {
-
   products: Product[] = [];
   loading: boolean = false;
 
@@ -57,11 +56,10 @@ export class MapaPage implements OnInit {
     return this.utilsSvc.getFromLocalStorage('user');
   }
 
-   product(): Product {
+  product(): Product {
     return this.utilsSvc.getFromLocalStorage('productGeneral');
   }
 
-  
   ionViewWillEnter() {
     this.loading = true;
     let userProducts: Product[] = [];
@@ -71,27 +69,42 @@ export class MapaPage implements OnInit {
       this.products = [...userProducts, ...generalProducts];
       this.loading = false;
 
-      // 👇 Si el mapa ya está cargado, muestra los marcadores
       if (this.map) {
-        this.mostrarMarcadores();
+        this.mostrarMarcadores(); // 👈 Esta línea asegura que los marcadores se muestren siempre
+      } else {
+        this.loadGoogleMaps().then(() => {
+          this.initMap().then(() => {
+            this.mostrarMarcadores(); // 👈 Se aseguran los marcadores incluso si el mapa se estaba cargando apenas
+          });
+        });
       }
     };
 
-    this.firebaseSvc.getCollectionData(`users/${this.user().uid}/products`, [orderBy('soldUnits', 'desc')]).subscribe({
-      next: (res: Product[]) => {
-        userProducts = res;
-        if (generalProducts.length !== 0) done();
-      },
-      error: () => { this.loading = false; }
-    });
+    this.firebaseSvc
+      .getCollectionData(`users/${this.user().uid}/products`, [
+        orderBy('soldUnits', 'desc'),
+      ])
+      .subscribe({
+        next: (res: Product[]) => {
+          userProducts = res;
+          if (generalProducts.length !== 0) done();
+        },
+        error: () => {
+          this.loading = false;
+        },
+      });
 
-    this.firebaseSvc.getCollectionData('productGeneral/', [orderBy('soldUnits', 'desc')]).subscribe({
-      next: (res: Product[]) => {
-        generalProducts = res;
-        if (userProducts.length !== 0) done();
-      },
-      error: () => { this.loading = false; }
-    });
+    this.firebaseSvc
+      .getCollectionData('productGeneral/', [orderBy('soldUnits', 'desc')])
+      .subscribe({
+        next: (res: Product[]) => {
+          generalProducts = res;
+          if (userProducts.length !== 0) done();
+        },
+        error: () => {
+          this.loading = false;
+        },
+      });
   }
 
   loadGoogleMaps(): Promise<void> {
@@ -110,7 +123,7 @@ export class MapaPage implements OnInit {
   }
 
   /* ======================= OBTENER PRODUCTOS ======================== */
-   getProducts() {
+  getProducts() {
     const path = `users/${this.user().uid}/products`;
     this.loading = true;
     const query = [orderBy('soldUnits', 'desc')];
@@ -131,12 +144,11 @@ export class MapaPage implements OnInit {
         sub.unsubscribe();
       },
     });
-  } 
+  }
 
   /* =================OBTENER PRODUCTO GENERAL================================ */
 
-
-    getDocumentos() {
+  getDocumentos() {
     const path = `productGeneral/`;
 
     this.loading = true;
@@ -158,56 +170,56 @@ export class MapaPage implements OnInit {
         sub.unsubscribe();
       },
     });
-  } 
+  }
 
   /* ======================================================================== */
   mostrarMarcadores() {
-  this.clearMarkers(); // Limpia anteriores
+    this.clearMarkers(); // Limpia anteriores
 
-  this.products.forEach(product => {
-    if (product.lat && product.lng) {
-      const marker = new google.maps.Marker({
-        position: { lat: product.lat, lng: product.lng },
-        map: this.map,
-        title: product.name,
-      });
+    this.products.forEach((product) => {
+      if (product.lat && product.lng) {
+        const marker = new google.maps.Marker({
+          position: { lat: product.lat, lng: product.lng },
+          map: this.map,
+          title: product.name,
+        });
 
-      const infoWindow = new google.maps.InfoWindow({
-        content: `
-          <div style="width: 220px; font-family: Arial, sans-serif;">
-            <img src="${product.image}" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
-            <div style="padding: 8px;">
-              Nombre:<strong>${product.name}</strong><br>
-              ${product.descripcion}<br>
-              Precio:<strong> $${product.price}</strong>
-              Usuario:<strong> ${product.lat}</strong>
+        const infoWindow = new google.maps.InfoWindow({
+          content: `
+            <div style="width: 220px; font-family: Arial, sans-serif;">
+              <img src="${product.image}" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
+              <div style="padding: 8px;">
+                Nombre:<strong>${product.name}</strong><br>
+                ${product.descripcion}<br>
+                Precio:<strong> $${product.price}</strong>
+                Usuario:<strong> ${product.lat}</strong>
+              </div>
             </div>
-          </div>
-        `,
-      });
+          `,
+        });
 
-      marker.addListener('click', () => {
-        // Cierra el InfoWindow anterior si está abierto
-        if (this.activeInfoWindow) {
-          this.activeInfoWindow.close();
-        }
+        marker.addListener('click', () => {
+          // Cierra el InfoWindow anterior si está abierto
+          if (this.activeInfoWindow) {
+            this.activeInfoWindow.close();
+          }
 
-        infoWindow.open(this.map, marker);
-        this.activeInfoWindow = infoWindow;
-      });
+          infoWindow.open(this.map, marker);
+          this.activeInfoWindow = infoWindow;
+        });
 
-      this.markers.push(marker);
-    }
-  });
+        this.markers.push(marker);
+      }
+    });
 
-  // Cierra el InfoWindow si el usuario da clic fuera (en el mapa)
-  this.map.addListener('click', () => {
-    if (this.activeInfoWindow) {
-      this.activeInfoWindow.close();
-      this.activeInfoWindow = null;
-    }
-  });
-}
+    // Cierra el InfoWindow si el usuario da clic fuera (en el mapa)
+    this.map.addListener('click', () => {
+      if (this.activeInfoWindow) {
+        this.activeInfoWindow.close();
+        this.activeInfoWindow = null;
+      }
+    });
+  }
 
   async getCurrentLocation(): Promise<{ lat: number; lng: number }> {
     return new Promise((resolve) => {
@@ -245,71 +257,79 @@ export class MapaPage implements OnInit {
       center: userLocation,
       zoom: 13,
       disableDefaultUI: true,
-      zoomControl: true,
+      zoomControl: false,
       clickableIcons: false,
       mapTypeId: 'roadmap',
       styles: [
-    {
-        "featureType": "all",
-        "elementType": "labels.text",
-        "stylers": [
+        {
+          featureType: 'all',
+          elementType: 'labels.text',
+          stylers: [
             {
-                "color": "#878787"
-            }
-        ]
-    },
-    {
-        "featureType": "all",
-        "elementType": "labels.text.stroke",
-        "stylers": [
+              color: '#878787',
+            },
+          ],
+        },
+        {
+          featureType: 'all',
+          elementType: 'labels.text.stroke',
+          stylers: [
             {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "all",
-        "stylers": [
+              visibility: 'off',
+            },
+          ],
+        },
+        {
+          featureType: 'landscape',
+          elementType: 'all',
+          stylers: [
             {
-                "color": "#f9f5ed"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "all",
-        "stylers": [
+              color: '#f9f5ed',
+            },
+          ],
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'all',
+          stylers: [
             {
-                "color": "#f5f5f5"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "geometry.stroke",
-        "stylers": [
+              color: '#f5f5f5',
+            },
+          ],
+        },
+        {
+          featureType: 'road.highway',
+          elementType: 'geometry.stroke',
+          stylers: [
             {
-                "color": "#c9c9c9"
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "all",
-        "stylers": [
+              color: '#c9c9c9',
+            },
+          ],
+        },
+        {
+          featureType: 'water',
+          elementType: 'all',
+          stylers: [
             {
-                "color": "#aee0f4"
-            }
-        ]
-    }
-]
+              color: '#aee0f4',
+            },
+          ],
+        },
+      ],
     });
 
+    new google.maps.Marker({
+      position: userLocation,
+      map: this.map,
+      title: 'Tu ubicación',
+      icon: {
+        url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+      },
+    });
   }
 
   clearMarkers() {
-    this.markers.forEach(marker => marker.setMap(null));
+    this.markers.forEach((marker) => marker.setMap(null));
     this.markers = [];
   }
 
@@ -320,8 +340,8 @@ export class MapaPage implements OnInit {
       component: AddUpdateProductComponent,
       componentProps: {
         lat: coords.lat,
-        lng: coords.lng
-      }
+        lng: coords.lng,
+      },
     });
 
     await modal.present();
