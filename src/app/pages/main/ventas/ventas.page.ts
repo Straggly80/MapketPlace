@@ -10,30 +10,6 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./ventas.page.scss'],
   standalone:false,
 })
-export class VentasPage implements OnInit {
-  pages = [
-    { title: 'Inicio', url: '/main/home', icon: 'home-outline' },
-    { title: 'Perfil', url: '/main/profile', icon: 'person-outline' },
-    { title: 'Mapa', url: '/main/mapa', icon: 'heart-outline' },
-  ];
-
-  router = inject(Router);
-  firebaseSvc = inject(FirebaseService);
-  utilsSvc = inject(UtilsService);
-  currentPath: string = '';
-
-  ngOnInit() {
-    this.router.events.subscribe((event: any) => {
-      if (event?.url) this.currentPath = event.url;
-    });
-  }
-
-  user(): User {
-    return this.utilsSvc.getFromLocalStorage('user');
-  }
-
-  /* ===== CERRAR SESION ===== */
-  signOut() {
-    this.firebaseSvc.signOut();
-  }
+export class VentasPage {
+ 
 }

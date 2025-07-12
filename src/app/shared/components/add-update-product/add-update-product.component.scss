@@ -17,6 +17,23 @@ ion-avatar{
      --background:#619def;
    }
 
+.img-button{
+  z-index: 30;
+  left: 30px;
+  display: flex;
+  background-color: #619cef00;
+  color: black;
+  border-radius: 10%;
+  padding: 10px;
+  
+}
+
+
+
+
+
+
+
 /* form {
   position: relative;
 }

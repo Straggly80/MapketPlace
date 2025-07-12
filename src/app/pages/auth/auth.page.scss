@@ -69,7 +69,7 @@
   font-family: 'Poppins', sans-serif;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   font-size: clamp(1.2rem, 4.5vw, 1.7rem);
-  padding: 1.2rem 7.6rem;
+  padding: 1.2rem 7.4rem;
   width: 100%;
   text-align: center;
   white-space: nowrap;
@@ -78,7 +78,7 @@
 }
 
 #register-button::part(native):hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
   background-color: #7cb6f3; /* color2 */
 }
 

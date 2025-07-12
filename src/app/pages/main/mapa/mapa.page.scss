@@ -40,32 +40,16 @@ ion-app, ion-content {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 0;
+  z-index: 12;
 }
 
-
-/* --------------------------------------------------------------------- */
-      //FONDO DE PANTALLA
-.letters {
-  color: #3e3e3e; /* letras blancas */
-  font-weight: 100; /* sin px */
-  font-family: 'Patrick Hand', cursive;
-  font-size: clamp(1rem, 4vw, 1.5rem);
-  text-align: center;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  display: block;
-  width: 100%;
-  margin-top: 40px;
-}
-
- ion-toolbar {
-     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
-     height: var(--min-height); /* Aplica la altura definida */
-     --background:#619def;
-   }
 
 .toolbar-color{
   text-align: justify;
 }
 
+ ion-toolbar {
+     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
+     height: var(--min-height); /* Aplica la altura definida */
+     --background:#353535;
+   }

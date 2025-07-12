@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { v4 as uuidv4 } from 'uuid';
-
 import { AlertController, ModalController } from '@ionic/angular';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
 import { Router } from '@angular/router';
@@ -178,9 +177,10 @@ export class MapaPage implements OnInit {
           <div style="width: 220px; font-family: Arial, sans-serif;">
             <img src="${product.image}" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
             <div style="padding: 8px;">
-              <strong>${product.name}</strong><br>
+              Nombre:<strong>${product.name}</strong><br>
               ${product.descripcion}<br>
               Precio:<strong> $${product.price}</strong>
+              Usuario:<strong> ${product.lat}</strong>
             </div>
           </div>
         `,
@@ -221,7 +221,7 @@ export class MapaPage implements OnInit {
           },
           (error) => {
             console.warn('Geolocation failed:', error.message);
-            resolve({ lat: 31.327409, lng: -113.522065 }); // fallback CDMX
+            resolve({ lat: 31.327409, lng: -113.522065 }); // fallback Puerto Peñasco
           },
           {
             enableHighAccuracy: true,
@@ -345,7 +345,7 @@ export class MapaPage implements OnInit {
       image: '',
       soldUnits: 0,
       lat: userLatLng.lat,
-      lng: userLatLng.lng
+      lng: userLatLng.lng,
     };
   }
 }

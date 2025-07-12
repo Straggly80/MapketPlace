@@ -1,3 +1,4 @@
+<ion-toolbar></ion-toolbar>
 <app-header [isModal]="true" [title]="product ? 'Actualizar Producto' : 'Agregar Producto'"></app-header>
 <ion-content>
   <form [formGroup]="form" class="ion-padding ion-text-center" (ngSubmit)="submit()" (keypress.enter)="submit()">
@@ -7,7 +8,7 @@
     </ion-avatar>
     <ion-icon class="image-icon" *ngIf="!form.value.image" name="image-outline"></ion-icon> <br>
 
-    <ion-button (click)="takeImage()" mode="ios" size="small" shape="round">
+    <ion-button (click)="takeImage()" mode="ios" size="small" shape="round" class="img-button">
       Tomar/Seleccionar
     </ion-button>
 
@@ -49,12 +50,9 @@
 
     <!-- COORDINATES (Readonly) -->
     <div id="mini-map" style="height: 30vh; width: 100%; margin-top: 15px; border-radius: 10px;"></div>
-
     <ion-button id="botonPSN" mode="ios" class="ion-margin" (click)="createProductS()" type="submit">
-      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
       {{product ? 'Actualizar' : 'Agregar'}}
-      <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+      <ion-icon slot="start" name="add-circle-outline"></ion-icon>
     </ion-button>
-
   </form>
 </ion-content>

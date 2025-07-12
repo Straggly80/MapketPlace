@@ -15,6 +15,7 @@ import { PublicacionModalComponent } from './components/publicacion-modal/public
 /* ============================== FIREBASE ============================== */
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../environments/environment';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { environment } from '../environments/environment';
     IonicModule.forRoot({mode: 'md'}), 
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
     CommonModule,
     FormsModule,      // 👈 necesario para ngModel
     IonicModule  

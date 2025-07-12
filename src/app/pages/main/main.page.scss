@@ -1,14 +1,12 @@
-
-
 ion-content {
-    --background: #619def;
+    --background: #353535;
     --color: #f1f7ff;
 }
 
 ion-item{
     font-size: 14px;
     color: var(--ion-color-light);
-    --background: #619def;;
+    --background: #353535;
 
     ion-icon {
         color: var(--ion-color-light);
@@ -62,7 +60,7 @@ ion-avatar {
     height: 30px;
     border-radius: 50%;
     display: block;
-    border: #ffffff 2px solid;
+    border: #353535 2px solid;
 }
 
 .avatar2 {
@@ -83,13 +81,9 @@ ion-avatar {
     border: #ffffff 2px solid;
     z-index: 12;
 }
-.footers{
-    margin-top: -35px;
-    background-color: aqua;
-}
 
 ion-list{
-    background-color: #619cef48;
+    background-color: #353535;
 }
 
 #imgDeAvatar {
@@ -98,3 +92,8 @@ ion-list{
     margin-right: 27px;
 }
 
+ ion-toolbar {
+     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
+     height: var(--min-height); /* Aplica la altura definida */
+     --background:#353535;
+   }

@@ -129,7 +129,7 @@ export class PublicacionModalComponent {
       image: urlImagen,
       soldUnits: 0,
       lat: this.ubicacion.lat,
-      lng: this.ubicacion.lng
+      lng: this.ubicacion.lng,
     };
 
     // 3. Guarda en Firestore
