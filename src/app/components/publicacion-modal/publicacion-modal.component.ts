@@ -20,32 +20,9 @@ export class PublicacionModalComponent {
   constructor(private modalCtrl: ModalController, private firebaseSvc: FirebaseService) {}
 
 
-  ngOnInit() {
-    this.obtenerUbicacionActual();
-  }
 
-  // Obtiene la ubicación real del dispositivo
-  async obtenerUbicacionActual() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          this.ubicacion = {
-            lat: pos.coords.latitude,
-            lng: pos.coords.longitude
-          };
-          this.cargarMiniMapa(); // Carga el mapa cuando ya tienes la ubicación
-          this.obtenerDireccion(this.ubicacion.lat, this.ubicacion.lng);
-        },
-        (err) => {
-          console.warn('Error geolocalización:', err.message);
-          this.cargarMiniMapa();
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-      );
-    } else {
-      this.cargarMiniMapa();
-    }
-  }
+
+
 
   cargarMiniMapa() {
     const mapDiv = document.getElementById('mini-map');
@@ -63,35 +40,10 @@ export class PublicacionModalComponent {
       draggable: true
     });
 
-    marcador.addListener('dragend', (event: any) => {
-      this.ubicacion = {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng()
-      };
-      this.obtenerDireccion(this.ubicacion.lat, this.ubicacion.lng);
-    });
-
-    this.miniMapa.addListener('click', (event: any) => {
-      marcador.setPosition(event.latLng);
-      this.ubicacion = {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng()
-      };
-      this.obtenerDireccion(this.ubicacion.lat, this.ubicacion.lng);
-    });
+  
   }
 
-  obtenerDireccion(lat: number, lng: number) {
-    const geocoder = new google.maps.Geocoder();
-    const latlng = { lat, lng };
-    geocoder.geocode({ location: latlng }, (results: any, status: any) => {
-      if (status === 'OK' && results[0]) {
-        this.direccion = results[0].formatted_address;
-      } else {
-        this.direccion = 'Dirección no disponible';
-      }
-    });
-  }
+
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
