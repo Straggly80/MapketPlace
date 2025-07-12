@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
-import { AuthService } from '/Users/Gamer/OneDrive/Desktop/MapketPlace/src/app/services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
 import firebase from 'firebase/compat/app';
 
