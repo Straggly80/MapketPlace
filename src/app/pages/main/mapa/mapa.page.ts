@@ -10,6 +10,9 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { orderBy } from 'firebase/firestore';
 import { Geolocation } from '@capacitor/geolocation';
 
+import { MenuController } from '@ionic/angular';
+
+
 declare const google: any;
 
 @Component({
@@ -26,6 +29,8 @@ export class MapaPage implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
   modalCtrl = inject(ModalController);
+  menuCtrl = inject(MenuController);
+
 
   currentPath: string = '';
   map!: google.maps.Map;
@@ -77,7 +82,13 @@ export class MapaPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.menuCtrl.swipeGesture(false); 
     this.getAllProducts();
+  }
+
+  
+  ionViewWillLeave() {
+    this.menuCtrl.swipeGesture(true);
   }
 
   getAllProducts() {
