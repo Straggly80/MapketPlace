@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">GeOHub</string>
     <string name="title_activity_main">GeOHub</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="package_name">com.myapp.geohub</string>
+    <string name="custom_url_scheme">com.myapp.geohub</string>
 </resources>
