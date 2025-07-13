@@ -11,11 +11,12 @@ export class AppComponent {
   constructor() {
     this.showSplash(); //llamamos la funciones para que se ejecute al iniciar la app
   }
+  
 
   async showSplash(){
     await SplashScreen.show({
     autoHide: true,  //cuando pasen los 3 segundos se quita por eso es true
-    showDuration: 3000  //dura 3 segundos
+    showDuration: 2000  //dura 3 segundos
 });  
   }
 }

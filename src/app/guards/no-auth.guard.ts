@@ -13,7 +13,7 @@ export const noAuthGuard: CanActivateFn = () => {
       if (!auth) {
         resolve(true);
       } else {
-        utilsSvc.routerLink('/main/mapa');
+        utilsSvc.routerLink('/main/menu');
         resolve(false);
       }
     });
