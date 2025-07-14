@@ -1,25 +1,29 @@
-<ion-header class="custom-nav"> </ion-header>
+<ion-header class="custom-nav">
+</ion-header>
 
 <ion-content class="ion-padding ion-text-center">
-  <img src="assets/geohub_logo.png" alt="" class="title" />
+  <h1 class="title">Welcome!</h1>
+    <small class="letters">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</small>
 
   <div class="botones-container">
-    <ion-button id="login-button" expand="block" routerLink="welcome">Iniciar sesión</ion-button>
-    <ion-button id="register-button" expand="block" routerLink="sign-up">Registrarse</ion-button>
-    <!-- Íconos de redes sociales -->
-    <div class="social-icons">
-      <div class="social-box facebook" (click)="loginFacebook()">
-        <img src="assets/facebook.svg" alt="Facebook" class="social-icon-img" />
-      </div>
-      <div class="social-box google" (click)="loginWithGoogle()">
-        <img src="assets/google.svg" alt="Google" class="social-icon-img" />
-      </div>
-      <div class="social-box apple" (click)="loginWithApple()">
-        <img src="assets/apple.svg" alt="Apple" class="social-icon-img" />
-      </div>
-      <div class="social-box github" (click)="loginWithGithub()">
-        <img src="assets/github.svg" alt="GitHub" class="social-icon-img" />
-      </div>
-    </div>
+    <ion-button id="login-button" expand="block" routerLink="welcome">Login</ion-button>
+       <ion-button id="register-button" expand="block" routerLink="sign-up">Register</ion-button>
+    
+     <!-- Íconos de redes sociales -->
+  <div class="social-icons">
+    <div class="social-box facebook" (click)="loginFacebook()">
+    <img src="assets/facebook.svg" alt="Facebook" class="social-icon-img" />
+  </div>
+  <div class="social-box google" (click)="loginWithGoogle()">
+    <img src="assets/google.svg" alt="Google" class="social-icon-img" />
+  </div>
+  <div class="social-box apple" (click)="loginWithApple()">
+    <img src="assets/apple.svg" alt="Apple" class="social-icon-img" />
+  </div>
+  <div class="social-box github" (click)="loginWithGithub()">
+    <img src="assets/github.svg" alt="GitHub" class="social-icon-img" />
+  </div>
+</div>
+
   </div>
 </ion-content>

@@ -1,14 +1,14 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.myapp.geohub',
+  appId: 'io.ionic.starter',
   appName: 'MapketPlace',
   webDir: 'www',
    plugins: {
     SplashScreen: {
       launchShowDuration: 0,
       launchAutoHide: true,
-      backgroundColor: "#00b3ffff",
+      backgroundColor: "#000000ff",
       androidSplashResourceName: "splash",
       androidScaleType: "CENTER_CROP",
       showSpinner: false,
