@@ -106,43 +106,6 @@ export class HomePage implements OnInit {
     if (success) this.getProducts();
   }
 
-  /* ====================AGREGAR PRODUCTO GENERAL=============================== */
- /*  async createProductS() {
-    const path = `/productGeneral`;
-    const loading = await this.utilSvc.loading();
-    await loading.present();
-
-    const dataUrl = this.form.value.image;
-    const imagePath = `${this.user.uid}/${Date.now()}`;
-    const imageUrl = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
-    this.form.controls.image.setValue(imageUrl);
-
-    delete this.form.value.uid;
-
-    this.firebaseSvc.addDocument(path, this.form.value)
-      .then(() => {
-        this.utilSvc.dismissModal({ success: true });
-        this.utilSvc.presentToast({
-          message: 'Producto creado exitosamente!',
-          duration: 1500,
-          color: 'success',
-          position: 'middle',
-          icon: 'checkmark-circle-outline',
-        });
-      })
-      .catch(error => {
-        console.error(error);
-        this.utilSvc.presentToast({
-          message: error.message,
-          duration: 2500,
-          color: 'danger',
-          position: 'middle',
-          icon: 'alert-circle-outline',
-        });
-      })
-      .finally(() => loading.dismiss());
-  } */
-
   /* =================== CONFIRMAR ELIMINACION DEL PRODUCTO ==================== */
 
   async confirmDeleteProduct(product: Product) {
@@ -167,6 +130,7 @@ export class HomePage implements OnInit {
   /* ===================== ELIMINAR PRODUCTO =================== */
   async deleteProduct(product: Product) {
     let path = `users/${this.user().uid}/products/${product.id}`;
+    let paths = `productGeneral/${product.id}`;
 
     const loading = await this.utilsSvc.loading();
     await loading.present();
@@ -174,7 +138,10 @@ export class HomePage implements OnInit {
     let imagePath = await this.firebaseSvc.getFilePath(product.image);
     await this.firebaseSvc.deleteFile(imagePath);
 
-    this.firebaseSvc.deleteDocument(path).then(async (res) => {});
+    this.firebaseSvc.deleteDocument(path).then(async (res) => {
+    });
+    this.firebaseSvc.deleteDocument(paths).then(async (res) => {
+    });
 
     this.products = this.products.filter((p) => p.id !== product.id);
 

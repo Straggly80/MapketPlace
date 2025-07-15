@@ -5,6 +5,7 @@
       <ion-back-button
         *ngIf="backButton"
         [defaultHref]="backButton"
+        class="colors"
       ></ion-back-button>
       
       <!-- ====== dismiss modal ====== -->
@@ -16,7 +17,7 @@
 
     </ion-buttons>
     <ion-title>
-      <strong>{{ title }}</strong>
+      <strong style="color: rgb(0, 0, 0);">{{ title }}</strong>
     </ion-title>
   </ion-toolbar>
 </ion-header>

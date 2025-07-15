@@ -21,6 +21,12 @@ export class MenuPage implements OnInit {
 
   ];
 
+    menu = [
+     { title: 'Perfil', icon:'[src=main/"user()?.image"', route: '/main/profile' },
+
+  ];
+
+
   constructor(private router: Router) {}
 
 
