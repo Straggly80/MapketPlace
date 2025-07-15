@@ -6,15 +6,21 @@
   </ion-refresher>
 
   <!-- ===============TARJETA DE PRODUCTOS Y GANANCIAS======================= -->
-  <ion-card mode="ios" color="dark" class="d-flex-center ion-text-center" *ngIf="!loading && products.length">
-    <div>
-      <h5>{{products.length}}</h5>
+  <ion-card mode="ios" class="d-flex-center ion-text-center" *ngIf="!loading && products.length">
+   <ion-col size="1">
+     <div>
+      <ion-card class="card-header">
+        <h4>{{products.length}}</h4>
       <p>Productos</p>
+      </ion-card>
     </div>
     <div>
-      <h5>{{getProfits() | currency: 'USD'}}</h5>
+      <ion-card class="card-header">
+        <h4>{{getProfits() | currency: 'USD'}}</h4>
       <p>Ganancias</p>
+      </ion-card>
     </div>
+   </ion-col>
   </ion-card>
 
   <!-- ============ PRODUCTOS ============ -->

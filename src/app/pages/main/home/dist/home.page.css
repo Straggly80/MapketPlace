@@ -1,0 +1,38 @@
+@charset "UTF-8";
+ion-card {
+  gap: 100px;
+  padding: 20px 0;
+  border-radius: 15px;
+  background: #2d77ff;
+  border: 1px solid #eee;
+  color: white;
+}
+
+ion-content {
+  --padding-bottom: 70px;
+}
+
+ion-toolbar {
+  --min-height: 40px;
+  /* Ajusta este valor al tamaño deseado */
+  height: var(--min-height);
+  /* Aplica la altura definida */
+  --background:#f3f4f8;
+}
+
+.card-header {
+  background-color: #5893ff;
+  border-color: #5893ff;
+  border-radius: 10%;
+  color: white;
+  font-weight: bold;
+  width: 140px;
+  height: 100px;
+  font-family: "poppins", sans-serif;
+}
+
+ion-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
