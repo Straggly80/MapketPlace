@@ -1,20 +1,6 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  plugins: {
-    SplashScreen: {
-      launchAutoHide: false, // Evita que se oculte antes de estar listo
-      launchShowDuration: 3000, // Tiempo en ms (3 segundos)
-      splashFullScreen: true,
-      splashImmersive: true,
-      backgroundColor: "#ffffff", // Mismo color de fondo del splash
-      androidScaleType: "CENTER_CROP" // Para que no se deforme la imagen
-    }
-  }
-};
-
-
-/* const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'MapketPlace',
   webDir: 'www',
@@ -35,6 +21,6 @@ const config: CapacitorConfig = {
       useDialog: false,
     },
   },
-}; */
+};
 
 export default config;

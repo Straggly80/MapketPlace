@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { SplashScreen } from '@capacitor/splash-screen';
-import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-root',
@@ -9,16 +8,15 @@ import { Platform } from '@ionic/angular';
   standalone: false,
 })
 export class AppComponent {
-  constructor(private platform: Platform) {
-    this.initializeApp();
+  constructor() {
+    this.showSplash(); //llamamos la funciones para que se ejecute al iniciar la app
   }
+  
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      // Espera 2 segundos y luego oculta el splash
-      setTimeout(async () => {
-        await SplashScreen.hide();
-      }, 2000);
-    });
+  async showSplash(){
+    await SplashScreen.show({
+    autoHide: true,  //cuando pasen los 3 segundos se quita por eso es true
+    showDuration: 2000  //dura 3 segundos
+});  
   }
 }
