@@ -302,4 +302,7 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
       loading.dismiss();
     }
   }
+
+  
+
 }
