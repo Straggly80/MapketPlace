@@ -3,6 +3,19 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { ProfilePage } from './profile/profile.page';
+import { ViewChild } from '@angular/core';
+import { IonNavLink } from '@ionic/angular/standalone';
+import { IonButton, ToastController } from '@ionic/angular/standalone';
+import {
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonModal,
+  IonNav,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-main',
@@ -12,6 +25,12 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 
 export class MainPage implements OnInit {
+  @ViewChild('nav') private nav!: IonNav;
+
+  onWillPresent() {
+    this.nav.setRoot(ProfilePage);
+  }
+
   pages = [
 
     /* { title: 'Inicio', url: '/main/menu', icon: 'planet-outline' }, */

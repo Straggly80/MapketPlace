@@ -6,6 +6,18 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
 import { IonButton, ToastController } from '@ionic/angular/standalone';
+import {
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonModal,
+  IonNav,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular/standalone';
+import { ViewChild } from '@angular/core';
+import { IonNavLink } from '@ionic/angular/standalone';
+import { SettingsPage } from './settings/settings.page';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +31,19 @@ export class ProfilePage implements OnInit {
   utilSvc = inject(UtilsService);
 
 
+@ViewChild('nav') private nav!: IonNav;
+
+  onWillPresent() {
+    this.nav.setRoot(SettingsPage);
+  }
+
+
+
+
+
+
+/* ==================================================================== */
+
    async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
       message: 'Hello World!',
@@ -28,9 +53,6 @@ export class ProfilePage implements OnInit {
 
     await toast.present();
   }
-
-
-
 
   ngOnInit() {}
 

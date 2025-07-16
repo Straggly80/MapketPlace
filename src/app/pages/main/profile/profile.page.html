@@ -1,19 +1,20 @@
 <app-header></app-header>
 <ion-toolbar>
   <ion-buttons slot="secondary">
+    <ion-button id="openModal">
+      <ion-icon slot="icon-only" name="settings-outline" color="primary"></ion-icon>
 
-    <ion-button>
-      <ion-icon slot="icon-only" name="search"></ion-icon>
     </ion-button>
   </ion-buttons>
   <ion-buttons slot="primary">
   </ion-buttons>
   <ion-buttons slot="start">
-    <ion-menu-button auto-hide="false"></ion-menu-button>
+    <ion-menu-button auto-hide="false" color="dark"></ion-menu-button>
   </ion-buttons>
-  <ion-title>Perfil</ion-title>
+  <ion-title style="font-weight: bold; font-family: 'poppins'; color: black;">Perfil</ion-title>
 </ion-toolbar>
 <ion-content class="ion-padding-top ion-text-center">
+
 
   <ion-avatar>
     <img *ngIf="user()?.image" [src]="user()?.image" />
@@ -28,22 +29,7 @@
   <h2>{{user().name}}</h2>
   <div>Vendedor</div>
 
-  <ion-item button detail>
-    <ion-icon color="primary" slot="start" name="person-outline"></ion-icon>
-    <ion-label>Editar Perfil</ion-label>
-  </ion-item>
-
-  <ion-item button detail>
-    <ion-icon color="primary" slot="start" name="document-outline"></ion-icon>
-    <ion-label>Terminos & Condiciones</ion-label>
-  </ion-item>
-
-  <ion-item button detail>
-    <ion-icon color="primary" slot="start" name="help-outline"></ion-icon>
-    <ion-label>Ayuda</ion-label>
-  </ion-item>
-
-    <ion-toolbar>
+  <ion-toolbar>
     <ion-segment value="all">
       <ion-segment-button value="all">
         <ion-label>All</ion-label>
@@ -57,43 +43,23 @@
 
 
   <ion-chip>Default</ion-chip>
-    <ion-chip color="primary">Primary</ion-chip>
-    <ion-chip color="secondary">Secondary</ion-chip>
-    <ion-chip color="tertiary">Tertiary</ion-chip>
-    <ion-chip color="success">Success</ion-chip>
-    <ion-chip color="warning">Warning</ion-chip>
-    <ion-chip color="danger">Danger</ion-chip>
-    <ion-chip color="light">Light</ion-chip>
-    <ion-chip color="medium">Medium</ion-chip>
-    <ion-chip color="dark">Dark</ion-chip>
+  <ion-chip color="primary">Primary</ion-chip>
+  <ion-chip color="secondary">Secondary</ion-chip>
+  <ion-chip color="tertiary">Tertiary</ion-chip>
+  <ion-chip color="success">Success</ion-chip>
+  <ion-chip color="warning">Warning</ion-chip>
+  <ion-chip color="danger">Danger</ion-chip>
+  <ion-chip color="light">Light</ion-chip>
+  <ion-chip color="medium">Medium</ion-chip>
+  <ion-chip color="dark">Dark</ion-chip>
 
-    <ion-toggle [enableOnOffLabels]="true">Enable Notifications</ion-toggle>
-
-    <ion-list>
-  <ion-item>
-    <ion-toggle>Receive Push Notifications</ion-toggle>
-  </ion-item>
-  <ion-item>
-    <ion-toggle>Receive Emails</ion-toggle>
-  </ion-item>
-  <ion-item>
-    <ion-toggle>Receive Text Messages</ion-toggle>
-  </ion-item>
-</ion-list>
-<!-- 
+  <!-- 
 <ion-toggle aria-label="Enable Notifications"></ion-toggle>
 <ion-toggle [checked]="true" aria-label="Enable Notifications"></ion-toggle> -->
 
-<ion-button expand="block" (click)="presentToast('middle')">Present Toast At the Middle</ion-button>
+  <ion-button expand="block" (click)="presentToast('middle')">Present Toast At the Middle</ion-button>
 
-<ion-button id="open-toast">Open Toast</ion-button>
-  <ion-toast
-    message="This toast can be swiped to dismiss"
-    trigger="open-toast"
-    swipeGesture="vertical"
-    position="bottom"
-    positionAnchor="footer"
-  ></ion-toast>
-
-
+  <ion-button id="open-toast">Open Toast</ion-button>
+  <ion-toast message="This toast can be swiped to dismiss" trigger="open-toast" swipeGesture="vertical"
+    position="bottom" positionAnchor="footer"></ion-toast>
 </ion-content>
