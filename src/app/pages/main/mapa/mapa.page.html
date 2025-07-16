@@ -17,13 +17,14 @@
 
   <!-- =================MODAL CARRETE======================= -->
 
-  
 <ion-button id="open-modal" expand="block">Carrete</ion-button>
   <ion-modal
     trigger="open-modal"
     [initialBreakpoint]="0.25"
     [breakpoints]="[0, 0.25, 0.5, 0.75]"
     handleBehavior="cycle"
+    (ionWillPresent)="isCarreteOpen = true"
+    (ionWillDismiss)="isCarreteOpen = false"
   >
     <ng-template>
       <ion-content class="ion-padding">
@@ -35,3 +36,16 @@
   </ion-modal>
 
 </ion-content>
+
+
+
+
+
+
+
+
+<!-- open sheet modal sin boton solamente abrir mediante el desliz del usuario, 
+quiero que SIEMPRE este en la pantalla pero cerrado y que se active cuando yo le de para que me deje moverle al mapa sin error, 
+basicamente que pueda cerrar el modal pero siga estando en la pantalla para solo deslizar y volver a abrirlo para seguir mirando el Carrete
+pero que me deje mover el mapa sin problemas, porque no me deja mover el mapa cuando el modal esta abierto.
+ -->

@@ -61,6 +61,8 @@ var geolocation_1 = require("@capacitor/geolocation");
 var angular_2 = require("@ionic/angular");
 var MapaPage = /** @class */ (function () {
     function MapaPage() {
+        this.isModalOpen = false;
+        this.isCarreteOpen = false;
         this.products = [];
         this.loading = false;
         this.router = core_1.inject(router_1.Router);

@@ -22,6 +22,10 @@ declare const google: any;
   standalone: false,
 })
 export class MapaPage implements OnInit {
+
+  isModalOpen: boolean = false;
+  isCarreteOpen: boolean = false;
+
   products: Product[] = [];
   loading: boolean = false;
 
