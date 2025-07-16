@@ -5,6 +5,8 @@ import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
+import { IonButton, ToastController } from '@ionic/angular/standalone';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -12,8 +14,23 @@ import { UtilsService } from 'src/app/services/utils.service';
   standalone: false,
 })
 export class ProfilePage implements OnInit {
+  constructor(private toastController: ToastController) {}
   firebaseSvc = inject(FirebaseService);
   utilSvc = inject(UtilsService);
+
+
+   async presentToast(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Hello World!',
+      duration: 1500,
+      position: position,
+    });
+
+    await toast.present();
+  }
+
+
+
 
   ngOnInit() {}
 
