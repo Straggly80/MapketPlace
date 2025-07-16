@@ -1,13 +1,37 @@
 <ion-toolbar></ion-toolbar>
 <app-header [showMenu]="true" title="Mapa"></app-header>
-<ion-content fullscreen>
+<ion-content fullscreen class="ion-padding">
 
+  <!--  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="Desliza para refrescar"></ion-refresher-content>
+  </ion-refresher>   -->
+  <!-- Mapa -->
   <div id="map"></div>
   
   <!-- Botón flotante -->
   <ion-fab vertical="top" horizontal="end" slot="fixed">
-    <ion-fab-button color="primary" (click)="abrirFormulario()">
+    <ion-fab-button color="tertiary" (click)="abrirFormulario()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <!-- =================MODAL CARRETE======================= -->
+
+  
+<ion-button id="open-modal" expand="block">Carrete</ion-button>
+  <ion-modal
+    trigger="open-modal"
+    [initialBreakpoint]="0.25"
+    [breakpoints]="[0, 0.25, 0.5, 0.75]"
+    handleBehavior="cycle"
+  >
+    <ng-template>
+      <ion-content class="ion-padding">
+        <div class="ion-margin-top">
+          <ion-label>Click the handle above to advance to the next breakpoint.</ion-label>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>

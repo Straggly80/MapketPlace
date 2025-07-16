@@ -1,23 +1,25 @@
-.image-icon{
-    font-size: 100px ;
-    opacity: 30% ;
+@charset "UTF-8";
+.image-icon {
+  font-size: 100px;
+  opacity: 30%;
 }
 
-ion-avatar{
-    width: 200px ;
-    height: 160px ;
-    --border-radius: 15px;
-    margin: 0 auto;
-
+ion-avatar {
+  width: 200px;
+  height: 160px;
+  --border-radius: 15px;
+  margin: 0 auto;
 }
 
- ion-toolbar {
-     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
-     height: var(--min-height); /* Aplica la altura definida */
-     --background:#619def;
-   }
+ion-toolbar {
+  --min-height: 40px;
+  /* Ajusta este valor al tamaño deseado */
+  height: var(--min-height);
+  /* Aplica la altura definida */
+  --background:#619def;
+}
 
-.img-button{
+.img-button {
   z-index: 30;
   left: 30px;
   display: flex;
@@ -25,19 +27,15 @@ ion-avatar{
   color: black;
   border-radius: 10%;
   padding: 10px;
-  
 }
 
-
 ion-toolbar {
-     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
-     height: var(--min-height); /* Aplica la altura definida */
-     --background:#f3f4f8;
-   }
-
-
-
-
+  --min-height: 40px;
+  /* Ajusta este valor al tamaño deseado */
+  height: var(--min-height);
+  /* Aplica la altura definida */
+  --background:#f3f4f8;
+}
 
 /* form {
   position: relative;

@@ -1,9 +1,15 @@
 @charset "UTF-8";
-/* ----------------- NAV DE ARRIBA------------------------- */
+/* ----------------- LOADING------------------------- */
+ion-loading.custom-loading {
+  --background: #e3edff;
+  --spinner-color: #333333;
+  color: #1c6dff;
+}
+
 /* ----------------------------------------- */
 ion-content {
-  --background: #3e3e3e;
-  background-color: #3e3e3e;
+  --background: #ffffff;
+  background-color: #ffffff;
   height: 100vh;
   overflow: hidden;
   --overflow: hidden;
@@ -32,7 +38,6 @@ ion-app, ion-content {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 12;
 }
 
 .toolbar-color {
