@@ -1,16 +1,15 @@
+@charset "UTF-8";
 /* ----------------- NAV DE ARRIBA------------------------- */
-
 /* ----------------------------------------- */
 ion-content {
   --background: #3e3e3e;
   background-color: #3e3e3e;
   height: 100vh;
   overflow: hidden;
-  --overflow: hidden; // <-- ¡este es crucial!
+  --overflow: hidden;
   --padding-bottom: 0;
 }
-// ---------------------------------------------------------------------
-// MAPA DE IONIC
+
 html, body {
   overscroll-behavior: none;
   overflow: hidden;
@@ -18,17 +17,14 @@ html, body {
 }
 
 ion-app, ion-content {
-  touch-action: none !important; // previene desplazamientos táctiles no deseados
+  touch-action: none !important;
 }
 
-// Contenedor del mapa
 .map-container {
   position: relative;
   width: 100vw;
   height: 100vh;
 }
-// Estilos para el mapa
-// Asegúrate de que el mapa ocupe toda la pantalla
 
 #map {
   height: 100%;
@@ -39,14 +35,14 @@ ion-app, ion-content {
   z-index: 12;
 }
 
-
-.toolbar-color{
+.toolbar-color {
   text-align: justify;
 }
 
-
- ion-toolbar {
-     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
-     height: var(--min-height); /* Aplica la altura definida */
-      --background:#f3f4f8;
-   }
+ion-toolbar {
+  --min-height: 40px;
+  /* Ajusta este valor al tamaño deseado */
+  height: var(--min-height);
+  /* Aplica la altura definida */
+  --background:#f3f4f8;
+}
