@@ -5,7 +5,9 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
 import { orderBy, where } from 'firebase/firestore';
-
+import { IonNav } from '@ionic/angular/standalone';
+import { ProfilePage } from '../profile/profile.page';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +16,7 @@ import { orderBy, where } from 'firebase/firestore';
   standalone: false,
 })
 export class HomePage implements OnInit {
+
   constructor(private firebaseService: FirebaseService) {}
 
   firebaseSvc = inject(FirebaseService);
@@ -105,6 +108,7 @@ export class HomePage implements OnInit {
 
     if (success) this.getProducts();
   }
+  
 
   /* =================== CONFIRMAR ELIMINACION DEL PRODUCTO ==================== */
 

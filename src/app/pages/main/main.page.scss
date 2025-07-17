@@ -8,7 +8,7 @@ ion-item{
     }
 
     &.active {
-        color: var(--ion-color-warning);
+        color: var(--ion-color-primary);
 
         ion-icon {
             color: rgb(255, 255, 255);
@@ -19,13 +19,15 @@ ion-item{
 h4 {
     margin-top: 5px;
     font-weight: bold;
+   
 }
 
 ion-menu {
     --width: 254px;
     --min-width: 254px;
     outline: none;
-}
+    
+    }
 
 ion-avatar {
     width: 120px;
@@ -78,7 +80,8 @@ ion-avatar {
 }
 
 ion-list{
-    --background:#434343;
+  
+   background-color: #434343;
 }
 
 #imgDeAvatar {
@@ -92,7 +95,7 @@ ion-list{
      --min-height: 40px; /* Ajusta este valor al tamaño deseado */
      height: var(--min-height); /* Aplica la altura definida */
       --background:#434343;
-      color: rgb(255, 255, 255);
+
    }
 
    ion-content {

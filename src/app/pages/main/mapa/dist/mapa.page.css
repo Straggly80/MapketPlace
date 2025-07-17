@@ -1,11 +1,11 @@
 /* ==================FAB BUTTON========================= */
 ion-fab-button {
-  --background: #99f3f3;
+  --background: #70d1d1;
   --background-activated: #d36161;
   --background-hover: #a3e681;
   --border-radius: 30px;
   --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-  --color: black;
+  --color:#dbffff;
   width: 44px;
   height: 44px;
 }
@@ -57,4 +57,8 @@ ion-app, ion-content {
 
 ion-toolbar {
   --background:#434343;
+}
+
+ion-menu-button {
+  color: white;
 }

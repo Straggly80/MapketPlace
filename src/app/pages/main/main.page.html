@@ -5,9 +5,9 @@
    
           <app-header></app-header>
           <ion-toolbar>
-            <ion-title style="font-weight: bold; font-family: 'poppins';">Configuraciones</ion-title>
+            <ion-title style="font-weight: bold; font-family: 'poppins'; color: white;">Configuraciones</ion-title>
             <ion-buttons slot="end">
-              <ion-button (click)="modal.dismiss()" style="font-weight: bold; font-family: 'poppins';">Cerrar</ion-button>
+              <ion-button (click)="modal.dismiss()" style=" font-family: 'poppins'; color: white;">Cerrar</ion-button>
             </ion-buttons>
           </ion-toolbar>
       
@@ -53,9 +53,9 @@
   <ion-toolbar></ion-toolbar>
   <app-header title="Menu"></app-header>
 
-  <ion-content class="ion-text-center">
+  <ion-content class="ion-text-center" >
     <!-- LISTA DE MENÚ -->
-    <ion-list>
+    <ion-list >
       <ion-menu-toggle auto-hide="false" *ngFor="let p of pages">
         <ion-item [routerLink]="p.url" routerDirection="root" lines="none">
           <!-- Imagen solo para Perfil -->

@@ -1,5 +1,5 @@
 <ion-toolbar></ion-toolbar>
-<app-header [isModal]="true" [title]="product ? 'Actualizar Producto' : 'Agregar Producto'"></app-header>
+<app-header [isModal]="true"  [title]="product ? 'Actualizar Producto' : 'Agregar Producto'"></app-header>
 <ion-content>
   <form [formGroup]="form" class="ion-padding ion-text-center" (ngSubmit)="submit()" (keypress.enter)="submit()">
 

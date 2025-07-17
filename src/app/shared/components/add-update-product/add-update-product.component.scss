@@ -11,18 +11,6 @@ ion-avatar{
 
 }
 
-.img-button{
-  z-index: 30;
-  left: 30px;
-  display: flex;
-  background-color: #619cef00;
-  color: black;
-  border-radius: 10%;
-  padding: 10px;
-  
-}
-
-
 ion-toolbar {
      --min-height: 40px; /* Ajusta este valor al tamaño deseado */
      height: var(--min-height); /* Aplica la altura definida */

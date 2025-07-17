@@ -8,7 +8,7 @@ ion-item ion-icon {
   color: white;
 }
 ion-item.active {
-  color: var(--ion-color-warning);
+  color: var(--ion-color-primary);
 }
 ion-item.active ion-icon {
   color: white;
@@ -80,7 +80,7 @@ ion-avatar {
 }
 
 ion-list {
-  --background:#434343;
+  background-color: #434343;
 }
 
 #imgDeAvatar {
@@ -95,7 +95,6 @@ ion-toolbar {
   height: var(--min-height);
   /* Aplica la altura definida */
   --background:#434343;
-  color: white;
 }
 
 ion-content {

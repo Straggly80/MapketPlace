@@ -1,3 +1,18 @@
+
+/* ----------------------------------------- */
+ion-content {
+  height: 100vh;
+  overflow: hidden;
+  --overflow: hidden; // <-- ¡este es crucial!
+  --padding-bottom: 0;
+}
+
+/* ==================menu button====================== */
+
+ion-menu-button {
+  color: white;
+}
+/* ==================CARD========================= */
 ion-card {
     gap:100px;
     padding: 20px 0;
@@ -13,8 +28,7 @@ ion-content{
 }
 
  ion-toolbar {
-     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
-     height: var(--min-height); /* Aplica la altura definida */
+     
       --background:#434343;
    }
 
