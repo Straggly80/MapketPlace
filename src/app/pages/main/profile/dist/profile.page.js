@@ -46,17 +46,21 @@ exports.ProfilePage = void 0;
 var core_1 = require("@angular/core");
 var firebase_service_1 = require("src/app/services/firebase.service");
 var utils_service_1 = require("src/app/services/utils.service");
-var core_2 = require("@angular/core");
-var settings_page_1 = require("./settings/settings.page");
 var ProfilePage = /** @class */ (function () {
     function ProfilePage(toastController) {
         this.toastController = toastController;
         this.firebaseSvc = core_1.inject(firebase_service_1.FirebaseService);
         this.utilSvc = core_1.inject(utils_service_1.UtilsService);
     }
-    ProfilePage.prototype.onWillPresent = function () {
-        this.nav.setRoot(settings_page_1.SettingsPage);
+    ProfilePage.prototype.openModal = function () {
+        var modal = document.querySelector('ion-modal');
+        if (modal) {
+            modal.present();
+        }
     };
+    /*
+      @ViewChild(IonNav, { static: true }) nav!: IonNav;
+      @ViewChild(IonModal, { static: true }) modal!: IonModal; */
     /* ==================================================================== */
     ProfilePage.prototype.presentToast = function (position) {
         return __awaiter(this, void 0, void 0, function () {
@@ -146,9 +150,6 @@ var ProfilePage = /** @class */ (function () {
             });
         });
     };
-    __decorate([
-        core_2.ViewChild('nav')
-    ], ProfilePage.prototype, "nav");
     ProfilePage = __decorate([
         core_1.Component({
             selector: 'app-profile',

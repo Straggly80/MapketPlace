@@ -5,9 +5,9 @@
    
           <app-header></app-header>
           <ion-toolbar>
-            <ion-title style="font-weight: bold; font-family: 'poppins';">Configuracion</ion-title>
+            <ion-title style="font-weight: bold; font-family: 'poppins';">Configuraciones</ion-title>
             <ion-buttons slot="end">
-              <ion-button (click)="modal.dismiss()" style=" font-family: 'poppins';">Cerrar</ion-button>
+              <ion-button (click)="modal.dismiss()" style="font-weight: bold; font-family: 'poppins';">Cerrar</ion-button>
             </ion-buttons>
           </ion-toolbar>
       
@@ -70,7 +70,7 @@
             <ion-icon [name]="p.icon" slot="start"></ion-icon>
           </ng-template>
 
-          <ion-label>{{ p.title }}</ion-label>
+          <ion-label style="color: white;">{{ p.title }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
     </ion-list>

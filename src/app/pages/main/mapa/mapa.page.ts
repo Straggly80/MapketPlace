@@ -23,6 +23,17 @@ declare const google: any;
 })
 export class MapaPage implements OnInit {
 
+
+  openModal(){
+       const modal = document.querySelector('ion-modal');
+        if (modal) {
+          modal.present();
+        }
+}
+
+
+
+
   isModalOpen: boolean = false;
   isCarreteOpen: boolean = false;
 

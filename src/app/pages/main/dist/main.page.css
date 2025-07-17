@@ -1,17 +1,17 @@
 @charset "UTF-8";
 ion-item {
   font-size: 14px;
-  color: black;
-  --background: #f3f4f8;
+  color: white;
+  --background:#434343;
 }
 ion-item ion-icon {
-  color: black;
+  color: white;
 }
 ion-item.active {
   color: var(--ion-color-warning);
 }
 ion-item.active ion-icon {
-  color: black;
+  color: white;
 }
 
 h4 {
@@ -80,7 +80,7 @@ ion-avatar {
 }
 
 ion-list {
-  background-color: #f3f4f8;
+  --background:#434343;
 }
 
 #imgDeAvatar {
@@ -94,10 +94,10 @@ ion-toolbar {
   /* Ajusta este valor al tamaño deseado */
   height: var(--min-height);
   /* Aplica la altura definida */
-  --background:#f3f4f8;
-  color: black;
+  --background:#434343;
+  color: white;
 }
 
 ion-content {
-  --background: #f3f4f8;
+  --background:#434343;
 }

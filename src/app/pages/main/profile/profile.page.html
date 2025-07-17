@@ -1,7 +1,7 @@
 <app-header></app-header>
 <ion-toolbar>
-  <ion-buttons slot="secondary">
-    <ion-button id="openModal">
+  <ion-buttons slot="secondary" (click)="openModal()">
+    <ion-button  expand="block" fill="clear" color="primary" shape="round">
       <ion-icon slot="icon-only" name="settings-outline" color="primary"></ion-icon>
 
     </ion-button>

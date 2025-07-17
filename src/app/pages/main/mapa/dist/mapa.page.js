@@ -74,6 +74,12 @@ var MapaPage = /** @class */ (function () {
         this.markers = [];
         this.activeInfoWindow = null;
     }
+    MapaPage.prototype.openModal = function () {
+        var modal = document.querySelector('ion-modal');
+        if (modal) {
+            modal.present();
+        }
+    };
     MapaPage.prototype.ngOnInit = function () {
         return __awaiter(this, void 0, void 0, function () {
             var ubicacion;

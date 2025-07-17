@@ -1,25 +1,26 @@
-@charset "UTF-8";
 /* ==================FAB BUTTON========================= */
 ion-fab-button {
-  --background: #b7f399;
-  --background-activated: #87d361;
+  --background: #99f3f3;
+  --background-activated: #d36161;
   --background-hover: #a3e681;
-  --border-radius: 15px;
+  --border-radius: 30px;
   --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
   --color: black;
+  width: 44px;
+  height: 44px;
 }
 
-/* ----------------- LOADING------------------------- */
-ion-loading.custom-loading {
-  --background: #e3edff;
-  --spinner-color: #333333;
-  color: #1c6dff;
+/* ==================Carrete========================= */
+ion-modal {
+  --background: #f3f4f8;
+  --border-radius: 35px;
+  --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
 }
 
 /* ----------------------------------------- */
 ion-content {
-  --background: #ffffff;
-  background-color: #ffffff;
+  --background: #f3f4f8;
+  background-color: #f3f4f8;
   height: 100vh;
   overflow: hidden;
   --overflow: hidden;
@@ -55,9 +56,5 @@ ion-app, ion-content {
 }
 
 ion-toolbar {
-  --min-height: 40px;
-  /* Ajusta este valor al tamaño deseado */
-  height: var(--min-height);
-  /* Aplica la altura definida */
-  --background:#f3f4f8;
+  --background:#434343;
 }

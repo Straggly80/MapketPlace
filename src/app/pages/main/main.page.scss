@@ -1,17 +1,17 @@
 ion-item{
     font-size: 14px;
-    color: black;
-    --background: #f3f4f8;
+    color: rgb(255, 255, 255);
+    --background:#434343;
 
     ion-icon {
-        color: black;
+        color: rgb(255, 255, 255);
     }
 
     &.active {
         color: var(--ion-color-warning);
 
         ion-icon {
-            color: black;
+            color: rgb(255, 255, 255);
         }
     }
 }
@@ -78,7 +78,7 @@ ion-avatar {
 }
 
 ion-list{
-    background-color: #f3f4f8;
+    --background:#434343;
 }
 
 #imgDeAvatar {
@@ -91,10 +91,10 @@ ion-list{
  ion-toolbar {
      --min-height: 40px; /* Ajusta este valor al tamaño deseado */
      height: var(--min-height); /* Aplica la altura definida */
-      --background:#f3f4f8;
-      color: black;
+      --background:#434343;
+      color: rgb(255, 255, 255);
    }
 
    ion-content {
-     --background: #f3f4f8;
+    --background:#434343;
    }

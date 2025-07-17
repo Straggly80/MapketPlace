@@ -18,6 +18,7 @@ import {
 import { ViewChild } from '@angular/core';
 import { IonNavLink } from '@ionic/angular/standalone';
 import { SettingsPage } from './settings/settings.page';
+import { MainPage } from '../main.page';
 
 @Component({
   selector: 'app-profile',
@@ -30,16 +31,18 @@ export class ProfilePage implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilSvc = inject(UtilsService);
 
-
-@ViewChild('nav') private nav!: IonNav;
-
-  onWillPresent() {
-    this.nav.setRoot(SettingsPage);
-  }
-
-
+openModal(){
+       const modal = document.querySelector('ion-modal');
+        if (modal) {
+          modal.present();
+        }
+}
 
 
+
+/* 
+  @ViewChild(IonNav, { static: true }) nav!: IonNav;
+  @ViewChild(IonModal, { static: true }) modal!: IonModal; */
 
 
 /* ==================================================================== */

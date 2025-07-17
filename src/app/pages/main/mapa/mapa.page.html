@@ -1,25 +1,47 @@
-<ion-toolbar></ion-toolbar>
-<app-header [showMenu]="true" title="Mapa"></app-header>
+<app-header></app-header>
+<ion-toolbar>
+    <ion-buttons slot="secondary" id="open-modals">
+    <ion-fab-button >
+      <ion-icon name="albums-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-buttons>
+  <ion-buttons slot="primary" (click)="abrirFormulario()">
+    <ion-fab-button >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-buttons>
+  <ion-buttons slot="start">
+    <ion-menu-button auto-hide="false" color="dark"></ion-menu-button>
+  </ion-buttons>
+  <ion-title style="font-weight: bold; font-family: 'poppins'; color: black;">Perfil</ion-title>
+</ion-toolbar>
 <ion-content fullscreen class="ion-padding">
 
+
+
+
+  <!-- =====================REFRESCAR PAGINA MAPA================================ -->
   <!--  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingText="Desliza para refrescar"></ion-refresher-content>
   </ion-refresher>   -->
   <!-- Mapa -->
+
+
+
+
   <div id="map"></div>
   
-  <!-- Botón flotante -->
-  <ion-fab vertical="top" horizontal="end" slot="fixed">
+  <!-- =====================Botón flotante=================== -->
+<!--   <ion-fab vertical="top" horizontal="end" slot="fixed">
     <ion-fab-button (click)="abrirFormulario()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
 
   <!-- =================MODAL CARRETE======================= -->
 
-<ion-button id="open-modal" expand="block">Carrete</ion-button>
   <ion-modal
-    trigger="open-modal"
+    trigger="open-modals"
     [initialBreakpoint]="0.25"
     [breakpoints]="[0, 0.25, 0.5, 0.75]"
     handleBehavior="cycle"
