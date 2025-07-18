@@ -44,6 +44,12 @@ openModal(){
         }
 }
 
+openModalnotificaciones() {
+  const modal = document.querySelector('ion-modal');
+  if (modal) {
+    modal.present();
+  }
+}
 
 getProducts() {
     let path = `users/${this.user().uid}/products`;

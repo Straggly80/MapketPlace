@@ -31,6 +31,10 @@ export class MainPage implements OnInit {
     this.nav.setRoot(ProfilePage);
   }
 
+   onWillPresent2() {
+    this.nav.setRoot(ProfilePage);
+  }
+
   pages = [
 
     /* { title: 'Inicio', url: '/main/menu', icon: 'planet-outline' }, */

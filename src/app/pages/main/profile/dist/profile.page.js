@@ -65,6 +65,12 @@ var ProfilePage = /** @class */ (function () {
             modal.present();
         }
     };
+    ProfilePage.prototype.openModalnotificaciones = function () {
+        var modal = document.querySelector('ion-modal');
+        if (modal) {
+            modal.present();
+        }
+    };
     ProfilePage.prototype.getProducts = function () {
         var _this = this;
         var path = "users/" + this.user().uid + "/products";

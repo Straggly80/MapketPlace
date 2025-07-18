@@ -32,6 +32,9 @@ var MainPage = /** @class */ (function () {
     MainPage.prototype.onWillPresent = function () {
         this.nav.setRoot(profile_page_1.ProfilePage);
     };
+    MainPage.prototype.onWillPresent2 = function () {
+        this.nav.setRoot(profile_page_1.ProfilePage);
+    };
     MainPage.prototype.ngOnInit = function () {
         var _this = this;
         this.router.events.subscribe(function (event) {

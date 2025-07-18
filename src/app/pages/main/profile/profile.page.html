@@ -1,11 +1,19 @@
 <app-header></app-header>
 <ion-toolbar>
+
+<!--  (click)="openModalnotificaciones()" -->
+  <ion-buttons slot="secondary">
+    <ion-button  expand="block" fill="clear" shape="round" >
+      <ion-icon slot="icon-only" name="notifications-outline" style="color: rgb(255, 255, 255);"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
   <ion-buttons slot="secondary" (click)="openModal()" >
     <ion-button  expand="block" fill="clear" shape="round" >
       <ion-icon slot="icon-only" name="settings-outline" style="color: rgb(255, 255, 255);"></ion-icon>
-
     </ion-button>
   </ion-buttons>
+
   <ion-buttons slot="primary">
   </ion-buttons>
   <ion-buttons slot="start">
@@ -26,7 +34,7 @@
   <small style="margin-top: -30px; margin-left: -280px;  font-family: 'poppins';">Publicaciones</small>
 
   <ion-button class="photo-btn" (click)="takeImage()" size="small" shape="round">
-    <ion-icon name="camera-outline"></ion-icon>
+    <ion-icon name="camera-reverse-outline"></ion-icon>
   </ion-button>
 
 
