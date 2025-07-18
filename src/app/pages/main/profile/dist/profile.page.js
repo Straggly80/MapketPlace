@@ -71,6 +71,15 @@ var ProfilePage = /** @class */ (function () {
             modal.present();
         }
     };
+    ProfilePage.prototype.doRefresh = function (event) {
+        console.log('Begin async operation');
+        this.getProducts();
+        setTimeout(function () {
+            console.log('Async operation has ended');
+            event.target.complete();
+        }, 2000);
+    };
+    /* =======================OBTENER PRODUCTOS DEL USUARIO=============================================== */
     ProfilePage.prototype.getProducts = function () {
         var _this = this;
         var path = "users/" + this.user().uid + "/products";

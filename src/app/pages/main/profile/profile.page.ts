@@ -51,6 +51,17 @@ openModalnotificaciones() {
   }
 }
 
+  doRefresh(event: any) {
+    console.log('Begin async operation');
+    this.getProducts();
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      event.target.complete();
+    }, 2000);
+  }
+
+  /* =======================OBTENER PRODUCTOS DEL USUARIO=============================================== */
+
 getProducts() {
     let path = `users/${this.user().uid}/products`;
 

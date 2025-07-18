@@ -6,6 +6,14 @@ ion-avatar {
   border: 0.1px solid black;
 }
 
+ion-icon.empty-icon {
+  width: 122px;
+  height: 122px;
+  margin: 0 auto;
+  margin-left: -11px;
+  margin-top: -11px;
+}
+
 /* 
 ion-avatar:hover {
     transform: scale(1.1);
@@ -13,15 +21,15 @@ ion-avatar:hover {
 } */
 ion-button.photo-btn {
   position: relative;
-  bottom: 25px;
-  --background: rgba(255, 215, 215, 0.44);
+  bottom: 29px;
+  --background: rgba(215, 229, 255, 0.44);
   transition: transform 0.3s ease;
-  margin-left: -265px;
+  margin-left: -267px;
 }
 
 ion-button.photo-btn:hover {
   transition: transform 0.3s ease;
-  --background: rgba(255, 215, 215, 0.921);
+  --background: rgba(215, 229, 255, 0.595);
 }
 
 h2 {

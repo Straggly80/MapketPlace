@@ -24,23 +24,27 @@
 <ion-content class="ion-padding-top ion-text-center">
 
 
+   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="Desliza para refrescar"></ion-refresher-content>
+  </ion-refresher>  
+
   <ion-avatar style="margin-left: 10px;">
     <img *ngIf="user()?.image" [src]="user()?.image" />
 
     <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
     
   </ion-avatar>
-   <h2 style="z-index: -1; margin-left: -60px; margin-top: -60px; font-size: 16px; font-weight: bold; font-family: 'poppins';" *ngIf="!loading && products.length">{{products.length}}</h2>
-  <small style="margin-top: -30px; margin-left: -280px;  font-family: 'poppins';">Publicaciones</small>
+   <h2 style="position: absolute; z-index: -1; margin-left: 170px; margin-top: -50px; font-size: 16px; font-weight: bold; font-family: 'poppins';" *ngIf="!loading && products.length">{{products.length}}</h2>
+  <p style="margin-top: -30px; margin-left: 137px;  font-family: 'poppins'; position: absolute; font-size: 11px; font-family: 'poppins';"  >Publicaciones</p>
 
-  <ion-button class="photo-btn" (click)="takeImage()" size="small" shape="round">
+  <ion-button class="photo-btn" (click)="takeImage()" size="small" shape="round" >
     <ion-icon name="camera-reverse-outline"></ion-icon>
   </ion-button>
 
 
 
-  <div><h2 style="position: absolute; z-index: 10 ; margin-left: 6px; margin-top: 15px; font-size: 16px; font-weight: bold; font-family: 'poppins';">{{user().name}}</h2>
-  <ion-chip color="primary" style="position: absolute; margin-left: -188px;  font-family: 'poppins'; margin-top: 35px;">Vendedor</ion-chip></div>
+  <div><h2 style="position: absolute; z-index: 10 ; margin-left: 10px; margin-top: -20px; font-size: 16px; font-weight: bold; font-family: 'poppins';">{{user().name}}</h2>
+  <ion-chip color="primary" style="position: absolute; margin-left: -188px;  font-family: 'poppins'; margin-top: -0px;">Vendedor</ion-chip></div>
 
 
 
