@@ -36,8 +36,8 @@ export class MainPage implements OnInit {
     /* { title: 'Inicio', url: '/main/menu', icon: 'planet-outline' }, */
     { title: 'Mapa', url: '/main/mapa', icon: 'map' },
     { title: 'Favoritos', url: '/main/favoritos', icon: 'heart-outline' },
-    { title: 'Ventas', url: '/main/home', icon: 'cart' }, /* o este: <i class="bi bi-cart3"></i>, o este: <i class="bi bi-cart2"></i> */
-    { title: 'Compras', url: '/main/compras', icon: 'bag-outline' }, /* o este: bi bi-handbag */
+    { title: 'Ventas', url: '/main/home', icon: 'bag-outline' }, /* o este: <i class="bi bi-cart3"></i>, o este: <i class="bi bi-cart2"></i> */
+    { title: 'Compras', url: '/main/compras', icon: 'cart-outline' }, /* o este: bi bi-handbag */
     { title: 'Chat', url: '/main/chat', icon: 'chatbubbles-outline' },
     { title: 'Perfil', url: '/main/profile', icon:'[src="user()?.image"'},
 

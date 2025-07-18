@@ -1,35 +1,52 @@
 <app-header></app-header>
 <ion-toolbar>
-  <ion-buttons slot="secondary" (click)="openModal()">
-    <ion-button  expand="block" fill="clear" color="primary" shape="round">
-      <ion-icon slot="icon-only" name="settings-outline" color="primary"></ion-icon>
+  <ion-buttons slot="secondary" (click)="openModal()" >
+    <ion-button  expand="block" fill="clear" shape="round" >
+      <ion-icon slot="icon-only" name="settings-outline" style="color: rgb(255, 255, 255);"></ion-icon>
 
     </ion-button>
   </ion-buttons>
   <ion-buttons slot="primary">
   </ion-buttons>
   <ion-buttons slot="start">
-    <ion-menu-button auto-hide="false" color="dark"></ion-menu-button>
+    <ion-menu-button auto-hide="false" class="menu"></ion-menu-button>
   </ion-buttons>
-  <ion-title style="font-weight: bold; font-family: 'poppins'; color: black;">Perfil</ion-title>
+  <ion-title style="font-weight: bold; font-family: 'poppins'; color: rgb(255, 255, 255);">Perfil</ion-title>
 </ion-toolbar>
 <ion-content class="ion-padding-top ion-text-center">
 
 
-  <ion-avatar>
+  <ion-avatar style="margin-left: 10px;">
     <img *ngIf="user()?.image" [src]="user()?.image" />
 
     <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
+    
   </ion-avatar>
+   <h2 style="z-index: -1; margin-left: -60px; margin-top: -60px; font-size: 16px; font-weight: bold; font-family: 'poppins';" *ngIf="!loading && products.length">{{products.length}}</h2>
+  <small style="margin-top: -30px; margin-left: -280px;  font-family: 'poppins';">Publicaciones</small>
 
-  <ion-button class="photo-btn" (click)="takeImage()" mode="ios" size="small" shape="round">
+  <ion-button class="photo-btn" (click)="takeImage()" size="small" shape="round">
     <ion-icon name="camera-outline"></ion-icon>
   </ion-button>
 
-  <h2>{{user().name}}</h2>
-  <div>Vendedor</div>
 
-  <ion-toolbar>
+
+  <div><h2 style="position: absolute; z-index: 10 ; margin-left: 6px; margin-top: 15px; font-size: 16px; font-weight: bold; font-family: 'poppins';">{{user().name}}</h2>
+  <ion-chip color="primary" style="position: absolute; margin-left: -188px;  font-family: 'poppins'; margin-top: 35px;">Vendedor</ion-chip></div>
+
+
+
+<!--     <h2 style="margin-left: -90px; margin-top: -20px; font-size: 16px; font-weight: bold; font-family: 'poppins';"></h2>
+  <small style="margin-left: -302px;  font-family: 'poppins';">Seguidores</small> -->
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
     <ion-segment value="all">
       <ion-segment-button value="all">
         <ion-label>All</ion-label>
@@ -38,7 +55,7 @@
         <ion-label>Favorites</ion-label>
       </ion-segment-button>
     </ion-segment>
-  </ion-toolbar>
+
   <br>
 
 

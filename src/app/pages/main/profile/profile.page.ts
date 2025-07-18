@@ -19,6 +19,7 @@ import { ViewChild } from '@angular/core';
 import { IonNavLink } from '@ionic/angular/standalone';
 import { SettingsPage } from './settings/settings.page';
 import { MainPage } from '../main.page';
+import { orderBy } from 'firebase/firestore';
 
 @Component({
   selector: 'app-profile',
@@ -27,9 +28,14 @@ import { MainPage } from '../main.page';
   standalone: false,
 })
 export class ProfilePage implements OnInit {
-  constructor(private toastController: ToastController) {}
+  constructor(private firebaseService: FirebaseService, private utilsService: UtilsService, private toastController: ToastController) {}
+
   firebaseSvc = inject(FirebaseService);
-  utilSvc = inject(UtilsService);
+  utilsSvc = inject(UtilsService);
+  toastCtrl = inject(ToastController);
+
+  products: Product[] = [];
+  loading: boolean = false;
 
 openModal(){
        const modal = document.querySelector('ion-modal');
@@ -38,6 +44,58 @@ openModal(){
         }
 }
 
+
+getProducts() {
+    let path = `users/${this.user().uid}/products`;
+
+    this.loading = true;
+
+    let query = [orderBy('soldUnits', 'desc')];
+
+    let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.products = res;
+        this.loading = false;
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('complete');
+        sub.unsubscribe();
+      },
+    });
+  }
+  /* =======================OBTENER PRODUCTOS GENERAL=============================================== */
+   getDocumentos() {
+    let path = `productGeneral`;
+
+    this.loading = true;
+
+    let query = [orderBy('soldUnits', 'desc')];
+
+    let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.products = res;
+        this.loading = false;
+      },
+      error: (err: any) => {
+        console.log(err);
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('complete');
+        sub.unsubscribe();
+      },
+    });
+  } 
+
+   ionViewWillEnter() {
+    this.getProducts();
+  }
 
 
 /* 
@@ -60,7 +118,7 @@ openModal(){
   ngOnInit() {}
 
   user(): User {
-    return this.utilSvc.getFromLocalStorage('user');
+    return this.utilsSvc.getFromLocalStorage('user');
   }
 
   /* ========== TOMAR/SELECCIONAR UNA FOTO ============ */
@@ -71,10 +129,10 @@ openModal(){
     let loading: HTMLIonLoadingElement | undefined;
 
     try {
-      const dataUrl = (await this.utilSvc.takePicture('Imagen del Perfil'))
+      const dataUrl = (await this.utilsSvc.takePicture('Imagen del Perfil'))
         .dataUrl;
 
-      loading = await this.utilSvc.loading();
+      loading = await this.utilsSvc.loading();
       await loading.present();
 
       let imagePath = `${user.uid}/profile`;
@@ -82,9 +140,9 @@ openModal(){
       user.image = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
       await this.firebaseSvc.updateDocument(path, { image: user.image });
 
-      this.utilSvc.saveInLocalStorage('user', user);
+      this.utilsSvc.saveInLocalStorage('user', user);
 
-      await this.utilSvc.presentToast({
+      await this.utilsSvc.presentToast({
         message: 'Imagen actualizada exitosamente!',
         duration: 1500,
         color: 'light',
@@ -92,7 +150,7 @@ openModal(){
       });
     } catch (error: any) {
       console.error(error);
-      await this.utilSvc.presentToast({
+      await this.utilsSvc.presentToast({
         message: error.message || 'Error al actualizar la imagen.',
         duration: 2500,
         color: 'danger',

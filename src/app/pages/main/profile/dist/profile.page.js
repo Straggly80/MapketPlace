@@ -46,17 +46,70 @@ exports.ProfilePage = void 0;
 var core_1 = require("@angular/core");
 var firebase_service_1 = require("src/app/services/firebase.service");
 var utils_service_1 = require("src/app/services/utils.service");
+var standalone_1 = require("@ionic/angular/standalone");
+var firestore_1 = require("firebase/firestore");
 var ProfilePage = /** @class */ (function () {
-    function ProfilePage(toastController) {
+    function ProfilePage(firebaseService, utilsService, toastController) {
+        this.firebaseService = firebaseService;
+        this.utilsService = utilsService;
         this.toastController = toastController;
         this.firebaseSvc = core_1.inject(firebase_service_1.FirebaseService);
-        this.utilSvc = core_1.inject(utils_service_1.UtilsService);
+        this.utilsSvc = core_1.inject(utils_service_1.UtilsService);
+        this.toastCtrl = core_1.inject(standalone_1.ToastController);
+        this.products = [];
+        this.loading = false;
     }
     ProfilePage.prototype.openModal = function () {
         var modal = document.querySelector('ion-modal');
         if (modal) {
             modal.present();
         }
+    };
+    ProfilePage.prototype.getProducts = function () {
+        var _this = this;
+        var path = "users/" + this.user().uid + "/products";
+        this.loading = true;
+        var query = [firestore_1.orderBy('soldUnits', 'desc')];
+        var sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
+            next: function (res) {
+                console.log(res);
+                _this.products = res;
+                _this.loading = false;
+            },
+            error: function (err) {
+                console.log(err);
+                _this.loading = false;
+            },
+            complete: function () {
+                console.log('complete');
+                sub.unsubscribe();
+            }
+        });
+    };
+    /* =======================OBTENER PRODUCTOS GENERAL=============================================== */
+    ProfilePage.prototype.getDocumentos = function () {
+        var _this = this;
+        var path = "productGeneral";
+        this.loading = true;
+        var query = [firestore_1.orderBy('soldUnits', 'desc')];
+        var sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
+            next: function (res) {
+                console.log(res);
+                _this.products = res;
+                _this.loading = false;
+            },
+            error: function (err) {
+                console.log(err);
+                _this.loading = false;
+            },
+            complete: function () {
+                console.log('complete');
+                sub.unsubscribe();
+            }
+        });
+    };
+    ProfilePage.prototype.ionViewWillEnter = function () {
+        this.getProducts();
     };
     /*
       @ViewChild(IonNav, { static: true }) nav!: IonNav;
@@ -84,7 +137,7 @@ var ProfilePage = /** @class */ (function () {
     };
     ProfilePage.prototype.ngOnInit = function () { };
     ProfilePage.prototype.user = function () {
-        return this.utilSvc.getFromLocalStorage('user');
+        return this.utilsSvc.getFromLocalStorage('user');
     };
     /* ========== TOMAR/SELECCIONAR UNA FOTO ============ */
     ProfilePage.prototype.takeImage = function () {
@@ -98,11 +151,11 @@ var ProfilePage = /** @class */ (function () {
                         _b.label = 1;
                     case 1:
                         _b.trys.push([1, 8, 10, 13]);
-                        return [4 /*yield*/, this.utilSvc.takePicture('Imagen del Perfil')];
+                        return [4 /*yield*/, this.utilsSvc.takePicture('Imagen del Perfil')];
                     case 2:
                         dataUrl = (_b.sent())
                             .dataUrl;
-                        return [4 /*yield*/, this.utilSvc.loading()];
+                        return [4 /*yield*/, this.utilsSvc.loading()];
                     case 3:
                         loading = _b.sent();
                         return [4 /*yield*/, loading.present()];
@@ -116,8 +169,8 @@ var ProfilePage = /** @class */ (function () {
                         return [4 /*yield*/, this.firebaseSvc.updateDocument(path, { image: user.image })];
                     case 6:
                         _b.sent();
-                        this.utilSvc.saveInLocalStorage('user', user);
-                        return [4 /*yield*/, this.utilSvc.presentToast({
+                        this.utilsSvc.saveInLocalStorage('user', user);
+                        return [4 /*yield*/, this.utilsSvc.presentToast({
                                 message: 'Imagen actualizada exitosamente!',
                                 duration: 1500,
                                 color: 'light',
@@ -129,7 +182,7 @@ var ProfilePage = /** @class */ (function () {
                     case 8:
                         error_1 = _b.sent();
                         console.error(error_1);
-                        return [4 /*yield*/, this.utilSvc.presentToast({
+                        return [4 /*yield*/, this.utilsSvc.presentToast({
                                 message: error_1.message || 'Error al actualizar la imagen.',
                                 duration: 2500,
                                 color: 'danger',

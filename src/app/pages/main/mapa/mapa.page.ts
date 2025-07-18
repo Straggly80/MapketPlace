@@ -31,9 +31,6 @@ export class MapaPage implements OnInit {
         }
 }
 
-
-
-
   isModalOpen: boolean = false;
   isCarreteOpen: boolean = false;
 
