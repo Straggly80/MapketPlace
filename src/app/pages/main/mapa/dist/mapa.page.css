@@ -41,6 +41,10 @@ ion-app, ion-content {
 
 ion-menu-button {
   color: white;
+  --background: #9fd7ff3b;
+  --border-radius: 50%;
+  width: 40px;
+  height: 40px;
 }
 
 ion-toolbar.toolbar {
@@ -89,3 +93,20 @@ ion-fab-button.icon-duplicate {
     background-color: #e0fffd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     margin-left: -5px; */
+ion-searchbar.custom {
+  --background: #9fd7ff3b;
+  --color: #fff;
+  --placeholder-color: #fff;
+  --icon-color: #fff;
+  --clear-button-color: #fff;
+  width: 70%;
+  --border-radius: 30px;
+}
+
+ion-searchbar.ios.custom {
+  --cancel-button-color: #ffffff;
+}
+
+ion-searchbar.md.custom {
+  --cancel-button-color: #fff;
+}

@@ -7,6 +7,7 @@
     </ion-fab-button>
   </ion-buttons>
 
+
   <ion-buttons slot="primary" (click)="abrirFormulario()">
     <ion-fab-button class="icon-duplicate">
       <ion-icon  name="add-outline"></ion-icon>
@@ -16,10 +17,9 @@
   <ion-buttons slot="start">
     <ion-menu-button auto-hide="false" ></ion-menu-button>
   </ion-buttons>
-  <ion-title style="font-weight: bold; font-family: 'poppins'; color: rgb(255, 255, 255);">Mapa</ion-title>
+  <ion-searchbar show-cancel-button="focus" placeholder="Search" class="custom"></ion-searchbar>
 </ion-toolbar>
 <ion-content fullscreen class="ion-padding">
-
 
 
 
@@ -32,7 +32,8 @@
 
 
 
-  <div id="map"></div>
+  <div id="map">
+  </div>
   
   <!-- =====================Botón flotante=================== -->
 <!--   <ion-fab vertical="top" horizontal="end" slot="fixed">
