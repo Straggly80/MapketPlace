@@ -10,7 +10,7 @@
   <ion-card class="custom-card-perfil" *ngFor="let item of menu" (click)="navigateTo(item.route)" button>
     <ion-icon [src]="item.icon" class="card-image"></ion-icon>
       <ion-card-header>
-      <ion-chip color="secondary">{{ item.title }}</ion-chip>
+      <ion-chip color="secondary">{{ item.title }}</ion-chip> <!-- Aqui debe ir el nombre del User -->
     </ion-card-header>
   </ion-card>
 
