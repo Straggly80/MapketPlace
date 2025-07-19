@@ -2,39 +2,47 @@
 <ion-toolbar class="toolbar">
 
   <ion-buttons slot="start">
-    <ion-menu-button auto-hide="false" ></ion-menu-button>
+    <ion-menu-button auto-hide="false"></ion-menu-button>
   </ion-buttons>
   <ion-title style="font-weight: bold; font-family: 'poppins'; color: rgb(255, 255, 255);">Inicio</ion-title>
 </ion-toolbar>
+
 <ion-content>
-  <ion-card class="custom-card-perfil" *ngFor="let item of menu" (click)="navigateTo(item.route)" button>
-    <ion-icon [src]="item.icon" class="card-image"></ion-icon>
-      <ion-card-header>
-      <ion-chip color="secondary">{{ item.title }}</ion-chip> <!-- Aqui debe ir el nombre del User -->
-    </ion-card-header>
-  </ion-card>
+  <div class="d-flex-center">
+    <form class="auth-form">
+      <ion-grid>
+        <ion-row>
+          <ion-card class="custom-card-perfil" *ngFor="let item of menu" (click)="navigateTo(item.route)" button>
+            <ion-icon [src]="item.icon" class="card-image"></ion-icon>
+            <ion-card-header>
+              <ion-chip color="secondary">{{ item.title }}</ion-chip> <!-- Aqui debe ir el nombre del User -->
+            </ion-card-header>
+          </ion-card>
+          <ion-col size="4" *ngFor="let item of menuItems">
+            <ion-card class="custom-card" (click)="navigateTo(item.route)" button>
+              <ion-icon [src]="item.icon" class="card-image"></ion-icon>
+              <!-- o   <ion-img [src]="item.icon || item.imageUrl" alt="Icono del menú" class="card-image"></ion-img> -->
+              <ion-card-header>
+                <ion-label>{{ item.title }}</ion-label>
+              </ion-card-header>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6" *ngFor="let item of menuItems">
-        <ion-card class="custom-card" (click)="navigateTo(item.route)" button>
-          <ion-icon [src]="item.icon" class="card-image"></ion-icon> <!-- o   <ion-img [src]="item.icon || item.imageUrl" alt="Icono del menú" class="card-image"></ion-img> -->
-          <ion-card-header >
-            <ion-chip color="success">{{ item.title }}</ion-chip>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      <ion-button class="ibutton" expand="block" fill="clear" shape="round" name="ios">Ver mas</ion-button>
 
-    <ion-chip>Default</ion-chip>
-  <ion-chip color="primary">Primary</ion-chip>
-  <ion-chip color="secondary">Secondary</ion-chip>
-  <ion-chip color="tertiary">Tertiary</ion-chip>
-  <ion-chip color="success">Success</ion-chip>
-  <ion-chip color="warning">Warning</ion-chip>
-  <ion-chip color="danger">Danger</ion-chip>
-  <ion-chip color="light">Light</ion-chip>
-  <ion-chip color="medium">Medium</ion-chip>
-  <ion-chip color="dark">Dark</ion-chip>
+      <div>
+        <ion-item button class="ver-mas">
+          <ion-icon slot="start" name="document-outline"></ion-icon>
+          <ion-label>Terminos & Condiciones</ion-label>
+        </ion-item>
+
+        <ion-item button class="ver-mas">
+          <ion-icon slot="start" name="help-outline"></ion-icon>
+          <ion-label>Ayuda</ion-label>
+        </ion-item>
+      </div>
+    </form>
+  </div>
 </ion-content>
