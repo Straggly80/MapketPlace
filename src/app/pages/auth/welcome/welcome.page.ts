@@ -64,13 +64,13 @@ export class WelcomePage implements OnInit {
         .getDocument(path)
         .then((user: User) => {
           this.utilSvc.saveInLocalStorage('user', user);
-          this.utilSvc.routerLink('/main/mapa');
+          this.utilSvc.routerLink('/main/menu');
           this.form.reset();
 
           this.utilSvc.presentToast({
             message: `Bienvenid@ a MapketPlace ${user.name}`,
             duration: 1500,
-            color: 'secondary',
+            color: 'success',
             position: 'bottom',
             icon: 'person-circle-outline',
           });
@@ -81,7 +81,7 @@ export class WelcomePage implements OnInit {
           this.utilSvc.presentToast({
             message: error.message,
             duration: 2500,
-            color: 'primary',
+            color: 'warning',
             position: 'bottom',
             icon: 'alert-circle-outline',
           });
