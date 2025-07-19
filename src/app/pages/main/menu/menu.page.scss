@@ -3,9 +3,7 @@ ion-content {
 }
 
 ion-toolbar {
-     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
-     height: var(--min-height); /* Aplica la altura definida */
-     --background:#434343;
+     --background:#ffffff;
    }
 
 .custom-card-perfil {
@@ -64,4 +62,11 @@ ion-toolbar {
     text-align: start;
     top: -30px;
   }
+}
+ion-menu-button {
+  color: white;
+}
+
+ion-toolbar.toolbar{
+  --background:#434343;
 }

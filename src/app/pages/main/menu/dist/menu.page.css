@@ -1,14 +1,9 @@
-@charset "UTF-8";
 ion-content {
   --background: #f3f4f8;
 }
 
 ion-toolbar {
-  --min-height: 40px;
-  /* Ajusta este valor al tamaño deseado */
-  height: var(--min-height);
-  /* Aplica la altura definida */
-  --background:#434343;
+  --background:#ffffff;
 }
 
 .custom-card-perfil {
@@ -62,4 +57,12 @@ ion-toolbar {
   font-family: "poppins", sans-serif;
   text-align: start;
   top: -30px;
+}
+
+ion-menu-button {
+  color: white;
+}
+
+ion-toolbar.toolbar {
+  --background:#434343;
 }
