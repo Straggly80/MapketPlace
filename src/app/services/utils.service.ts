@@ -38,7 +38,6 @@ export class UtilsService {
   /* ============ ALERT ============ */
   async presentAlert(opts?: AlertOptions) {
     const alert = await this.alertCtrl.create(opts);
-  
     await alert.present();
   }
 
@@ -58,14 +57,29 @@ export class UtilsService {
     return this.router.navigateByUrl(url);
   }
 
-  /* =========== guardar un elemento en localstorage ============ */
+  /* =========== guardar un elemento en localStorage ============ */
   saveInLocalStorage(key: string, value: any) {
-    return localStorage.setItem(key, JSON.stringify(value));
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.error(`Error al guardar ${key} en localStorage`, error);
+    }
   }
 
-  /* =========== obtiene un elemento de localstorage */
-  getFromLocalStorage(key: string) {
-    return JSON.parse(localStorage.getItem(key));
+  /* =========== obtiene un elemento de localStorage ============ */
+  getFromLocalStorage(key: string): any {
+    const data = localStorage.getItem(key);
+
+    if (data === null || data === 'undefined') {
+      return null;
+    }
+
+    try {
+      return JSON.parse(data);
+    } catch (error) {
+      console.error(`Error al obtener ${key} de localStorage`, error);
+      return null;
+    }
   }
 
   /* =========== MODAL ============ */
