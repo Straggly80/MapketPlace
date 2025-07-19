@@ -4,17 +4,8 @@ import { Product } from 'src/app/models/product.model';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
-
 import { IonButton, ToastController } from '@ionic/angular/standalone';
-import {
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonModal,
-  IonNav,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular/standalone';
+import {IonButtons,IonContent,IonHeader,IonModal,IonNav,IonTitle,IonToolbar,} from '@ionic/angular/standalone';
 import { ViewChild } from '@angular/core';
 import { IonNavLink } from '@ionic/angular/standalone';
 import { SettingsPage } from './settings/settings.page';

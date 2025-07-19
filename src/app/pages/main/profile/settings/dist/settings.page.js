@@ -8,10 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 exports.__esModule = true;
 exports.SettingsPage = void 0;
 var core_1 = require("@angular/core");
+var firebase_service_1 = require("src/app/services/firebase.service");
+var utils_service_1 = require("src/app/services/utils.service");
 var SettingsPage = /** @class */ (function () {
-    function SettingsPage() {
+    function SettingsPage(firebaseService, utilsService, toastController) {
+        this.firebaseService = firebaseService;
+        this.utilsService = utilsService;
+        this.toastController = toastController;
+        this.firebaseSvc = core_1.inject(firebase_service_1.FirebaseService);
+        this.utilsSvc = core_1.inject(utils_service_1.UtilsService);
     }
     SettingsPage.prototype.ngOnInit = function () {
+    };
+    SettingsPage.prototype.user = function () {
+        return this.utilsSvc.getFromLocalStorage('user');
+    };
+    SettingsPage.prototype.ActualizarNombre = function () {
     };
     SettingsPage = __decorate([
         core_1.Component({

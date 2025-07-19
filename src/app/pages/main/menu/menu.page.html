@@ -1,26 +1,37 @@
 <ion-toolbar></ion-toolbar>
-<app-header title="Menú" class="color">
+<app-header title="Home" class="color">
   <ion-icon slot="center" name="add"></ion-icon>
 </app-header>
 
 <ion-content>
-  <ion-card class="custom-card-perfil" *ngFor="let item of menu" (click)="navigateTo(item.route)">
+  <ion-card class="custom-card-perfil" *ngFor="let item of menu" (click)="navigateTo(item.route)" button>
     <ion-icon [src]="item.icon" class="card-image"></ion-icon>
       <ion-card-header>
-      <ion-card-title>{{ item.title }}</ion-card-title>
+      <ion-chip color="secondary">{{ item.title }}</ion-chip>
     </ion-card-header>
   </ion-card>
 
   <ion-grid>
     <ion-row>
       <ion-col size="6" *ngFor="let item of menuItems">
-        <ion-card class="custom-card" (click)="navigateTo(item.route)">
+        <ion-card class="custom-card" (click)="navigateTo(item.route)" button>
           <ion-icon [src]="item.icon" class="card-image"></ion-icon> <!-- o   <ion-img [src]="item.icon || item.imageUrl" alt="Icono del menú" class="card-image"></ion-img> -->
-          <ion-card-header>
-            <ion-card-title>{{ item.title }}</ion-card-title>
+          <ion-card-header >
+            <ion-chip color="success">{{ item.title }}</ion-chip>
           </ion-card-header>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
+
+    <ion-chip>Default</ion-chip>
+  <ion-chip color="primary">Primary</ion-chip>
+  <ion-chip color="secondary">Secondary</ion-chip>
+  <ion-chip color="tertiary">Tertiary</ion-chip>
+  <ion-chip color="success">Success</ion-chip>
+  <ion-chip color="warning">Warning</ion-chip>
+  <ion-chip color="danger">Danger</ion-chip>
+  <ion-chip color="light">Light</ion-chip>
+  <ion-chip color="medium">Medium</ion-chip>
+  <ion-chip color="dark">Dark</ion-chip>
 </ion-content>

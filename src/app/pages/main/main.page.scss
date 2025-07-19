@@ -91,18 +91,17 @@ ion-list{
 }
 
 
- ion-toolbar {
-     --min-height: 40px; /* Ajusta este valor al tamaño deseado */
-     height: var(--min-height); /* Aplica la altura definida */
+ion-toolbar {
       --background:#434343;
-
+      --border-color: #434343;
    }
 
-   ion-content {
-    --background:#434343;
-   }
+ion-content {
+     --background:#434343;
+  background-color: #434343;
+  height: 100vh;
 
-
+}
 
 ion-icon#colors1,
 ion-icon#colors2,    

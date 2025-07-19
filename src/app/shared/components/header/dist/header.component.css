@@ -2,3 +2,7 @@
   --background:#434343;
   color: black;
 }
+
+ion-back-button.colors {
+  color: white;
+}

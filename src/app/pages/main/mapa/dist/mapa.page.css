@@ -15,12 +15,12 @@ ion-content {
   --padding-bottom: 0;
 }
 
+/* // MAPA DE IONIC
 html, body {
   overscroll-behavior: none;
   overflow: hidden;
   height: 100%;
-}
-
+} */
 ion-app, ion-content {
   touch-action: none !important;
 }
@@ -32,23 +32,19 @@ ion-app, ion-content {
 }
 
 #map {
-  height: 100%;
-  width: 100%;
+  height: 120%;
+  width: 120%;
   position: absolute;
   top: 0;
   left: 0;
 }
 
-.toolbar-color {
-  text-align: justify;
-}
-
-ion-toolbar {
-  --background:#434343;
-}
-
 ion-menu-button {
   color: white;
+}
+
+ion-toolbar.toolbar {
+  --background:#434343;
 }
 
 ion-fab-button.icon-albums,
@@ -73,8 +69,6 @@ ion-fab-button.icon-albums:hover {
   --color: #ffffff;
 }
 
-/* #619def
-#7cb6f3 */
 ion-fab-button.icon-albums {
   --background: #ffb494;
   --color: #ff4d00;

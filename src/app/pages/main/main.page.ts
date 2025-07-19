@@ -7,22 +7,11 @@ import { ProfilePage } from './profile/profile.page';
 import { ViewChild } from '@angular/core';
 import { IonNavLink } from '@ionic/angular/standalone';
 import { IonButton, ToastController } from '@ionic/angular/standalone';
-import {
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonModal,
-  IonNav,
-  IonTitle,
-  IonToolbar,
-} from '@ionic/angular/standalone';
+import { IonButtons,IonContent,IonHeader,IonModal,IonNav,IonTitle,IonToolbar } from '@ionic/angular/standalone';
 import { AuthService } from 'src/app/services/auth.service';
 import { RouterModule } from '@angular/router';
 import { Product } from 'src/app/models/product.model';
-
-
-
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -32,7 +21,14 @@ import { Product } from 'src/app/models/product.model';
 })
 
 export class MainPage implements OnInit {
-  constructor(private firebaseService: FirebaseService, private utilsService: UtilsService, private toastController: ToastController, private authService: AuthService) {}
+  constructor(
+    private firebaseService: FirebaseService, 
+    private utilsService: UtilsService, 
+    private toastController: ToastController, 
+    private authService: AuthService,
+    private router: Router) {}
+
+
   @ViewChild('nav') private nav!: IonNav;
 
   products: Product[] = [];
@@ -45,9 +41,10 @@ export class MainPage implements OnInit {
    onWillPresent2() {
     this.nav.setRoot(ProfilePage);
   }
+
   pages = [
 
-    /* { title: 'Inicio', url: '/main/menu', icon: 'planet-outline' }, */
+    { title: 'Inicio', url: '/main/menu', icon: 'home' },
     { title: 'Mapa', url: '/main/mapa', icon: 'map' },
     { title: 'Favoritos', url: '/main/favoritos', icon: 'heart-outline' },
     { title: 'Ventas', url: '/main/home', icon: 'bag-outline' }, /* o este: <i class="bi bi-cart3"></i>, o este: <i class="bi bi-cart2"></i> */
@@ -57,7 +54,7 @@ export class MainPage implements OnInit {
 
   ];
 
-  router = inject(Router);
+/*   router = inject(Router); */
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
   currentPath: string = '';
@@ -68,7 +65,10 @@ export class MainPage implements OnInit {
       if (event?.url) this.currentPath = event.url;
     });
   }
-
+ 
+  GoSettings() {
+    this.closeModal();
+  }
   /* ===== CERRAR SESION ===== */
   signOut() {
     this.firebaseSvc.signOut();

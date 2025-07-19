@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
+import { User } from 'firebase/auth';
+import { AuthService } from 'src/app/services/auth.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 
 @Component({
@@ -10,6 +14,19 @@ import { IonicModule } from '@ionic/angular';
   standalone:false,
 })
 export class MenuPage implements OnInit {
+
+  constructor(
+    private firebaseService: FirebaseService, 
+    private utilsService: UtilsService, 
+    private toastController: ToastController, 
+    private authService: AuthService,
+    private router: Router) {}
+
+  firebaseSvc = inject(FirebaseService);
+  utilsSvc = inject(UtilsService);
+  toastCtrl = inject(ToastController);
+  currentPath: string = '';
+
 
   menuItems = [
     { title: 'Mapa', icon: 'home', route: '/main/mapa' },
@@ -26,9 +43,9 @@ export class MenuPage implements OnInit {
 
   ];
 
-
-  constructor(private router: Router) {}
-
+  user(): User {
+      return this.utilsSvc.getFromLocalStorage('user');
+    }
 
   navigateTo(route: string) {
     this.router.navigate([route]);

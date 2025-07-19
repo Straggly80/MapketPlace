@@ -1,0 +1,33 @@
+ion-toolbar {
+  --background:#434343;
+}
+
+h2 {
+  text-align: center;
+  font-size: 18px;
+  font-family: "poppins";
+  font-weight: bold;
+  color: white;
+}
+
+app-custom-input {
+  --background: aqua;
+  color: red;
+}
+
+ion-button {
+  --background: #ff5d5d;
+  --color: white;
+}
+
+ion-button:hover {
+  --background: #ff4747;
+}
+
+ion-content {
+  --background:#434343;
+  height: 100vh;
+  overflow: hidden;
+  --overflow: hidden;
+  --padding-bottom: 0;
+}

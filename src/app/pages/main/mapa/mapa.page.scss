@@ -16,12 +16,12 @@ ion-content {
   --padding-bottom: 0;
 }
 // ---------------------------------------------------------------------
-// MAPA DE IONIC
+/* // MAPA DE IONIC
 html, body {
   overscroll-behavior: none;
   overflow: hidden;
   height: 100%;
-}
+} */
 
 ion-app, ion-content {
   touch-action: none !important; // previene desplazamientos táctiles no deseados
@@ -37,25 +37,19 @@ ion-app, ion-content {
 // Asegúrate de que el mapa ocupe toda la pantalla
 
 #map {
-  height: 100%;
-  width: 100%;
+  height: 120%;
+  width: 120%;
   position: absolute;
   top: 0;
   left: 0;
 }
 
-
-.toolbar-color{
-  text-align: justify;
-}
-
-
- ion-toolbar {
-      --background:#434343;
-   }
-
 ion-menu-button {
   color: white;
+}
+
+ion-toolbar.toolbar{
+  --background:#434343;
 }
 
 
@@ -81,10 +75,6 @@ ion-fab-button.icon-albums:hover{
      --background: #ffb494;
      --color: #ffffff;
 }
-
-
-/* #619def
-#7cb6f3 */
 
 ion-fab-button.icon-albums {
   --background: #ffb494;

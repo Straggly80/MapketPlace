@@ -69,7 +69,7 @@ export class SignUpPage implements OnInit {
         .setDocument(path, this.form.value)
         .then(async (res) => {
           this.utilSvc.saveInLocalStorage('user', this.form.value);
-          this.utilSvc.routerLink('/main/mapa');
+          this.utilSvc.routerLink('/main/menu');
           this.form.reset();
         })
         .catch((error) => {

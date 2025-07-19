@@ -44,21 +44,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.MainPage = void 0;
 var core_1 = require("@angular/core");
-var router_1 = require("@angular/router");
 var firebase_service_1 = require("src/app/services/firebase.service");
 var utils_service_1 = require("src/app/services/utils.service");
 var profile_page_1 = require("./profile/profile.page");
 var core_2 = require("@angular/core");
 var MainPage = /** @class */ (function () {
-    function MainPage(firebaseService, utilsService, toastController, authService) {
+    function MainPage(firebaseService, utilsService, toastController, authService, router) {
         this.firebaseService = firebaseService;
         this.utilsService = utilsService;
         this.toastController = toastController;
         this.authService = authService;
+        this.router = router;
         this.products = [];
         this.loading = false;
         this.pages = [
-            /* { title: 'Inicio', url: '/main/menu', icon: 'planet-outline' }, */
+            { title: 'Inicio', url: '/main/menu', icon: 'home' },
             { title: 'Mapa', url: '/main/mapa', icon: 'map' },
             { title: 'Favoritos', url: '/main/favoritos', icon: 'heart-outline' },
             { title: 'Ventas', url: '/main/home', icon: 'bag-outline' },
@@ -66,7 +66,7 @@ var MainPage = /** @class */ (function () {
             { title: 'Chat', url: '/main/chat', icon: 'chatbubbles-outline' },
             { title: 'Perfil', url: '/main/profile', icon: '[src="user()?.image"' },
         ];
-        this.router = core_1.inject(router_1.Router);
+        /*   router = inject(Router); */
         this.firebaseSvc = core_1.inject(firebase_service_1.FirebaseService);
         this.utilsSvc = core_1.inject(utils_service_1.UtilsService);
         this.currentPath = '';
@@ -83,6 +83,9 @@ var MainPage = /** @class */ (function () {
             if (event === null || event === void 0 ? void 0 : event.url)
                 _this.currentPath = event.url;
         });
+    };
+    MainPage.prototype.GoSettings = function () {
+        this.closeModal();
     };
     /* ===== CERRAR SESION ===== */
     MainPage.prototype.signOut = function () {
