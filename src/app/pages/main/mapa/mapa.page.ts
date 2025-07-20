@@ -9,7 +9,9 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { orderBy } from 'firebase/firestore';
 import { Geolocation } from '@capacitor/geolocation';
+
 import { MenuController } from '@ionic/angular';
+
 
 declare const google: any;
 
@@ -20,18 +22,27 @@ declare const google: any;
   standalone: false,
 })
 export class MapaPage implements OnInit {
+
+
+  openModal(){
+       const modal = document.querySelector('ion-modal');
+        if (modal) {
+          modal.present();
+        }
+}
+
   isModalOpen: boolean = false;
   isCarreteOpen: boolean = false;
 
   products: Product[] = [];
   loading: boolean = false;
-  usuario: User | null = null;
 
   router = inject(Router);
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
   modalCtrl = inject(ModalController);
   menuCtrl = inject(MenuController);
+
 
   currentPath: string = '';
   map!: google.maps.Map;
@@ -43,16 +54,11 @@ export class MapaPage implements OnInit {
     const ubicacion = await this.getCurrentLocation();
     console.log('📍 Ubicación actual:', ubicacion);
 
-    this.usuario = this.utilsSvc.getFromLocalStorage('user');
-    if (!this.usuario || !this.usuario.uid) {
-      this.utilsSvc.presentToast({ message: 'Usuario no encontrado. Inicia sesión.', duration: 2000 });
-      this.utilsSvc.routerLink('/login');
-      return;
-    }
-
     this.router.events.subscribe((event: any) => {
       if (event?.url) this.currentPath = event.url;
     });
+
+    this.getAllProducts();
   }
 
   async solicitarPermisosUbicacion() {
@@ -79,21 +85,25 @@ export class MapaPage implements OnInit {
     this.loadGoogleMaps().then(() => this.initMap());
   }
 
+  user(): User {
+    return this.utilsSvc.getFromLocalStorage('user');
+  }
+
+  product(): Product {
+    return this.utilsSvc.getFromLocalStorage('productGeneral');
+  }
+
   ionViewWillEnter() {
-    this.menuCtrl.swipeGesture(false);
+    this.menuCtrl.swipeGesture(false); 
     this.getAllProducts();
   }
 
+  
   ionViewWillLeave() {
     this.menuCtrl.swipeGesture(true);
   }
 
   getAllProducts() {
-    if (!this.usuario?.uid) {
-      console.warn('Usuario no disponible, no se pueden obtener productos.');
-      return;
-    }
-
     this.loading = true;
     let userProducts: Product[] = [];
     let generalProducts: Product[] = [];
@@ -101,43 +111,41 @@ export class MapaPage implements OnInit {
     let generalLoaded = false;
 
     const done = () => {
+      // Combina ambos arrays y elimina duplicados por id
       const all = [...userProducts, ...generalProducts];
-      const unique = all.filter((item, index, self) => index === self.findIndex((t) => t.id === item.id));
+      const unique = all.filter(
+        (item, index, self) => index === self.findIndex((t) => t.id === item.id)
+      );
       this.products = unique;
       this.loading = false;
       this.mostrarMarcadores();
     };
 
-    try {
-      this.firebaseSvc
-        .getCollectionData(`users/${this.usuario.uid}/products`, [orderBy('soldUnits', 'desc')])
-        .subscribe({
-          next: (res: Product[]) => {
-            userProducts = res;
-            userLoaded = true;
-            if (generalLoaded) done();
-          },
-          error: () => {
-            this.loading = false;
-          },
-        });
+    this.firebaseSvc
+      .getCollectionData(`users/${this.user().uid}/products`, [orderBy('soldUnits', 'desc')])
+      .subscribe({
+        next: (res: Product[]) => {
+          userProducts = res;
+          userLoaded = true;
+          if (generalLoaded) done();
+        },
+        error: () => {
+          this.loading = false;
+        },
+      });
 
-      this.firebaseSvc
-        .getCollectionData('productGeneral/', [orderBy('soldUnits', 'desc')])
-        .subscribe({
-          next: (res: Product[]) => {
-            generalProducts = res;
-            generalLoaded = true;
-            if (userLoaded) done();
-          },
-          error: () => {
-            this.loading = false;
-          },
-        });
-    } catch (e) {
-      console.error('Error al obtener productos:', e);
-      this.loading = false;
-    }
+    this.firebaseSvc
+      .getCollectionData('productGeneral/', [orderBy('soldUnits', 'desc')])
+      .subscribe({
+        next: (res: Product[]) => {
+          generalProducts = res;
+          generalLoaded = true;
+          if (userLoaded) done();
+        },
+        error: () => {
+          this.loading = false;
+        },
+      });
   }
 
   loadGoogleMaps(): Promise<void> {
@@ -170,11 +178,12 @@ export class MapaPage implements OnInit {
           content: `
             <div style="width: 190px; font-family:'poppins', sans-serif;">
               <img src="${product.image}" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
-              <div style="padding: 8px; width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              <div style="padding: 8px;, width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                 <strong>Usuario: </strong><br>
                 <strong>Nombre: </strong>${product.name}<br>
                 <strong>Descripcion: </strong>${product.descripcion}<br>
                 <strong>Precio: </strong><strong style="color: #228b22;">$${product.price}</strong><br>
+                
               </div>
             </div>
           `,
@@ -313,12 +322,5 @@ export class MapaPage implements OnInit {
       lat: userLatLng.lat,
       lng: userLatLng.lng,
     };
-  }
-
-  openModal() {
-    const modal = document.querySelector('ion-modal');
-    if (modal) {
-      modal.present();
-    }
   }
 }
