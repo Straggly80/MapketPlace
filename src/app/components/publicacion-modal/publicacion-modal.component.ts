@@ -82,6 +82,8 @@ export class PublicacionModalComponent {
       soldUnits: 0,
       lat: this.ubicacion.lat,
       lng: this.ubicacion.lng,
+      telefono: this.producto.telefono || '0000000000',
+      
     };
 
     // 3. Guarda en Firestore

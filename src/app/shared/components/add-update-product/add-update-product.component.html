@@ -48,6 +48,27 @@
       label="Descripción"
     ></app-custom-input>
 
+    <!-- TELEFONO -->
+    <app-custom-input
+      [control]="form.controls.telefono"
+      type="tel"
+      label="Teléfono de contacto"
+    ></app-custom-input>
+
+    <div class="validators" *ngIf="form.controls.telefono.errors && form.controls.telefono.touched">
+      <div *ngIf="form.controls.telefono.errors?.['required']">Este campo es requerido.</div>
+    </div>
+
+    <input type="hidden" formControlName="lat">
+    <input type="hidden" formControlName="lng">
+    <button type="button" (click)="usarMiUbicacion()" class="btn-ubicacion">
+      📍 Usar mi ubicación actual
+    </button>
+
+    <div *ngIf="miDireccion" style="margin-top: 10px; font-family: sans-serif;">
+      <strong>Dirección actual:</strong><br />
+      {{ miDireccion }}
+    </div>
     <!-- COORDINATES (Readonly) -->
     <div id="mini-map" style="height: 30vh; width: 100%; margin-top: 15px; border-radius: 10px;"></div>
     <ion-button id="botonPSN" mode="ios" class="ion-margin" type="submit">

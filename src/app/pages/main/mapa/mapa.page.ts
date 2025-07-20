@@ -1,16 +1,23 @@
 import { Component, inject, OnInit } from '@angular/core';
+
 import { Product } from 'src/app/models/product.model';
+import { User } from 'src/app/models/user.model';
+
 import { v4 as uuidv4 } from 'uuid';
 import { AlertController, ModalController } from '@ionic/angular';
+
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
+
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user.model';
+
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { orderBy } from 'firebase/firestore';
+
 import { Geolocation } from '@capacitor/geolocation';
 
 import { MenuController } from '@ionic/angular';
+
 import { style } from '@angular/animations';
 
 declare const google: any;
@@ -22,18 +29,18 @@ declare const google: any;
   standalone: false,
 })
 export class MapaPage implements OnInit {
-
-  openModal(){
-       const modal = document.querySelector('ion-modal');
-        if (modal) {
-          modal.present();
-        }
+  openModal() {
+    const modal = document.querySelector('ion-modal');
+    if (modal) {
+      modal.present();
+    }
   }
 
   isModalOpen: boolean = false;
   isCarreteOpen: boolean = false;
 
   products: Product[] = [];
+  users: User[] = [];
   loading: boolean = false;
 
   router = inject(Router);
@@ -50,9 +57,6 @@ export class MapaPage implements OnInit {
   // Nuevo: objeto para guardar InfoWindows por producto
   markerInfoWindows: { [productId: string]: google.maps.InfoWindow } = {};
 
-
-
-  
   async ngOnInit() {
     await this.solicitarPermisosUbicacion();
     const ubicacion = await this.getCurrentLocation();
@@ -78,7 +82,6 @@ export class MapaPage implements OnInit {
     }
   }
 
-
   doRefresh(event) {
     setTimeout(() => {
       this.getAllProducts();
@@ -99,7 +102,7 @@ export class MapaPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.menuCtrl.swipeGesture(false); 
+    this.menuCtrl.swipeGesture(false);
     this.getAllProducts();
   }
 
@@ -125,7 +128,9 @@ export class MapaPage implements OnInit {
     };
 
     this.firebaseSvc
-      .getCollectionData(`users/${this.user().uid}/products`, [orderBy('soldUnits', 'desc')])
+      .getCollectionData(`users/${this.user().uid}/products`, [
+        orderBy('soldUnits', 'desc'),
+      ])
       .subscribe({
         next: (res: Product[]) => {
           userProducts = res;
@@ -166,6 +171,8 @@ export class MapaPage implements OnInit {
     });
   }
 
+  
+
   mostrarMarcadores() {
     this.clearMarkers();
     this.markerInfoWindows = {}; // Limpia los infoWindows guardados
@@ -179,17 +186,24 @@ export class MapaPage implements OnInit {
         });
 
         const infoWindow = new google.maps.InfoWindow({
+          
           content: `
-            <div style="width: 180px; font-family:'poppins', sans-serif;">
-              <img src="${product.image}" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
-              <div style="padding: 8px; width: 100%; white-space: normal; overflow: visible; ">
-                <strong>Usuario: </strong><br>
-                <strong>Nombre: </strong>${product.name}<br>
-                <strong>Descripcion: </strong>${product.descripcion}<br>
-                <strong>Precio: </strong><strong style="color: #228b22;">$${product.price}</strong><br>
-              </div>
+          <div style="width: 180px; font-family:'poppins', sans-serif;">
+            <img src="${
+              product.image
+            }" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
+            <div style="padding: 8px; width: 100%; white-space: normal; overflow: visible;">
+              <strong>Nombre: </strong>${product.name}<br>
+              <strong>Descripcion: </strong>${product.descripcion}<br>
+              <strong>Precio: </strong><strong style="color: #228b22;">$${product.price}</strong><br>
+              ${product.telefono? `<a href="https://wa.me/${product.telefono}" target="_blank" style="margin-top: 8px; display: inline-block; padding: 6px 10px; background: #25D366; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+                      WhatsApp
+                    </a>`
+                  : ''
+              }
             </div>
-          `,
+          </div>
+        `,
         });
 
         marker.addListener('click', () => {
@@ -215,7 +229,7 @@ export class MapaPage implements OnInit {
 
   // Nuevo método para abrir InfoWindow al hacer click en la imagen del modal
   abrirInfoWindow(product: Product) {
-    const index = this.products.findIndex(p => p.id === product.id);
+    const index = this.products.findIndex((p) => p.id === product.id);
     if (index === -1) return;
 
     if (this.activeInfoWindow) {
@@ -245,7 +259,9 @@ export class MapaPage implements OnInit {
         lng: position.coords.longitude,
       };
     } catch (error) {
-      alert('No se pudo obtener la ubicación. Verifica que el GPS esté activado y los permisos concedidos.');
+      alert(
+        'No se pudo obtener la ubicación. Verifica que el GPS esté activado y los permisos concedidos.'
+      );
       console.error('Error al obtener la ubicación:', error);
       return {
         lat: 31.327409,
@@ -253,7 +269,7 @@ export class MapaPage implements OnInit {
       };
     }
   }
-  
+
   async initMap() {
     const userLocation = await this.getCurrentLocation();
     const mapDiv = document.getElementById('map');
@@ -309,11 +325,9 @@ export class MapaPage implements OnInit {
         scaledSize: new google.maps.Size(30, 30),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(20, 20), // centra el icono
-      }
+      },
     });
   }
-
-
 
   clearMarkers() {
     this.markers.forEach((marker) => marker.setMap(null));
@@ -352,6 +366,7 @@ export class MapaPage implements OnInit {
       soldUnits: 0,
       lat: userLatLng.lat,
       lng: userLatLng.lng,
+      telefono: data.telefono,
     };
   }
 }

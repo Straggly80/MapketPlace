@@ -33,7 +33,8 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
     soldUnits: new FormControl(null, [Validators.required, Validators.min(0)]),
     descripcion: new FormControl('', [Validators.required]),
     lat: new FormControl(null, [Validators.required]),
-    lng: new FormControl(null, [Validators.required])
+    lng: new FormControl(null, [Validators.required]),
+    telefono: new FormControl('', [Validators.required]),
   });
 
   firebaseSvc = inject(FirebaseService);
@@ -41,6 +42,9 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
   ngZone = inject(NgZone);
 
   user = {} as User;
+
+  miDireccion: string = '';
+  direccion: string = '';
 
   map!: google.maps.Map;
   marker!: google.maps.Marker;
@@ -178,22 +182,33 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
     this.form.patchValue({ lat, lng });
   }
 
-  geocodeLatLng(lat: number, lng: number) {
+  getStreetName(lat: number, lng: number) {
+    const geocoder = new google.maps.Geocoder();
     const latlng = { lat, lng };
-    this.geocoder.geocode({ location: latlng }, (results: any, status: any) => {
-      if (status === 'OK') {
-        if (results[0]) {
-          this.ngZone.run(() => {
-            this.currentAddress = results[0].formatted_address;
-          });
-        } else {
-          this.currentAddress = 'Dirección no encontrada';
-        }
+
+    geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        const streetName = results[0].formatted_address;
+        console.log('Calle:', streetName);
       } else {
-        this.currentAddress = 'Error al obtener dirección';
+        console.error('No se pudo obtener la dirección:', status);
       }
     });
   }
+
+  geocodeLatLng(lat: number, lng: number): void {
+    const geocoder = new google.maps.Geocoder();
+    const latlng = { lat, lng };
+
+    geocoder.geocode({ location: latlng }, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        this.direccion = results[0].formatted_address;
+      } else {
+        this.direccion = 'No se encontró dirección';
+      }
+    });
+  }
+
 
   async takeImage() {
     const dataUrl = (await this.utilSvc.takePicture('Imagen del Producto')).dataUrl;
@@ -304,5 +319,32 @@ export class AddUpdateProductComponent implements OnInit, AfterViewInit {
   }
 
   
+
+  usarMiUbicacion() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        const geocoder = new google.maps.Geocoder();
+        const latlng = { lat, lng };
+
+        geocoder.geocode({ location: latlng }, (results, status) => {
+          if (status === 'OK' && results[0]) {
+            this.miDireccion = results[0].formatted_address;
+          } else {
+            this.miDireccion = 'No se pudo obtener la dirección.';
+            console.error('Geocoder error:', status);
+          }
+        });
+      },
+      (error) => {
+        this.miDireccion = 'Error al obtener la ubicación.';
+        console.error('Geolocation error:', error);
+      }
+    );
+  }
+
+
 
 }

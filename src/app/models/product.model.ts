@@ -7,5 +7,5 @@ export interface Product {
     descripcion: string;
     lat: number;
     lng: number;
-    telefono: number;
+    telefono: string; 
 }
