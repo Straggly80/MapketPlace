@@ -11,6 +11,7 @@ import { orderBy } from 'firebase/firestore';
 import { Geolocation } from '@capacitor/geolocation';
 
 import { MenuController } from '@ionic/angular';
+import { style } from '@angular/animations';
 
 declare const google: any;
 
@@ -49,6 +50,9 @@ export class MapaPage implements OnInit {
   // Nuevo: objeto para guardar InfoWindows por producto
   markerInfoWindows: { [productId: string]: google.maps.InfoWindow } = {};
 
+
+
+  
   async ngOnInit() {
     await this.solicitarPermisosUbicacion();
     const ubicacion = await this.getCurrentLocation();
@@ -73,6 +77,7 @@ export class MapaPage implements OnInit {
       console.error('⚠️ Error al solicitar permiso', error);
     }
   }
+
 
   doRefresh(event) {
     setTimeout(() => {
@@ -240,6 +245,7 @@ export class MapaPage implements OnInit {
         lng: position.coords.longitude,
       };
     } catch (error) {
+      alert('No se pudo obtener la ubicación. Verifica que el GPS esté activado y los permisos concedidos.');
       console.error('Error al obtener la ubicación:', error);
       return {
         lat: 31.327409,
@@ -247,8 +253,7 @@ export class MapaPage implements OnInit {
       };
     }
   }
-
-
+  
   async initMap() {
     const userLocation = await this.getCurrentLocation();
     const mapDiv = document.getElementById('map');
@@ -300,10 +305,15 @@ export class MapaPage implements OnInit {
       map: this.map,
       title: 'Tu ubicación',
       icon: {
-        url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-      },
+        url: this.user()?.image || 'assets/usuario-no-picture.png',
+        scaledSize: new google.maps.Size(30, 30),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(20, 20), // centra el icono
+      }
     });
   }
+
+
 
   clearMarkers() {
     this.markers.forEach((marker) => marker.setMap(null));
