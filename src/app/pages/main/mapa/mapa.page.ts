@@ -248,6 +248,7 @@ export class MapaPage implements OnInit {
     }
   }
 
+
   async initMap() {
     const userLocation = await this.getCurrentLocation();
     const mapDiv = document.getElementById('map');
