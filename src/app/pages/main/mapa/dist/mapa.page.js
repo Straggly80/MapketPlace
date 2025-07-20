@@ -73,6 +73,8 @@ var MapaPage = /** @class */ (function () {
         this.currentPath = '';
         this.markers = [];
         this.activeInfoWindow = null;
+        // Nuevo: objeto para guardar InfoWindows por producto
+        this.markerInfoWindows = {};
     }
     MapaPage.prototype.openModal = function () {
         var modal = document.querySelector('ion-modal');
@@ -161,7 +163,6 @@ var MapaPage = /** @class */ (function () {
         var userLoaded = false;
         var generalLoaded = false;
         var done = function () {
-            // Combina ambos arrays y elimina duplicados por id
             var all = __spreadArrays(userProducts, generalProducts);
             var unique = all.filter(function (item, index, self) { return index === self.findIndex(function (t) { return t.id === item.id; }); });
             _this.products = unique;
@@ -213,6 +214,7 @@ var MapaPage = /** @class */ (function () {
     MapaPage.prototype.mostrarMarcadores = function () {
         var _this = this;
         this.clearMarkers();
+        this.markerInfoWindows = {}; // Limpia los infoWindows guardados
         this.products.forEach(function (product) {
             if (product.lat && product.lng) {
                 var marker_1 = new google.maps.Marker({
@@ -221,7 +223,7 @@ var MapaPage = /** @class */ (function () {
                     title: product.name
                 });
                 var infoWindow_1 = new google.maps.InfoWindow({
-                    content: "\n            <div style=\"width: 190px; font-family:'poppins', sans-serif;\">\n              <img src=\"" + product.image + "\" style=\"width: 100%; border-radius: 8px 8px 0 0; display: block;\" />\n              <div style=\"padding: 8px;, width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\">\n                <strong>Usuario: </strong><br>\n                <strong>Nombre: </strong>" + product.name + "<br>\n                <strong>Descripcion: </strong>" + product.descripcion + "<br>\n                <strong>Precio: </strong><strong style=\"color: #228b22;\">$" + product.price + "</strong><br>\n                \n              </div>\n            </div>\n          "
+                    content: "\n            <div style=\"width: 180px; font-family:'poppins', sans-serif;\">\n              <img src=\"" + product.image + "\" style=\"width: 100%; border-radius: 8px 8px 0 0; display: block;\" />\n              <div style=\"padding: 8px; width: 100%; white-space: normal; overflow: visible; \">\n                <strong>Usuario: </strong><br>\n                <strong>Nombre: </strong>" + product.name + "<br>\n                <strong>Descripcion: </strong>" + product.descripcion + "<br>\n                <strong>Precio: </strong><strong style=\"color: #228b22;\">$" + product.price + "</strong><br>\n              </div>\n            </div>\n          "
                 });
                 marker_1.addListener('click', function () {
                     if (_this.activeInfoWindow) {
@@ -231,6 +233,7 @@ var MapaPage = /** @class */ (function () {
                     _this.activeInfoWindow = infoWindow_1;
                 });
                 _this.markers.push(marker_1);
+                _this.markerInfoWindows[product.id] = infoWindow_1;
             }
         });
         this.map.addListener('click', function () {
@@ -239,6 +242,23 @@ var MapaPage = /** @class */ (function () {
                 _this.activeInfoWindow = null;
             }
         });
+    };
+    // Nuevo método para abrir InfoWindow al hacer click en la imagen del modal
+    MapaPage.prototype.abrirInfoWindow = function (product) {
+        var index = this.products.findIndex(function (p) { return p.id === product.id; });
+        if (index === -1)
+            return;
+        if (this.activeInfoWindow) {
+            this.activeInfoWindow.close();
+        }
+        var marker = this.markers[index];
+        var infoWindow = this.markerInfoWindows[product.id];
+        if (marker && infoWindow) {
+            infoWindow.open(this.map, marker);
+            this.activeInfoWindow = infoWindow;
+            // Centra el mapa en el marcador
+            this.map.panTo(marker.getPosition());
+        }
     };
     MapaPage.prototype.getCurrentLocation = function () {
         return __awaiter(this, void 0, Promise, function () {

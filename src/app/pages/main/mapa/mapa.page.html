@@ -1,21 +1,21 @@
 <app-header></app-header>
 <ion-toolbar class="toolbar">
 
-    <ion-buttons slot="secondary" id="open-modals">
-    <ion-fab-button class="icon-albums" >
-      <ion-icon  name="albums-outline"></ion-icon>
+  <ion-buttons slot="secondary" id="open-modals">
+    <ion-fab-button class="icon-albums">
+      <ion-icon name="albums-outline"></ion-icon>
     </ion-fab-button>
   </ion-buttons>
 
 
   <ion-buttons slot="primary" (click)="abrirFormulario()">
     <ion-fab-button class="icon-duplicate">
-      <ion-icon  name="add-outline"></ion-icon>
+      <ion-icon name="add-outline"></ion-icon>
     </ion-fab-button>
   </ion-buttons>
 
   <ion-buttons slot="start">
-    <ion-menu-button auto-hide="false" ></ion-menu-button>
+    <ion-menu-button auto-hide="false"></ion-menu-button>
   </ion-buttons>
   <ion-searchbar show-cancel-button="focus" placeholder="Search" class="custom"></ion-searchbar>
 </ion-toolbar>
@@ -34,9 +34,9 @@
 
   <div id="map">
   </div>
-  
+
   <!-- =====================Botón flotante=================== -->
-<!--   <ion-fab vertical="top" horizontal="end" slot="fixed">
+  <!--   <ion-fab vertical="top" horizontal="end" slot="fixed">
     <ion-fab-button (click)="abrirFormulario()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
@@ -45,17 +45,29 @@
   <!-- =================MODAL CARRETE======================= -->
 
 
-  <ion-modal
-    trigger="open-modals"
-    [initialBreakpoint]="0.18"
-    [breakpoints]="[0, 0.18, 0.25, 0.5]"
-    handleBehavior="cycle"
-    (ionWillPresent)="isCarreteOpen = true"
-    (ionWillDismiss)="isCarreteOpen = false"
-  >
+  <ion-modal trigger="open-modals" [initialBreakpoint]="0.18" [breakpoints]="[0, 0.18, 0.25, 0.5]"
+    handleBehavior="cycle" (ionWillPresent)="isCarreteOpen = true" (ionWillDismiss)="isCarreteOpen = false">
 
     <ng-template>
       <ion-content class="carrete-content">
+        <br>
+        <div class="margenes">
+          <ion-row>
+            <ion-chip color="primary" mode="ios" outline="true">
+              <ion-icon name="storefront-outline"></ion-icon>
+              <ion-label>Productos</ion-label>
+            </ion-chip>
+            <ion-chip color="warning" mode="ios" outline="true">
+              <ion-icon name="pricetags-outline"></ion-icon>
+              <ion-label>Descuentos</ion-label>    
+            </ion-chip>
+            <ion-chip color="success" mode="ios" outline="true">
+              <ion-icon name="wallet-outline"></ion-icon>
+              <ion-label>Default</ion-label>
+            </ion-chip>
+          </ion-row>
+        </div>
+<!-- <hr style=" background-color:black; width: 120%; margin-left: -20px;"> -->
         <div class="carrete-horizontal">
           <div class="tarjeta" *ngFor="let product of products | slice:0:50">
             <div class="mini-card" (click)="abrirInfoWindow(product)">

@@ -175,9 +175,9 @@ export class MapaPage implements OnInit {
 
         const infoWindow = new google.maps.InfoWindow({
           content: `
-            <div style="width: 210px; font-family:'poppins', sans-serif;">
+            <div style="width: 180px; font-family:'poppins', sans-serif;">
               <img src="${product.image}" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
-              <div style="padding: 8px; width: 100%; white-space: normal; overflow: visible; text-overflow: unset;">
+              <div style="padding: 8px; width: 100%; white-space: normal; overflow: visible; ">
                 <strong>Usuario: </strong><br>
                 <strong>Nombre: </strong>${product.name}<br>
                 <strong>Descripcion: </strong>${product.descripcion}<br>
