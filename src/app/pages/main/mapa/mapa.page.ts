@@ -12,7 +12,6 @@ import { Geolocation } from '@capacitor/geolocation';
 
 import { MenuController } from '@ionic/angular';
 
-
 declare const google: any;
 
 @Component({
@@ -23,13 +22,12 @@ declare const google: any;
 })
 export class MapaPage implements OnInit {
 
-
   openModal(){
        const modal = document.querySelector('ion-modal');
         if (modal) {
           modal.present();
         }
-}
+  }
 
   isModalOpen: boolean = false;
   isCarreteOpen: boolean = false;
@@ -43,11 +41,13 @@ export class MapaPage implements OnInit {
   modalCtrl = inject(ModalController);
   menuCtrl = inject(MenuController);
 
-
   currentPath: string = '';
   map!: google.maps.Map;
   markers: google.maps.Marker[] = [];
   activeInfoWindow: google.maps.InfoWindow | null = null;
+
+  // Nuevo: objeto para guardar InfoWindows por producto
+  markerInfoWindows: { [productId: string]: google.maps.InfoWindow } = {};
 
   async ngOnInit() {
     await this.solicitarPermisosUbicacion();
@@ -98,7 +98,6 @@ export class MapaPage implements OnInit {
     this.getAllProducts();
   }
 
-  
   ionViewWillLeave() {
     this.menuCtrl.swipeGesture(true);
   }
@@ -111,7 +110,6 @@ export class MapaPage implements OnInit {
     let generalLoaded = false;
 
     const done = () => {
-      // Combina ambos arrays y elimina duplicados por id
       const all = [...userProducts, ...generalProducts];
       const unique = all.filter(
         (item, index, self) => index === self.findIndex((t) => t.id === item.id)
@@ -165,6 +163,7 @@ export class MapaPage implements OnInit {
 
   mostrarMarcadores() {
     this.clearMarkers();
+    this.markerInfoWindows = {}; // Limpia los infoWindows guardados
 
     this.products.forEach((product) => {
       if (product.lat && product.lng) {
@@ -176,14 +175,13 @@ export class MapaPage implements OnInit {
 
         const infoWindow = new google.maps.InfoWindow({
           content: `
-            <div style="width: 190px; font-family:'poppins', sans-serif;">
+            <div style="width: 210px; font-family:'poppins', sans-serif;">
               <img src="${product.image}" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
-              <div style="padding: 8px;, width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              <div style="padding: 8px; width: 100%; white-space: normal; overflow: visible; text-overflow: unset;">
                 <strong>Usuario: </strong><br>
                 <strong>Nombre: </strong>${product.name}<br>
                 <strong>Descripcion: </strong>${product.descripcion}<br>
                 <strong>Precio: </strong><strong style="color: #228b22;">$${product.price}</strong><br>
-                
               </div>
             </div>
           `,
@@ -198,6 +196,7 @@ export class MapaPage implements OnInit {
         });
 
         this.markers.push(marker);
+        this.markerInfoWindows[product.id] = infoWindow;
       }
     });
 
@@ -207,6 +206,27 @@ export class MapaPage implements OnInit {
         this.activeInfoWindow = null;
       }
     });
+  }
+
+  // Nuevo método para abrir InfoWindow al hacer click en la imagen del modal
+  abrirInfoWindow(product: Product) {
+    const index = this.products.findIndex(p => p.id === product.id);
+    if (index === -1) return;
+
+    if (this.activeInfoWindow) {
+      this.activeInfoWindow.close();
+    }
+
+    const marker = this.markers[index];
+    const infoWindow = this.markerInfoWindows[product.id];
+
+    if (marker && infoWindow) {
+      infoWindow.open(this.map, marker);
+      this.activeInfoWindow = infoWindow;
+
+      // Centra el mapa en el marcador
+      this.map.panTo(marker.getPosition() as google.maps.LatLng);
+    }
   }
 
   async getCurrentLocation(): Promise<{ lat: number; lng: number }> {

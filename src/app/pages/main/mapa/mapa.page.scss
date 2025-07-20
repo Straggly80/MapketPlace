@@ -121,3 +121,58 @@ ion-searchbar.ios.custom {
 ion-searchbar.md.custom {
   --cancel-button-color: #fff;
 }
+
+.carrete-horizontal {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  border-radius: 6px;
+  gap: 0px;
+  padding-top: 25px;
+  padding-bottom: 5px;
+  scroll-snap-type: x mandatory;
+    /* 🔽 Ocultar scroll horizontal en todos los navegadores */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.tarjeta {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+}
+
+.mini-card {
+  width: 70px;
+  display: flex;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.mini-card img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+
+.product-name {
+  margin-top: 4px;
+  font-size: 12px;
+  text-align: center;
+  font-weight: 500;
+  color: #333;
+  max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.carrete-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 10px;
+  --padding-end: 10px;
+}
