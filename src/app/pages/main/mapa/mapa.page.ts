@@ -20,6 +20,8 @@ import { MenuController } from '@ionic/angular';
 
 import { style } from '@angular/animations';
 
+import { IonModal } from '@ionic/angular';
+import { ViewChild, AfterViewInit } from '@angular/core';
 declare const google: any;
 
 @Component({
@@ -29,6 +31,9 @@ declare const google: any;
   standalone: false,
 })
 export class MapaPage implements OnInit {
+
+  @ViewChild(IonModal) modal: IonModal;
+
   openModal() {
     const modal = document.querySelector('ion-modal');
     if (modal) {
@@ -91,6 +96,7 @@ export class MapaPage implements OnInit {
 
   ngAfterViewInit() {
     this.loadGoogleMaps().then(() => this.initMap());
+    this.modal.present();
   }
 
   user(): User {

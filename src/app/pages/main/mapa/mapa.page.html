@@ -45,7 +45,7 @@
   <!-- =================MODAL CARRETE======================= -->
 
 
-  <ion-modal trigger="open-modals" [initialBreakpoint]="0.18" [breakpoints]="[0, 0.18, 0.25, 0.5]"
+  <ion-modal trigger="open-modals" [backdropDismiss]="false" [initialBreakpoint]="0.18" [breakpoints]="[0, 0.18, 0.25, 0.5]"
     handleBehavior="cycle" (ionWillPresent)="isCarreteOpen = true" (ionWillDismiss)="isCarreteOpen = false">
 
     <ng-template>
