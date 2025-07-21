@@ -201,9 +201,11 @@ export class MapaPage implements OnInit {
             <div style="padding: 8px; width: 100%; white-space: normal; overflow: visible;">
               <strong>Nombre: </strong>${product.name}<br>
               <strong>Descripcion: </strong>${product.descripcion}<br>
-              <strong>Precio: </strong><strong style="color: #228b22;">$${product.price}</strong><br>
-              ${product.telefono? `<a href="https://wa.me/${product.telefono}" target="_blank" style="margin-top: 8px; display: inline-block; padding: 6px 10px; background: #25D366; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
-                      WhatsApp
+              <strong>Precio: </strong><strong style="color: #00cb00ff;">$${product.price}</strong><br>
+              ${product.telefono? `<a href="https://wa.me/${product.telefono}" target="_blank" 
+              style="margin-top: 8px; display: inline-block; padding: 6px 10px; background: #3aa93aff; 
+              color: white; text-decoration: none; border-radius: 4px; font-family: 'poppins';">
+                  ¡Contactame! <ion-icon name="logo-whatsapp" color="light" size="medium"></ion-icon>
                     </a>`
                   : ''
               }

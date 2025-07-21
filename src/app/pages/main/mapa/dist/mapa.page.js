@@ -59,11 +59,14 @@ var utils_service_1 = require("src/app/services/utils.service");
 var firestore_1 = require("firebase/firestore");
 var geolocation_1 = require("@capacitor/geolocation");
 var angular_2 = require("@ionic/angular");
+var angular_3 = require("@ionic/angular");
+var core_2 = require("@angular/core");
 var MapaPage = /** @class */ (function () {
     function MapaPage() {
         this.isModalOpen = false;
         this.isCarreteOpen = false;
         this.products = [];
+        this.users = [];
         this.loading = false;
         this.router = core_1.inject(router_1.Router);
         this.firebaseSvc = core_1.inject(firebase_service_1.FirebaseService);
@@ -141,6 +144,7 @@ var MapaPage = /** @class */ (function () {
     MapaPage.prototype.ngAfterViewInit = function () {
         var _this = this;
         this.loadGoogleMaps().then(function () { return _this.initMap(); });
+        this.modal.present();
     };
     MapaPage.prototype.user = function () {
         return this.utilsSvc.getFromLocalStorage('user');
@@ -170,7 +174,9 @@ var MapaPage = /** @class */ (function () {
             _this.mostrarMarcadores();
         };
         this.firebaseSvc
-            .getCollectionData("users/" + this.user().uid + "/products", [firestore_1.orderBy('soldUnits', 'desc')])
+            .getCollectionData("users/" + this.user().uid + "/products", [
+            firestore_1.orderBy('soldUnits', 'desc'),
+        ])
             .subscribe({
             next: function (res) {
                 userProducts = res;
@@ -223,7 +229,8 @@ var MapaPage = /** @class */ (function () {
                     title: product.name
                 });
                 var infoWindow_1 = new google.maps.InfoWindow({
-                    content: "\n            <div style=\"width: 180px; font-family:'poppins', sans-serif;\">\n              <img src=\"" + product.image + "\" style=\"width: 100%; border-radius: 8px 8px 0 0; display: block;\" />\n              <div style=\"padding: 8px; width: 100%; white-space: normal; overflow: visible; \">\n                <strong>Usuario: </strong><br>\n                <strong>Nombre: </strong>" + product.name + "<br>\n                <strong>Descripcion: </strong>" + product.descripcion + "<br>\n                <strong>Precio: </strong><strong style=\"color: #228b22;\">$" + product.price + "</strong><br>\n              </div>\n            </div>\n          "
+                    content: "\n          <div style=\"width: 180px; font-family:'poppins', sans-serif;\">\n            <img src=\"" + product.image + "\" style=\"width: 100%; border-radius: 8px 8px 0 0; display: block;\" />\n            <div style=\"padding: 8px; width: 100%; white-space: normal; overflow: visible;\">\n              <strong>Nombre: </strong>" + product.name + "<br>\n              <strong>Descripcion: </strong>" + product.descripcion + "<br>\n              <strong>Precio: </strong><strong style=\"color: #00cb00ff;\">$" + product.price + "</strong><br>\n              " + (product.telefono ? "<a href=\"https://wa.me/" + product.telefono + "\" target=\"_blank\" \n              style=\"margin-top: 8px; display: inline-block; padding: 6px 10px; background: #3aa93aff; \n              color: white; text-decoration: none; border-radius: 4px; font-family: 'poppins';\">\n                  \u00A1Contactame! <ion-icon name=\"logo-whatsapp\" color=\"light\" size=\"medium\"></ion-icon>\n                    </a>"
+                        : '') + "\n            </div>\n          </div>\n        "
                 });
                 marker_1.addListener('click', function () {
                     if (_this.activeInfoWindow) {
@@ -278,6 +285,7 @@ var MapaPage = /** @class */ (function () {
                             }];
                     case 2:
                         error_2 = _a.sent();
+                        alert('No se pudo obtener la ubicación. Verifica que el GPS esté activado y los permisos concedidos.');
                         console.error('Error al obtener la ubicación:', error_2);
                         return [2 /*return*/, {
                                 lat: 31.327409,
@@ -289,13 +297,14 @@ var MapaPage = /** @class */ (function () {
         });
     };
     MapaPage.prototype.initMap = function () {
+        var _a;
         return __awaiter(this, void 0, void 0, function () {
             var userLocation, mapDiv;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
+            return __generator(this, function (_b) {
+                switch (_b.label) {
                     case 0: return [4 /*yield*/, this.getCurrentLocation()];
                     case 1:
-                        userLocation = _a.sent();
+                        userLocation = _b.sent();
                         mapDiv = document.getElementById('map');
                         if (!mapDiv)
                             return [2 /*return*/];
@@ -344,7 +353,10 @@ var MapaPage = /** @class */ (function () {
                             map: this.map,
                             title: 'Tu ubicación',
                             icon: {
-                                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                                url: ((_a = this.user()) === null || _a === void 0 ? void 0 : _a.image) || 'assets/usuario-no-picture.png',
+                                scaledSize: new google.maps.Size(30, 30),
+                                origin: new google.maps.Point(0, 0),
+                                anchor: new google.maps.Point(20, 20)
                             }
                         });
                         return [2 /*return*/];
@@ -396,9 +408,13 @@ var MapaPage = /** @class */ (function () {
             image: '',
             soldUnits: 0,
             lat: userLatLng.lat,
-            lng: userLatLng.lng
+            lng: userLatLng.lng,
+            telefono: data.telefono
         };
     };
+    __decorate([
+        core_2.ViewChild(angular_3.IonModal)
+    ], MapaPage.prototype, "modal");
     MapaPage = __decorate([
         core_1.Component({
             selector: 'app-mapa',
