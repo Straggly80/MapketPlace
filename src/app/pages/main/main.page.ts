@@ -44,7 +44,7 @@ export class MainPage implements OnInit {
 
   pages = [
 
-    { title: 'Inicio', url: '/main/menu', icon: 'home' },
+   /*  { title: 'Inicio', url: '/main/menu', icon: 'home' }, */
     { title: 'Mapa', url: '/main/mapa', icon: 'map' },
     { title: 'Favoritos', url: '/main/favoritos', icon: 'heart-outline' },
     { title: 'Ventas', url: '/main/home', icon: 'bag-outline' }, /* o este: <i class="bi bi-cart3"></i>, o este: <i class="bi bi-cart2"></i> */

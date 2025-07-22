@@ -59,7 +59,7 @@
       <div *ngIf="form.controls.telefono.errors?.['required']">Este campo es requerido.</div>
     </div>
 
-    <input type="hidden" formControlName="lat">
+   <!--  <input type="hidden" formControlName="lat">
     <input type="hidden" formControlName="lng">
     <button type="button" (click)="usarMiUbicacion()" class="btn-ubicacion">
       📍 Usar mi ubicación actual
@@ -68,7 +68,7 @@
     <div *ngIf="miDireccion" style="margin-top: 10px; font-family: sans-serif;">
       <strong>Dirección actual:</strong><br />
       {{ miDireccion }}
-    </div>
+    </div> -->
     <!-- COORDINATES (Readonly) -->
     <div id="mini-map" style="height: 30vh; width: 100%; margin-top: 15px; border-radius: 10px;"></div>
     <ion-button id="botonPSN" mode="ios" class="ion-margin" type="submit">

@@ -114,7 +114,7 @@ var WelcomePage = /** @class */ (function () {
                             .getDocument(path)
                             .then(function (user) {
                             _this.utilSvc.saveInLocalStorage('user', user);
-                            _this.utilSvc.routerLink('/main/menu');
+                            _this.utilSvc.routerLink('/main/home');
                             _this.form.reset();
                             _this.utilSvc.presentToast({
                                 message: "Bienvenid@ a MapketPlace " + user.name,

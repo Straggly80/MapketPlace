@@ -64,7 +64,7 @@ export class WelcomePage implements OnInit {
         .getDocument(path)
         .then((user: User) => {
           this.utilSvc.saveInLocalStorage('user', user);
-          this.utilSvc.routerLink('/main/menu');
+          this.utilSvc.routerLink('/main/home');
           this.form.reset();
 
           this.utilSvc.presentToast({

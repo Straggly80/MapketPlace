@@ -26,8 +26,9 @@ declare const google: any;
 export class MapaPage implements OnInit, AfterViewInit {
   @ViewChild(IonModal) modal: IonModal;
 
-  isModalOpen = false;
-  isCarreteOpen = false;
+
+  isModalOpen = true;
+  isCarreteOpen = true;
 
   products: Product[] = [];
   users: User[] = [];

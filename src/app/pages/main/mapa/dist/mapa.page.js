@@ -63,8 +63,8 @@ var angular_3 = require("@ionic/angular");
 var core_2 = require("@angular/core");
 var MapaPage = /** @class */ (function () {
     function MapaPage() {
-        this.isModalOpen = false;
-        this.isCarreteOpen = false;
+        this.isModalOpen = true;
+        this.isCarreteOpen = true;
         this.products = [];
         this.users = [];
         this.loading = false;
@@ -76,19 +76,22 @@ var MapaPage = /** @class */ (function () {
         this.currentPath = '';
         this.markers = [];
         this.activeInfoWindow = null;
-        // Nuevo: objeto para guardar InfoWindows por producto
+        // Guardar infoWindows por producto
         this.markerInfoWindows = {};
     }
-    MapaPage.prototype.openModal = function () {
-        var modal = document.querySelector('ion-modal');
-        if (modal) {
-            modal.present();
-        }
-    };
     MapaPage.prototype.ngOnInit = function () {
+        var _this = this;
+        this.router.events.subscribe(function (event) {
+            if (event === null || event === void 0 ? void 0 : event.url)
+                _this.currentPath = event.url;
+        });
+    };
+    MapaPage.prototype.ngAfterViewInit = function () {
+        this.initMapaConUbicacion();
+    };
+    MapaPage.prototype.initMapaConUbicacion = function () {
         return __awaiter(this, void 0, void 0, function () {
             var ubicacion;
-            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.solicitarPermisosUbicacion()];
@@ -98,10 +101,11 @@ var MapaPage = /** @class */ (function () {
                     case 2:
                         ubicacion = _a.sent();
                         console.log('📍 Ubicación actual:', ubicacion);
-                        this.router.events.subscribe(function (event) {
-                            if (event === null || event === void 0 ? void 0 : event.url)
-                                _this.currentPath = event.url;
-                        });
+                        return [4 /*yield*/, this.loadGoogleMaps()];
+                    case 3:
+                        _a.sent();
+                        this.inicializarMapa(ubicacion);
+                        // Mostrar productos después de mostrar el mapa
                         this.getAllProducts();
                         return [2 /*return*/];
                 }
@@ -141,11 +145,6 @@ var MapaPage = /** @class */ (function () {
             event.target.complete();
         }, 1000);
     };
-    MapaPage.prototype.ngAfterViewInit = function () {
-        var _this = this;
-        this.loadGoogleMaps().then(function () { return _this.initMap(); });
-        this.modal.present();
-    };
     MapaPage.prototype.user = function () {
         return this.utilsSvc.getFromLocalStorage('user');
     };
@@ -154,7 +153,6 @@ var MapaPage = /** @class */ (function () {
     };
     MapaPage.prototype.ionViewWillEnter = function () {
         this.menuCtrl.swipeGesture(false);
-        this.getAllProducts();
     };
     MapaPage.prototype.ionViewWillLeave = function () {
         this.menuCtrl.swipeGesture(true);
@@ -174,9 +172,7 @@ var MapaPage = /** @class */ (function () {
             _this.mostrarMarcadores();
         };
         this.firebaseSvc
-            .getCollectionData("users/" + this.user().uid + "/products", [
-            firestore_1.orderBy('soldUnits', 'desc'),
-        ])
+            .getCollectionData("users/" + this.user().uid + "/products", [firestore_1.orderBy('soldUnits', 'desc')])
             .subscribe({
             next: function (res) {
                 userProducts = res;
@@ -184,12 +180,10 @@ var MapaPage = /** @class */ (function () {
                 if (generalLoaded)
                     done();
             },
-            error: function () {
-                _this.loading = false;
-            }
+            error: function () { return (_this.loading = false); }
         });
         this.firebaseSvc
-            .getCollectionData('productGeneral/', [firestore_1.orderBy('soldUnits', 'desc')])
+            .getCollectionData('productGeneral', [firestore_1.orderBy('soldUnits', 'desc')])
             .subscribe({
             next: function (res) {
                 generalProducts = res;
@@ -197,30 +191,89 @@ var MapaPage = /** @class */ (function () {
                 if (userLoaded)
                     done();
             },
-            error: function () {
-                _this.loading = false;
-            }
+            error: function () { return (_this.loading = false); }
         });
     };
     MapaPage.prototype.loadGoogleMaps = function () {
         return new Promise(function (resolve) {
-            if (window.google && window.google.maps) {
-                resolve();
-            }
-            else {
-                var interval_1 = setInterval(function () {
-                    if (window.google && window.google.maps) {
-                        clearInterval(interval_1);
-                        resolve();
+            var _a;
+            if ((_a = window.google) === null || _a === void 0 ? void 0 : _a.maps)
+                return resolve();
+            var interval = setInterval(function () {
+                var _a;
+                if ((_a = window.google) === null || _a === void 0 ? void 0 : _a.maps) {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 100);
+        });
+    };
+    MapaPage.prototype.inicializarMapa = function (userLocation) {
+        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var mapDiv;
+            return __generator(this, function (_b) {
+                mapDiv = document.getElementById('map');
+                if (!mapDiv)
+                    return [2 /*return*/];
+                this.map = new google.maps.Map(mapDiv, {
+                    center: userLocation,
+                    zoom: 13,
+                    disableDefaultUI: true,
+                    zoomControl: false,
+                    clickableIcons: false,
+                    mapTypeId: 'roadmap',
+                    styles: [
+                        {
+                            featureType: 'all',
+                            elementType: 'labels.text',
+                            stylers: [{ color: '#878787' }]
+                        },
+                        {
+                            featureType: 'all',
+                            elementType: 'labels.text.stroke',
+                            stylers: [{ visibility: 'off' }]
+                        },
+                        {
+                            featureType: 'landscape',
+                            elementType: 'all',
+                            stylers: [{ color: '#f9f5ed' }]
+                        },
+                        {
+                            featureType: 'road.highway',
+                            elementType: 'all',
+                            stylers: [{ color: '#f5f5f5' }]
+                        },
+                        {
+                            featureType: 'road.highway',
+                            elementType: 'geometry.stroke',
+                            stylers: [{ color: '#c9c9c9' }]
+                        },
+                        {
+                            featureType: 'water',
+                            elementType: 'all',
+                            stylers: [{ color: '#aee0f4' }]
+                        },
+                    ]
+                });
+                new google.maps.Marker({
+                    position: userLocation,
+                    map: this.map,
+                    title: 'Tu ubicación',
+                    icon: {
+                        url: ((_a = this.user()) === null || _a === void 0 ? void 0 : _a.image) || 'assets/usuario-no-picture.png',
+                        scaledSize: new google.maps.Size(30, 30),
+                        anchor: new google.maps.Point(20, 20)
                     }
-                }, 100);
-            }
+                });
+                return [2 /*return*/];
+            });
         });
     };
     MapaPage.prototype.mostrarMarcadores = function () {
         var _this = this;
         this.clearMarkers();
-        this.markerInfoWindows = {}; // Limpia los infoWindows guardados
+        this.markerInfoWindows = {};
         this.products.forEach(function (product) {
             if (product.lat && product.lng) {
                 var marker_1 = new google.maps.Marker({
@@ -229,13 +282,11 @@ var MapaPage = /** @class */ (function () {
                     title: product.name
                 });
                 var infoWindow_1 = new google.maps.InfoWindow({
-                    content: "\n          <div style=\"width: 180px; font-family:'poppins', sans-serif;\">\n            <img src=\"" + product.image + "\" style=\"width: 100%; border-radius: 8px 8px 0 0; display: block;\" />\n            <div style=\"padding: 8px; width: 100%; white-space: normal; overflow: visible;\">\n              <strong>Nombre: </strong>" + product.name + "<br>\n              <strong>Descripcion: </strong>" + product.descripcion + "<br>\n              <strong>Precio: </strong><strong style=\"color: #00cb00ff;\">$" + product.price + "</strong><br>\n              " + (product.telefono ? "<a href=\"https://wa.me/" + product.telefono + "\" target=\"_blank\" \n              style=\"margin-top: 8px; display: inline-block; padding: 6px 10px; background: #3aa93aff; \n              color: white; text-decoration: none; border-radius: 4px; font-family: 'poppins';\">\n                  \u00A1Contactame! <ion-icon name=\"logo-whatsapp\" color=\"light\" size=\"medium\"></ion-icon>\n                    </a>"
-                        : '') + "\n            </div>\n          </div>\n        "
+                    content: "\n            <div style=\"width: 180px; font-family:'poppins', sans-serif;\">\n              <img src=\"" + product.image + "\" style=\"width: 100%; border-radius: 8px 8px 0 0; display: block;\" />\n              <div style=\"padding: 8px;\">\n                <strong>Nombre: </strong>" + product.name + "<br>\n                <strong>Descripcion: </strong>" + product.descripcion + "<br>\n                <strong>Precio: </strong><strong style=\"color: #00cb00ff;\">$" + product.price + "</strong><br>\n                " + (product.telefono ? "<a href=\"https://wa.me/" + product.telefono + "\" target=\"_blank\" \n                  style=\"margin-top: 8px; display: inline-block; padding: 6px 10px; background: #3aa93aff; \n                  color: white; text-decoration: none; border-radius: 4px; font-family: 'poppins';\">\n                    \u00A1Contactame!\n                  </a>" : '') + "\n              </div>\n            </div>"
                 });
                 marker_1.addListener('click', function () {
-                    if (_this.activeInfoWindow) {
-                        _this.activeInfoWindow.close();
-                    }
+                    var _a;
+                    (_a = _this.activeInfoWindow) === null || _a === void 0 ? void 0 : _a.close();
                     infoWindow_1.open(_this.map, marker_1);
                     _this.activeInfoWindow = infoWindow_1;
                 });
@@ -244,26 +295,22 @@ var MapaPage = /** @class */ (function () {
             }
         });
         this.map.addListener('click', function () {
-            if (_this.activeInfoWindow) {
-                _this.activeInfoWindow.close();
-                _this.activeInfoWindow = null;
-            }
+            var _a;
+            (_a = _this.activeInfoWindow) === null || _a === void 0 ? void 0 : _a.close();
+            _this.activeInfoWindow = null;
         });
     };
-    // Nuevo método para abrir InfoWindow al hacer click en la imagen del modal
     MapaPage.prototype.abrirInfoWindow = function (product) {
+        var _a;
         var index = this.products.findIndex(function (p) { return p.id === product.id; });
         if (index === -1)
             return;
-        if (this.activeInfoWindow) {
-            this.activeInfoWindow.close();
-        }
+        (_a = this.activeInfoWindow) === null || _a === void 0 ? void 0 : _a.close();
         var marker = this.markers[index];
         var infoWindow = this.markerInfoWindows[product.id];
         if (marker && infoWindow) {
             infoWindow.open(this.map, marker);
             this.activeInfoWindow = infoWindow;
-            // Centra el mapa en el marcador
             this.map.panTo(marker.getPosition());
         }
     };
@@ -274,9 +321,7 @@ var MapaPage = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, geolocation_1.Geolocation.getCurrentPosition({
-                                enableHighAccuracy: true
-                            })];
+                        return [4 /*yield*/, geolocation_1.Geolocation.getCurrentPosition({ enableHighAccuracy: true })];
                     case 1:
                         position = _a.sent();
                         return [2 /*return*/, {
@@ -285,81 +330,10 @@ var MapaPage = /** @class */ (function () {
                             }];
                     case 2:
                         error_2 = _a.sent();
-                        alert('No se pudo obtener la ubicación. Verifica que el GPS esté activado y los permisos concedidos.');
-                        console.error('Error al obtener la ubicación:', error_2);
-                        return [2 /*return*/, {
-                                lat: 31.327409,
-                                lng: -113.522065
-                            }];
+                        alert('No se pudo obtener la ubicación. Verifica que el GPS esté activado.');
+                        console.error('Error al obtener ubicación:', error_2);
+                        return [2 /*return*/, { lat: 31.327409, lng: -113.522065 }]; // Ubicación por defecto
                     case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    MapaPage.prototype.initMap = function () {
-        var _a;
-        return __awaiter(this, void 0, void 0, function () {
-            var userLocation, mapDiv;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.getCurrentLocation()];
-                    case 1:
-                        userLocation = _b.sent();
-                        mapDiv = document.getElementById('map');
-                        if (!mapDiv)
-                            return [2 /*return*/];
-                        this.map = new google.maps.Map(mapDiv, {
-                            center: userLocation,
-                            zoom: 13,
-                            disableDefaultUI: true,
-                            zoomControl: false,
-                            clickableIcons: false,
-                            mapTypeId: 'roadmap',
-                            styles: [
-                                {
-                                    featureType: 'all',
-                                    elementType: 'labels.text',
-                                    stylers: [{ color: '#878787' }]
-                                },
-                                {
-                                    featureType: 'all',
-                                    elementType: 'labels.text.stroke',
-                                    stylers: [{ visibility: 'off' }]
-                                },
-                                {
-                                    featureType: 'landscape',
-                                    elementType: 'all',
-                                    stylers: [{ color: '#f9f5ed' }]
-                                },
-                                {
-                                    featureType: 'road.highway',
-                                    elementType: 'all',
-                                    stylers: [{ color: '#f5f5f5' }]
-                                },
-                                {
-                                    featureType: 'road.highway',
-                                    elementType: 'geometry.stroke',
-                                    stylers: [{ color: '#c9c9c9' }]
-                                },
-                                {
-                                    featureType: 'water',
-                                    elementType: 'all',
-                                    stylers: [{ color: '#aee0f4' }]
-                                },
-                            ]
-                        });
-                        new google.maps.Marker({
-                            position: userLocation,
-                            map: this.map,
-                            title: 'Tu ubicación',
-                            icon: {
-                                url: ((_a = this.user()) === null || _a === void 0 ? void 0 : _a.image) || 'assets/usuario-no-picture.png',
-                                scaledSize: new google.maps.Size(30, 30),
-                                origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(20, 20)
-                            }
-                        });
-                        return [2 /*return*/];
                 }
             });
         });
@@ -377,10 +351,7 @@ var MapaPage = /** @class */ (function () {
                         coords = this.map.getCenter().toJSON();
                         return [4 /*yield*/, this.modalCtrl.create({
                                 component: add_update_product_component_1.AddUpdateProductComponent,
-                                componentProps: {
-                                    lat: coords.lat,
-                                    lng: coords.lng
-                                }
+                                componentProps: { lat: coords.lat, lng: coords.lng }
                             })];
                     case 1:
                         modal = _a.sent();
@@ -390,16 +361,15 @@ var MapaPage = /** @class */ (function () {
                         return [4 /*yield*/, modal.onDidDismiss()];
                     case 3:
                         data = (_a.sent()).data;
-                        if (data) {
+                        if (data)
                             this.getAllProducts();
-                        }
                         return [2 /*return*/];
                 }
             });
         });
     };
     MapaPage.prototype.agregarProductoDesdeFormulario = function (data) {
-        var userLatLng = this.map.getCenter().toJSON();
+        var coords = this.map.getCenter().toJSON();
         var nuevo = {
             id: new Date().getTime().toString(),
             name: data.name,
@@ -407,10 +377,11 @@ var MapaPage = /** @class */ (function () {
             price: parseFloat(data.price),
             image: '',
             soldUnits: 0,
-            lat: userLatLng.lat,
-            lng: userLatLng.lng,
+            lat: coords.lat,
+            lng: coords.lng,
             telefono: data.telefono
         };
+        // Aquí deberías guardar `nuevo` en Firestore si quieres persistirlo
     };
     __decorate([
         core_2.ViewChild(angular_3.IonModal)

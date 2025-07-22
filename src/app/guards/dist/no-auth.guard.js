@@ -13,7 +13,7 @@ exports.noAuthGuard = function () {
                 resolve(true);
             }
             else {
-                utilsSvc.routerLink('/main/menu');
+                utilsSvc.routerLink('/main/home');
                 resolve(false);
             }
         });
