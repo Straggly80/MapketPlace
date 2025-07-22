@@ -1,3 +1,9 @@
+*{
+    font-family: 'poppins';
+      overflow: hidden;
+  --overflow: hidden; // <-- ¡este es crucial!
+}
+
 ion-avatar {
     width: 100px;
     height: 100px;
@@ -15,27 +21,6 @@ ion-icon.empty-icon {
    margin-top: -11px;
    
 }
-/* 
-ion-avatar:hover {
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
-} */
-
-ion-button.photo-btn {
-    position:relative;
-    bottom: 29px;
-    --background: rgba(215, 229, 255, 0.44);
-    transition: transform 0.3s ease;
-    margin-left: -267px;
-}
-ion-button.photo-btn:hover {
-    transition: transform 0.3s ease;
-    --background: rgba(215, 229, 255, 0.595);
-
-}
-h2{
-    margin-bottom: 0;
-}
 
 ion-item {
     --padding-top: 15px;
@@ -52,32 +37,20 @@ ion-item {
 
 ion-menu-button.menu{
     --color: rgb(255, 255, 255);
-
-/*     --background: pink;
-    --color: rgb(255, 144, 144); */
 }
 
-/*    ion-toggle {
-  padding: 12px;
 
-  --track-background: #ddd;
-  --track-background-checked: #ddd;
+ion-chip.editar-boton{
+  margin-top: 25px;
+  display: flex;
+     display: block;
+    width: 90px;
+    left: 100px;
+    }
 
-  --handle-background: #eb7769;
-  --handle-background-checked: #95c34e;
-
-  --handle-width: 25px;
-  --handle-height: 27px;
-  --handle-max-height: auto;
-  --handle-spacing: 6px;
-
-  --handle-border-radius: 4px;
-  --handle-box-shadow: none;
+.vendedor{
+    position: absolute;
+   margin-right: 120px;
+     margin-top: 25px;
+        display: block;
 }
-
-ion-toggle::part(track) {
-  height: 10px;
-  width: 65px;
-
-  overflow: visible;
-} */

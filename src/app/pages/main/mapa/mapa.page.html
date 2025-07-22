@@ -48,7 +48,7 @@
       <ion-buttons slot="start">
         <ion-menu-button auto-hide="false"></ion-menu-button>
       </ion-buttons>
-      <ion-searchbar value="Value" class="custom" placeholder="Busca un articulo"></ion-searchbar>
+      <ion-searchbar class="custom" placeholder="Busca un articulo"></ion-searchbar>
     </ion-toolbar>
   </div>
 
@@ -113,7 +113,7 @@
             <ion-segment-content id="first">
 
               <div class="carrete-horizontal">
-                <div class="tarjeta" *ngFor="let product of products | slice:0:10">
+                <div class="tarjeta" *ngFor="let product of products | slice:0:400"> <!-- Slice permite cuanta cantidad de productos muestra el carrete -->
                   <div class="mini-card" (click)="abrirInfoWindow(product)">
                     <img [src]="product.image" [alt]="product.name" />
                     <div class="product-name"><small>{{ product.name }}</small></div>
@@ -124,15 +124,13 @@
               <h1 class="ola">Hola, aqui aun no hay informacion disponible..</h1>
             </ion-segment-content>
 
-            <ion-segment-content id="second">descuentos</ion-segment-content> <!-- Contenido solo para descuentos -->
+            <!-- <ion-segment-content id="second">descuentos</ion-segment-content> --> <!-- Contenido solo para descuentos -->
 
-            <ion-segment-content id="third">Premium</ion-segment-content> <!-- Contenido solo para premium -->
+            <!-- <ion-segment-content id="third">Premium</ion-segment-content> --> <!-- Contenido solo para premium -->
 
 
           </ion-segment-view>
         </div>
-        <!-- <hr style=" background-color:black; width: 120%; margin-left: -20px;"> -->
-
       </ion-content>
     </ng-template>
   </ion-modal>

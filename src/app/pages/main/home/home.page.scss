@@ -2,8 +2,6 @@
 /* ----------------------------------------- */
 ion-content {
   height: 100vh;
-  overflow: hidden;
-  --overflow: hidden; // <-- ¡este es crucial!
   --padding-bottom: 0;
 }
 

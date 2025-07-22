@@ -57,7 +57,7 @@ ion-menu-button {
 
 ion-toolbar{
   --background:transparent !important;
-  margin-top: 90px;
+  margin-top: 35px;
   width: 100%;
 }
 
@@ -131,7 +131,8 @@ ion-searchbar.md.custom {
   overflow: hidden;
    background-color: #ffffff;
    box-shadow: #313131 2px;
-   border: 0.1px solid rgba(66, 66, 66, 0.253);
+/*    border: 0.1px solid rgba(66, 66, 66, 0.253); */
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.249);
 }
 
 .mini-card img {
@@ -180,12 +181,14 @@ font-size: 12px;
   font-weight: bold;
   text-align: center;
   margin-top: -7px;
+  color: #4a95ff;
 }
 
 .carre2{
   text-align: center;
   margin-top: 0px;
   font-size: 10px;
+  color: #51b6ff;
 }
 
 .ola{

@@ -1,27 +1,20 @@
 import { Component, inject, OnInit } from '@angular/core';
-
 import { Product } from 'src/app/models/product.model';
 import { User } from 'src/app/models/user.model';
-
 import { v4 as uuidv4 } from 'uuid';
 import { AlertController, ModalController } from '@ionic/angular';
-
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
-
 import { Router } from '@angular/router';
-
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { orderBy } from 'firebase/firestore';
-
 import { Geolocation } from '@capacitor/geolocation';
-
 import { MenuController } from '@ionic/angular';
-
 import { style } from '@angular/animations';
-
 import { IonModal } from '@ionic/angular';
 import { ViewChild, AfterViewInit } from '@angular/core';
+
+
 declare const google: any;
 
 @Component({

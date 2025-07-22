@@ -16,7 +16,8 @@ export class SettingsPage implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
-  constructor(private firebaseService: FirebaseService, private utilsService: UtilsService, private toastController: ToastController) { }
+  constructor(private firebaseService: FirebaseService, 
+    private utilsService: UtilsService, private toastController: ToastController) { }
 
   ngOnInit() {
   }
@@ -27,5 +28,46 @@ export class SettingsPage implements OnInit {
 
   ActualizarNombre(){
     
+  }
+
+  async takeImage() {
+    let user = this.user();
+    let path = `users/${user.uid}`;
+
+    let loading: HTMLIonLoadingElement | undefined;
+
+    try {
+      const dataUrl = (await this.utilsSvc.takePicture('Imagen del Perfil'))
+        .dataUrl;
+
+      loading = await this.utilsSvc.loading();
+      await loading.present();
+
+      let imagePath = `${user.uid}/profile`;
+
+      user.image = await this.firebaseSvc.uploadImage(imagePath, dataUrl);
+      await this.firebaseSvc.updateDocument(path, { image: user.image });
+
+      this.utilsSvc.saveInLocalStorage('user', user);
+
+      await this.utilsSvc.presentToast({
+        message: 'Imagen actualizada exitosamente!',
+        duration: 1500,
+        color: 'light',
+        icon: 'checkmark-circle-outline',
+      });
+    } catch (error: any) {
+      console.error(error);
+      await this.utilsSvc.presentToast({
+        message: error.message || 'Error al actualizar la imagen.',
+        duration: 2500,
+        color: 'danger',
+        icon: 'alert-circle-outline',
+      });
+    } finally {
+      if (loading) {
+        await loading.dismiss();
+      }
+    }
   }
 }

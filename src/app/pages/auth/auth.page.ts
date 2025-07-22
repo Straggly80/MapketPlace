@@ -45,18 +45,6 @@ export class AuthPage {
     });
   }
 
-
-
-
-
-  goLogin() {
-    this.router.navigate(['/sign-up']);
-  }
-
-  goRegister() {
-    this.router.navigate(['/sign-up']);
-  }
-
     forgotpassword() {
     this.router.navigate(['forgot-password']);
   }

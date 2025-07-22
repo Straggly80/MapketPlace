@@ -49,10 +49,11 @@ var utils_service_1 = require("src/app/services/utils.service");
 var standalone_1 = require("@ionic/angular/standalone");
 var firestore_1 = require("firebase/firestore");
 var ProfilePage = /** @class */ (function () {
-    function ProfilePage(firebaseService, utilsService, toastController) {
+    function ProfilePage(firebaseService, utilsService, toastController, router) {
         this.firebaseService = firebaseService;
         this.utilsService = utilsService;
         this.toastController = toastController;
+        this.router = router;
         this.firebaseSvc = core_1.inject(firebase_service_1.FirebaseService);
         this.utilsSvc = core_1.inject(utils_service_1.UtilsService);
         this.toastCtrl = core_1.inject(standalone_1.ToastController);
@@ -153,70 +154,6 @@ var ProfilePage = /** @class */ (function () {
     ProfilePage.prototype.ngOnInit = function () { };
     ProfilePage.prototype.user = function () {
         return this.utilsSvc.getFromLocalStorage('user');
-    };
-    /* ========== TOMAR/SELECCIONAR UNA FOTO ============ */
-    ProfilePage.prototype.takeImage = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var user, path, loading, dataUrl, imagePath, _a, error_1;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        user = this.user();
-                        path = "users/" + user.uid;
-                        _b.label = 1;
-                    case 1:
-                        _b.trys.push([1, 8, 10, 13]);
-                        return [4 /*yield*/, this.utilsSvc.takePicture('Imagen del Perfil')];
-                    case 2:
-                        dataUrl = (_b.sent())
-                            .dataUrl;
-                        return [4 /*yield*/, this.utilsSvc.loading()];
-                    case 3:
-                        loading = _b.sent();
-                        return [4 /*yield*/, loading.present()];
-                    case 4:
-                        _b.sent();
-                        imagePath = user.uid + "/profile";
-                        _a = user;
-                        return [4 /*yield*/, this.firebaseSvc.uploadImage(imagePath, dataUrl)];
-                    case 5:
-                        _a.image = _b.sent();
-                        return [4 /*yield*/, this.firebaseSvc.updateDocument(path, { image: user.image })];
-                    case 6:
-                        _b.sent();
-                        this.utilsSvc.saveInLocalStorage('user', user);
-                        return [4 /*yield*/, this.utilsSvc.presentToast({
-                                message: 'Imagen actualizada exitosamente!',
-                                duration: 1500,
-                                color: 'light',
-                                icon: 'checkmark-circle-outline'
-                            })];
-                    case 7:
-                        _b.sent();
-                        return [3 /*break*/, 13];
-                    case 8:
-                        error_1 = _b.sent();
-                        console.error(error_1);
-                        return [4 /*yield*/, this.utilsSvc.presentToast({
-                                message: error_1.message || 'Error al actualizar la imagen.',
-                                duration: 2500,
-                                color: 'danger',
-                                icon: 'alert-circle-outline'
-                            })];
-                    case 9:
-                        _b.sent();
-                        return [3 /*break*/, 13];
-                    case 10:
-                        if (!loading) return [3 /*break*/, 12];
-                        return [4 /*yield*/, loading.dismiss()];
-                    case 11:
-                        _b.sent();
-                        _b.label = 12;
-                    case 12: return [7 /*endfinally*/];
-                    case 13: return [2 /*return*/];
-                }
-            });
-        });
     };
     ProfilePage = __decorate([
         core_1.Component({

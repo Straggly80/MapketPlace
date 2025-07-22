@@ -6,7 +6,19 @@
 <ion-content [fullscreen]="true">
   <div class="d-flex-center">
     <form class="auth-form">
-      <h2>{{user().name}}</h2>
+
+      <h2>Cambiar foto de perfil</h2>
+        <ion-avatar>
+        <img *ngIf="user()?.image" [src]="user()?.image" />
+        <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
+      </ion-avatar>
+      
+       <ion-button class="photo-btn" (click)="takeImage()" size="small" shape="round">
+        <ion-icon name="camera-reverse-outline"></ion-icon>
+      </ion-button>
+
+      <h2>Cambiar nombre</h2>
+      <small class="small">{{user().name}}</small>
 
       <!-- NAME -->
       <app-custom-input autocomplete="name" icon="person-outline" type="name" label="Nuevo nombre"></app-custom-input>
@@ -15,10 +27,7 @@
         Actualizar
       </ion-button>
 
-      <ion-avatar style="margin-left: 10px;">
-        <img *ngIf="user()?.image" [src]="user()?.image" />
-        <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
-      </ion-avatar>
+    
 
     </form>
   </div>

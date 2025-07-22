@@ -11,6 +11,8 @@ import { IonNavLink } from '@ionic/angular/standalone';
 import { SettingsPage } from './settings/settings.page';
 import { MainPage } from '../main.page';
 import { orderBy } from 'firebase/firestore';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +21,8 @@ import { orderBy } from 'firebase/firestore';
   standalone: false,
 })
 export class ProfilePage implements OnInit {
-  constructor(private firebaseService: FirebaseService, private utilsService: UtilsService, private toastController: ToastController) {}
+  constructor(private firebaseService: FirebaseService, 
+    private utilsService: UtilsService, private toastController: ToastController, private router: Router) {}
 
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
@@ -130,7 +133,7 @@ getProducts() {
   }
 
   /* ========== TOMAR/SELECCIONAR UNA FOTO ============ */
-  async takeImage() {
+/*   async takeImage() {
     let user = this.user();
     let path = `users/${user.uid}`;
 
@@ -169,5 +172,10 @@ getProducts() {
         await loading.dismiss();
       }
     }
-  }
+  } */
+
+/*     GoSettings() {
+    this.router.navigate(['main/profile/settings']);
+  } */
+
 }

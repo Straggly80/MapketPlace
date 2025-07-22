@@ -33,45 +33,48 @@
 
     <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
     
+     
   </ion-avatar>
    <h2 style="position: absolute; z-index: -1; margin-left: 170px; margin-top: -50px; font-size: 16px; font-weight: bold; font-family: 'poppins';" *ngIf="!loading && products.length">{{products.length}}</h2>
   <p style="margin-top: -30px; margin-left: 137px;  font-family: 'poppins'; position: absolute; font-size: 11px; font-family: 'poppins';"  >Publicaciones</p>
 
-  <ion-button class="photo-btn" (click)="takeImage()" size="small" shape="round" >
-    <ion-icon name="camera-reverse-outline"></ion-icon>
-  </ion-button>
 
-
-
-  <div><h2 style="position: absolute; z-index: 10 ; margin-left: 10px; margin-top: -20px; font-size: 16px; font-weight: bold; font-family: 'poppins';">{{user().name}}</h2>
-  <ion-chip color="primary" style="position: absolute; margin-left: -188px;  font-family: 'poppins'; margin-top: -0px;">Vendedor</ion-chip></div>
+  <div><h2 style="position: absolute; z-index: 10 ; margin-left: 10px; margin-top: 3px; font-size: 16px; font-weight: bold; font-family: 'poppins';">{{user().name}}</h2>
+  
+    <ion-chip color="primary" class="vendedor">Vendedor</ion-chip></div>
 
 
 
 <!--     <h2 style="margin-left: -90px; margin-top: -20px; font-size: 16px; font-weight: bold; font-family: 'poppins';"></h2>
   <small style="margin-left: -302px;  font-family: 'poppins';">Seguidores</small> -->
 
-<br>
-<br>
-<br>
+  <ion-chip color="tertiary" routerLink='settings' class="editar-boton" >
+    Editar
+  </ion-chip>
+
 <br>
 <br>
 <br>
 <br>
 
-    <ion-segment value="all">
-      <ion-segment-button value="all">
-        <ion-label>All</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="favorites">
-        <ion-label>Favorites</ion-label>
-      </ion-segment-button>
-    </ion-segment>
 
+    <ion-segment>
+  <ion-segment-button value="first" content-id="first">
+    <ion-label>Todo</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="second" content-id="second">
+    <ion-label>Favoritos</ion-label>
+  </ion-segment-button>
+</ion-segment>
+<br>
+<ion-segment-view>
+  <ion-segment-content id="first">Hola, aqui aun no hay informacion disponible..</ion-segment-content>
+  <ion-segment-content id="second">Aqui ira la seccion de favoritos..</ion-segment-content>
+</ion-segment-view>
   <br>
 
 
-  <ion-chip>Default</ion-chip>
+<!--   <ion-chip>Default</ion-chip>
   <ion-chip color="primary">Primary</ion-chip>
   <ion-chip color="secondary">Secondary</ion-chip>
   <ion-chip color="tertiary">Tertiary</ion-chip>
@@ -80,15 +83,15 @@
   <ion-chip color="danger">Danger</ion-chip>
   <ion-chip color="light">Light</ion-chip>
   <ion-chip color="medium">Medium</ion-chip>
-  <ion-chip color="dark">Dark</ion-chip>
+  <ion-chip color="dark">Dark</ion-chip> -->
 
   <!-- 
 <ion-toggle aria-label="Enable Notifications"></ion-toggle>
 <ion-toggle [checked]="true" aria-label="Enable Notifications"></ion-toggle> -->
 
-  <ion-button expand="block" (click)="presentToast('middle')">Present Toast At the Middle</ion-button>
+ <!--  <ion-button expand="block" (click)="presentToast('middle')">Present Toast At the Middle</ion-button>
 
   <ion-button id="open-toast">Open Toast</ion-button>
   <ion-toast message="This toast can be swiped to dismiss" trigger="open-toast" swipeGesture="vertical"
-    position="bottom" positionAnchor="footer"></ion-toast>
+    position="bottom" positionAnchor="footer"></ion-toast> -->
 </ion-content>

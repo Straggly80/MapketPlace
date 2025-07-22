@@ -45,10 +45,6 @@ var routes = [
                     return Promise.resolve().then(function () { return require('./menu/menu.module'); }).then(function (m) { return m.MenuPageModule; });
                 }
             },
-            {
-                path: 'settings',
-                loadChildren: function () { return Promise.resolve().then(function () { return require('./profile/settings/settings.module'); }).then(function (m) { return m.SettingsPageModule; }); }
-            }
         ]
     },
 ];
