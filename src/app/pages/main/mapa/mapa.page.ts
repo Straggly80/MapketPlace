@@ -1,8 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
 import { User } from 'src/app/models/user.model';
-import { v4 as uuidv4 } from 'uuid';
-import { AlertController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -10,9 +9,10 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { orderBy } from 'firebase/firestore';
 import { Geolocation } from '@capacitor/geolocation';
 import { MenuController } from '@ionic/angular';
-import { style } from '@angular/animations';
 import { IonModal } from '@ionic/angular';
 import { ViewChild, AfterViewInit } from '@angular/core';
+import { LocationService } from 'src/app/services/location.service';
+
 
 
 declare const google: any;
@@ -23,23 +23,15 @@ declare const google: any;
   styleUrls: ['./mapa.page.scss'],
   standalone: false,
 })
-export class MapaPage implements OnInit {
-
+export class MapaPage implements OnInit, AfterViewInit {
   @ViewChild(IonModal) modal: IonModal;
 
-  openModal() {
-    const modal = document.querySelector('ion-modal');
-    if (modal) {
-      modal.present();
-    }
-  }
-
-  isModalOpen: boolean = false;
-  isCarreteOpen: boolean = false;
+  isModalOpen = false;
+  isCarreteOpen = false;
 
   products: Product[] = [];
   users: User[] = [];
-  loading: boolean = false;
+  loading = false;
 
   router = inject(Router);
   firebaseSvc = inject(FirebaseService);
@@ -47,23 +39,34 @@ export class MapaPage implements OnInit {
   modalCtrl = inject(ModalController);
   menuCtrl = inject(MenuController);
 
-  currentPath: string = '';
+  currentPath = '';
   map!: google.maps.Map;
   markers: google.maps.Marker[] = [];
   activeInfoWindow: google.maps.InfoWindow | null = null;
 
-  // Nuevo: objeto para guardar InfoWindows por producto
+  // Guardar infoWindows por producto
   markerInfoWindows: { [productId: string]: google.maps.InfoWindow } = {};
 
-  async ngOnInit() {
-    await this.solicitarPermisosUbicacion();
-    const ubicacion = await this.getCurrentLocation();
-    console.log('📍 Ubicación actual:', ubicacion);
-
+  ngOnInit() {
     this.router.events.subscribe((event: any) => {
       if (event?.url) this.currentPath = event.url;
     });
+  }
 
+  ngAfterViewInit() {
+    this.initMapaConUbicacion();
+  }
+
+  async initMapaConUbicacion() {
+    await this.solicitarPermisosUbicacion();
+
+    const ubicacion = await this.getCurrentLocation();
+    console.log('📍 Ubicación actual:', ubicacion);
+
+    await this.loadGoogleMaps();
+    this.inicializarMapa(ubicacion);
+
+    // Mostrar productos después de mostrar el mapa
     this.getAllProducts();
   }
 
@@ -87,11 +90,6 @@ export class MapaPage implements OnInit {
     }, 1000);
   }
 
-  ngAfterViewInit() {
-    this.loadGoogleMaps().then(() => this.initMap());
-    this.modal.present();
-  }
-
   user(): User {
     return this.utilsSvc.getFromLocalStorage('user');
   }
@@ -102,7 +100,6 @@ export class MapaPage implements OnInit {
 
   ionViewWillEnter() {
     this.menuCtrl.swipeGesture(false);
-    this.getAllProducts();
   }
 
   ionViewWillLeave() {
@@ -127,152 +124,41 @@ export class MapaPage implements OnInit {
     };
 
     this.firebaseSvc
-      .getCollectionData(`users/${this.user().uid}/products`, [
-        orderBy('soldUnits', 'desc'),
-      ])
+      .getCollectionData(`users/${this.user().uid}/products`, [orderBy('soldUnits', 'desc')])
       .subscribe({
         next: (res: Product[]) => {
           userProducts = res;
           userLoaded = true;
           if (generalLoaded) done();
         },
-        error: () => {
-          this.loading = false;
-        },
+        error: () => (this.loading = false),
       });
 
     this.firebaseSvc
-      .getCollectionData('productGeneral/', [orderBy('soldUnits', 'desc')])
+      .getCollectionData('productGeneral', [orderBy('soldUnits', 'desc')])
       .subscribe({
         next: (res: Product[]) => {
           generalProducts = res;
           generalLoaded = true;
           if (userLoaded) done();
         },
-        error: () => {
-          this.loading = false;
-        },
+        error: () => (this.loading = false),
       });
   }
 
   loadGoogleMaps(): Promise<void> {
     return new Promise((resolve) => {
-      if ((window as any).google && (window as any).google.maps) {
-        resolve();
-      } else {
-        const interval = setInterval(() => {
-          if ((window as any).google && (window as any).google.maps) {
-            clearInterval(interval);
-            resolve();
-          }
-        }, 100);
-      }
+      if ((window as any).google?.maps) return resolve();
+      const interval = setInterval(() => {
+        if ((window as any).google?.maps) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 100);
     });
   }
 
-  
-
-  mostrarMarcadores() {
-    this.clearMarkers();
-    this.markerInfoWindows = {}; // Limpia los infoWindows guardados
-
-    this.products.forEach((product) => {
-      if (product.lat && product.lng) {
-        const marker = new google.maps.Marker({
-          position: { lat: product.lat, lng: product.lng },
-          map: this.map,
-          title: product.name,
-        });
-
-        const infoWindow = new google.maps.InfoWindow({
-          
-          content: `
-          <div style="width: 180px; font-family:'poppins', sans-serif;">
-            <img src="${
-              product.image
-            }" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
-            <div style="padding: 8px; width: 100%; white-space: normal; overflow: visible;">
-              <strong>Nombre: </strong>${product.name}<br>
-              <strong>Descripcion: </strong>${product.descripcion}<br>
-              <strong>Precio: </strong><strong style="color: #00cb00ff;">$${product.price}</strong><br>
-              ${product.telefono? `<a href="https://wa.me/${product.telefono}" target="_blank" 
-              style="margin-top: 8px; display: inline-block; padding: 6px 10px; background: #3aa93aff; 
-              color: white; text-decoration: none; border-radius: 4px; font-family: 'poppins';">
-                  ¡Contactame! <ion-icon name="logo-whatsapp" color="light" size="medium"></ion-icon>
-                    </a>`
-                  : ''
-              }
-            </div>
-          </div>
-        `,
-        });
-
-        marker.addListener('click', () => {
-          if (this.activeInfoWindow) {
-            this.activeInfoWindow.close();
-          }
-          infoWindow.open(this.map, marker);
-          this.activeInfoWindow = infoWindow;
-        });
-
-        this.markers.push(marker);
-        this.markerInfoWindows[product.id] = infoWindow;
-      }
-    });
-
-    this.map.addListener('click', () => {
-      if (this.activeInfoWindow) {
-        this.activeInfoWindow.close();
-        this.activeInfoWindow = null;
-      }
-    });
-  }
-
-  // Nuevo método para abrir InfoWindow al hacer click en la imagen del modal
-  abrirInfoWindow(product: Product) {
-    const index = this.products.findIndex((p) => p.id === product.id);
-    if (index === -1) return;
-
-    if (this.activeInfoWindow) {
-      this.activeInfoWindow.close();
-    }
-
-    const marker = this.markers[index];
-    const infoWindow = this.markerInfoWindows[product.id];
-
-    if (marker && infoWindow) {
-      infoWindow.open(this.map, marker);
-      this.activeInfoWindow = infoWindow;
-
-      // Centra el mapa en el marcador
-      this.map.panTo(marker.getPosition() as google.maps.LatLng);
-    }
-  }
-
-  async getCurrentLocation(): Promise<{ lat: number; lng: number }> {
-    try {
-      const position = await Geolocation.getCurrentPosition({
-        enableHighAccuracy: true,
-      });
-
-      return {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      };
-    } catch (error) {
-      alert(
-        'No se pudo obtener la ubicación. Verifica que el GPS esté activado y los permisos concedidos.'
-      );
-      console.error('Error al obtener la ubicación:', error);
-      return {
-        lat: 31.327409,
-        lng: -113.522065,
-      };
-    }
-  }
-
-  async initMap() {
-    const userLocation = await this.getCurrentLocation();
+  async inicializarMapa(userLocation: { lat: number; lng: number }) {
     const mapDiv = document.getElementById('map');
     if (!mapDiv) return;
 
@@ -324,10 +210,85 @@ export class MapaPage implements OnInit {
       icon: {
         url: this.user()?.image || 'assets/usuario-no-picture.png',
         scaledSize: new google.maps.Size(30, 30),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(20, 20), // centra el icono
+        anchor: new google.maps.Point(20, 20),
       },
     });
+  }
+
+  mostrarMarcadores() {
+    this.clearMarkers();
+    this.markerInfoWindows = {};
+
+    this.products.forEach((product) => {
+      if (product.lat && product.lng) {
+        const marker = new google.maps.Marker({
+          position: { lat: product.lat, lng: product.lng },
+          map: this.map,
+          title: product.name,
+        });
+
+        const infoWindow = new google.maps.InfoWindow({
+          content: `
+            <div style="width: 180px; font-family:'poppins', sans-serif;">
+              <img src="${product.image}" style="width: 100%; border-radius: 8px 8px 0 0; display: block;" />
+              <div style="padding: 8px;">
+                <strong>Nombre: </strong>${product.name}<br>
+                <strong>Descripcion: </strong>${product.descripcion}<br>
+                <strong>Precio: </strong><strong style="color: #00cb00ff;">$${product.price}</strong><br>
+                ${product.telefono ? `<a href="https://wa.me/${product.telefono}" target="_blank" 
+                  style="margin-top: 8px; display: inline-block; padding: 6px 10px; background: #3aa93aff; 
+                  color: white; text-decoration: none; border-radius: 4px; font-family: 'poppins';">
+                    ¡Contactame!
+                  </a>` : ''}
+              </div>
+            </div>`,
+        });
+
+        marker.addListener('click', () => {
+          this.activeInfoWindow?.close();
+          infoWindow.open(this.map, marker);
+          this.activeInfoWindow = infoWindow;
+        });
+
+        this.markers.push(marker);
+        this.markerInfoWindows[product.id] = infoWindow;
+      }
+    });
+
+    this.map.addListener('click', () => {
+      this.activeInfoWindow?.close();
+      this.activeInfoWindow = null;
+    });
+  }
+
+  abrirInfoWindow(product: Product) {
+    const index = this.products.findIndex((p) => p.id === product.id);
+    if (index === -1) return;
+
+    this.activeInfoWindow?.close();
+
+    const marker = this.markers[index];
+    const infoWindow = this.markerInfoWindows[product.id];
+
+    if (marker && infoWindow) {
+      infoWindow.open(this.map, marker);
+      this.activeInfoWindow = infoWindow;
+      this.map.panTo(marker.getPosition() as google.maps.LatLng);
+    }
+  }
+
+  async getCurrentLocation(): Promise<{ lat: number; lng: number }> {
+    try {
+      const position = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
+      return {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+    } catch (error) {
+      alert('No se pudo obtener la ubicación. Verifica que el GPS esté activado.');
+      console.error('Error al obtener ubicación:', error);
+      return { lat: 31.327409, lng: -113.522065 }; // Ubicación por defecto
+    }
   }
 
   clearMarkers() {
@@ -340,24 +301,18 @@ export class MapaPage implements OnInit {
 
     const modal = await this.modalCtrl.create({
       component: AddUpdateProductComponent,
-      componentProps: {
-        lat: coords.lat,
-        lng: coords.lng,
-      },
+      componentProps: { lat: coords.lat, lng: coords.lng },
     });
 
     await modal.present();
 
     const { data } = await modal.onDidDismiss();
 
-    if (data) {
-      this.getAllProducts();
-    }
+    if (data) this.getAllProducts();
   }
 
   agregarProductoDesdeFormulario(data: any) {
-    const userLatLng = this.map.getCenter().toJSON();
-
+    const coords = this.map.getCenter().toJSON();
     const nuevo: Product = {
       id: new Date().getTime().toString(),
       name: data.name,
@@ -365,9 +320,11 @@ export class MapaPage implements OnInit {
       price: parseFloat(data.price),
       image: '',
       soldUnits: 0,
-      lat: userLatLng.lat,
-      lng: userLatLng.lng,
+      lat: coords.lat,
+      lng: coords.lng,
       telefono: data.telefono,
     };
+    // Aquí deberías guardar `nuevo` en Firestore si quieres persistirlo
   }
 }
+

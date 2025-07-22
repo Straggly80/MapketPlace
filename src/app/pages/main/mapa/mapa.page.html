@@ -52,6 +52,11 @@
     </ion-toolbar>
   </div>
 
+  <!-- Indicador de carga -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p style="text-align: center;">Cargando productos...</p>
+  </div>
 
   <div id="map">
   </div>
