@@ -1,0 +1,12 @@
+@charset "UTF-8";
+ion-toolbar {
+  --min-height: 40px;
+  /* Ajusta este valor al tamaño deseado */
+  height: var(--min-height);
+  /* Aplica la altura definida */
+  --background:#434343;
+}
+
+ion-content {
+  --background: #f3f4f8;
+}

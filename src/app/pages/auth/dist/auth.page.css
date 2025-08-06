@@ -1,20 +1,24 @@
+@charset "UTF-8";
 /* ------------------------------------------
    TÍTULO PRINCIPAL
 --------------------------------------------- */
 .title {
-  color: #ffffff; /* color1 */
+  color: #ffffff;
+  /* color1 */
   font-size: clamp(1.8rem, 5vw, 3rem);
   text-align: center;
   margin-top: 40px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 60px;
   font-weight: 400;
 }
 
 .letters {
-  color: #ffffff; /* letras blancas */
-  font-weight: 100; /* sin px */
-  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  /* letras blancas */
+  font-weight: 100;
+  /* sin px */
+  font-family: "Poppins", sans-serif;
   font-size: clamp(1rem, 4vw, 1.2rem);
   text-align: center;
   overflow-wrap: break-word;
@@ -22,7 +26,6 @@
   display: block;
   width: 100%;
 }
-
 
 /* ------------------------------------------
    BOTÓN DE LOGIN
@@ -34,11 +37,13 @@
 }
 
 #login-button::part(native) {
-  background: #619def; /* color1 */
-  color: #ffffff; /* blanco */
+  background: #619def;
+  /* color1 */
+  color: #ffffff;
+  /* blanco */
   border: none;
   border-radius: 70px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   font-size: clamp(1.2rem, 4.5vw, 1.7rem);
   padding: 1.2rem 7.4rem;
@@ -51,7 +56,8 @@
 
 #login-button::part(native):hover {
   transform: scale(1.03);
-  background-color: #7cb6f3; /* color2 */
+  background-color: #7cb6f3;
+  /* color2 */
 }
 
 /* ------------------------------------------
@@ -63,11 +69,13 @@
 }
 
 #register-button::part(native) {
-  background: #619def; /* color1 */
-  color: #ffffff; /* blanco */
+  background: #619def;
+  /* color1 */
+  color: #ffffff;
+  /* blanco */
   border: none;
   border-radius: 70px;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   font-size: clamp(1.2rem, 4.5vw, 1.7rem);
   padding: 1.2rem 7.4rem;
@@ -80,7 +88,8 @@
 
 #register-button::part(native):hover {
   transform: scale(1.02);
-  background-color: #7cb6f3; /* color2 */
+  background-color: #7cb6f3;
+  /* color2 */
 }
 
 /* ------------------------------------------
@@ -115,7 +124,8 @@ ion-content::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #619def; /* color1 */
+  background-color: #619def;
+  /* color1 */
   z-index: -2;
 }
 
@@ -126,7 +136,8 @@ ion-content::after {
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: #7cb6f3; /* color2 */
+  background-color: #7cb6f3;
+  /* color2 */
   clip-path: inset(0px round 60px);
   z-index: -1;
 }
@@ -146,19 +157,23 @@ ion-content::after {
 }
 
 .facebook ion-icon {
-  color: #4c81f3; /* azul Facebook original */
+  color: #4c81f3;
+  /* azul Facebook original */
 }
 
 .google ion-icon {
-  color: #db4437; /* rojo Google original */
+  color: #db4437;
+  /* rojo Google original */
 }
 
 .apple ion-icon {
-  color: #000000; /* negro Apple original */
+  color: #000000;
+  /* negro Apple original */
 }
 
 .github ion-icon {
-  color: #000000; /* negro GitHub original */
+  color: #000000;
+  /* negro GitHub original */
 }
 
 /* -------------------------------------------------------- */
@@ -174,7 +189,8 @@ ion-content::after {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #ffffff33; /* o un color más personalizado por red social */
+  background-color: #ffffff33;
+  /* o un color más personalizado por red social */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -184,11 +200,12 @@ ion-content::after {
 }
 
 .social-box:hover {
-  transform: scale(1.20);
+  transform: scale(1.2);
 }
 
 .social-icon-img {
-  width: 40px;   /* casi el tamaño completo del botón */
+  width: 40px;
+  /* casi el tamaño completo del botón */
   height: 40px;
   object-fit: contain;
   border-radius: 50%;
