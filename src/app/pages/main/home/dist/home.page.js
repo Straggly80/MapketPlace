@@ -138,6 +138,82 @@ var HomePage = /** @class */ (function () {
             });
         });
     };
+    /* ==================== CONFIRMAR ARCHIVAR PRODUCTO ==================== */
+    HomePage.prototype.confirmArchiveProduct = function (product) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                this.utilsSvc.presentAlert({
+                    header: 'Archivar producto',
+                    message: '¿Quieres archivar este producto?',
+                    mode: 'ios',
+                    buttons: [
+                        {
+                            text: 'Cancelar'
+                        },
+                        {
+                            text: 'Si, archivar',
+                            handler: function () {
+                                _this.archiveProduct(product);
+                            }
+                        },
+                    ]
+                });
+                return [2 /*return*/];
+            });
+        });
+    };
+    /* ===================== ARCHIVAR PRODUCTO =================== */
+    HomePage.prototype.archiveProduct = function (product) {
+        return __awaiter(this, void 0, void 0, function () {
+            var path, paths, loading;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        path = "users/" + this.user().uid + "/products/" + product.id;
+                        paths = "productGeneral/" + product.id;
+                        return [4 /*yield*/, this.utilsSvc.loading()];
+                    case 1:
+                        loading = _a.sent();
+                        return [4 /*yield*/, loading.present()];
+                    case 2:
+                        _a.sent();
+                        this.firebaseSvc.archiveDocument(path).then(function (res) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                return [2 /*return*/];
+                            });
+                        }); });
+                        this.firebaseSvc.archiveDocument(paths).then(function (res) { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                return [2 /*return*/];
+                            });
+                        }); });
+                        this.products = this.products.filter(function (p) { return p.id !== product.id; });
+                        this.utilsSvc
+                            .presentToast({
+                            message: 'Producto archivado exitosamente!',
+                            duration: 1500,
+                            color: 'success',
+                            position: 'middle',
+                            icon: 'checkmark-circle-outline'
+                        })["catch"](function (error) {
+                            console.log(error);
+                            _this.utilsSvc.presentToast({
+                                message: error.message,
+                                duration: 2500,
+                                color: 'primary',
+                                position: 'middle',
+                                icon: 'alert-circle-outline'
+                            });
+                        })["finally"](function () {
+                            loading.dismiss();
+                        });
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     /* =================== CONFIRMAR ELIMINACION DEL PRODUCTO ==================== */
     HomePage.prototype.confirmDeleteProduct = function (product) {
         return __awaiter(this, void 0, void 0, function () {

@@ -1,56 +1,190 @@
-*{
-    font-family: 'poppins';
-      overflow: hidden;
-  --overflow: hidden; // <-- ¡este es crucial!
+/* Permitir scroll en toda la página y unir todas las secciones en un solo scroll */
+:host,
+body,
+html {
+  height: 100%;
+  min-height: 0;
+  display: block;
+  background: var(--background, #020403);
+}
+
+/* Quita ion-content del selector global y NO pongas height aquí */
+ion-content {
+  --background: #020403;
+  overflow-y: auto;
+  contain: strict;
+}
+
+/* Segmentos y botones */
+ion-segment,
+ion-segment-content,
+ion-segment-view {
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+ion-segment-content,
+ion-segment-view {
+  display: block;
+  width: 100%;
+}
+
+ion-segment {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+ion-segment-button {
+  flex: 1 1 0;
+  text-align: center;
+}
+
+/* Elimina height: 100% aquí, no es necesario */
+.scrollable-section {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+  --background: #020403;
+  box-sizing: border-box;
 }
 
 ion-avatar {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-   /*  transition: transform 0.3s ease; */
-    border: 0.1px solid rgb(0, 0, 0);
-
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  border: 0.1px solid black;
+  color: white;
 }
 
 ion-icon.empty-icon {
-       width: 122px;
-    height: 122px;
-    margin: 0 auto;
-    margin-left: -11px;
-   margin-top: -11px;
-   
+  width: 122px;
+  height: 122px;
+  margin: 0 auto;
+  margin-left: -11px;
+  margin-top: -11px;
+  color: white;
 }
 
 ion-item {
-    --padding-top: 15px;
+  --padding-top: 15px;
 }
 
-.empty-icon{
-    font-size: 140px;
-    opacity: 30%;
+.empty-icon {
+  font-size: 140px;
+  opacity: 30%;
 }
 
- ion-toolbar {
-      --background:#434343;
-   }
-
-ion-menu-button.menu{
-    --color: rgb(255, 255, 255);
+ion-menu-button.menu {
+  --color: rgb(255, 255, 255);
 }
 
+.vendedor {
+  position: absolute;
+  margin-right: 120px;
+  margin-top: 37px;
+  display: block;
+}
 
-ion-chip.editar-boton{
-  margin-top: 25px;
-  display: flex;
-     display: block;
-    width: 130px;
-    left: 100px;
-    }
+.vendedor2 {
+  position: absolute;
+  margin-left: 100px;
+  margin-top: 37px;
+  display: block;
+}
 
-.vendedor{
-    position: absolute;
-   margin-right: 120px;
-     margin-top: 25px;
-        display: block;
+.userName {
+  position: absolute;
+  z-index: 10;
+  margin-left: 10px;
+  margin-top: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  height: 3%;
+  color: white;
+}
+
+.perfil-title {
+  font-weight: bold;
+  color: white;
+}
+
+.products {
+  position: absolute;
+  z-index: -1;
+  margin-left: 170px;
+  margin-top: -50px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+}
+
+.Publicaciones {
+  margin-top: -30px;
+  margin-left: 137px;
+  position: absolute;
+  font-size: 11px;
+  color: white;
+}
+
+.seguidores {
+  margin-left: 255px;
+  margin-top: -50px;
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  color: white;
+}
+
+.seguidores2 {
+  margin-top: -30px;
+  margin-left: 230px;
+  position: absolute;
+  font-size: 11px;
+  color: white;
+}
+
+.icons {
+  width: 20px;
+  height: 20px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  color: red;
+  transition: color 0s ease;
+}
+
+.icons:checked {
+  color: yellow;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  width: 100%;
+  padding: 10px 0 160px 0; /* Más padding-bottom para asegurar espacio al final */
+}
+
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  background: #020403;
+}
+
+ion-toolbar {
+  --background: #020403;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }

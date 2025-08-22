@@ -15,10 +15,6 @@ var routes = [
         path: '',
         component: profile_page_1.ProfilePage
     },
-    {
-        path: 'settings',
-        loadChildren: function () { return Promise.resolve().then(function () { return require('./settings/settings.module'); }).then(function (m) { return m.SettingsPageModule; }); }
-    }
 ];
 var ProfilePageRoutingModule = /** @class */ (function () {
     function ProfilePageRoutingModule() {

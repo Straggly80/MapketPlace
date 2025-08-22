@@ -1,7 +1,10 @@
 <app-header></app-header>
-<ion-buttons slot="primary">
-</ion-buttons>
-<app-header backButton="./" title="Editar Usuario"></app-header>
+<ion-toolbar>
+  <ion-title style="font-weight: bold; font-family: 'poppins'; color: white;">Editar perfil</ion-title>
+  <ion-buttons slot="end">
+    <ion-button (click)="closeModal()" style=" font-family: 'poppins'; color: white;">Cerrar</ion-button>
+  </ion-buttons>
+</ion-toolbar>
 
 <ion-content [fullscreen]="true">
   <div class="d-flex-center">
@@ -10,7 +13,7 @@
       <h2>Cambiar foto de perfil</h2>
         <ion-avatar>
         <img *ngIf="user()?.image" [src]="user()?.image" />
-        <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
+        <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline" class="empty-icon"></ion-icon>
       </ion-avatar>
       
        <ion-button class="photo-btn" (click)="takeImage()" size="small" shape="round">

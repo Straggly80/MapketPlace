@@ -48,12 +48,15 @@ var firebase_service_1 = require("src/app/services/firebase.service");
 var utils_service_1 = require("src/app/services/utils.service");
 var standalone_1 = require("@ionic/angular/standalone");
 var firestore_1 = require("firebase/firestore");
+var setting_component_1 = require("src/app/shared/components/setting/setting.component");
+var actperfil_component_1 = require("src/app/shared/components/actperfil/actperfil.component");
 var ProfilePage = /** @class */ (function () {
     function ProfilePage(firebaseService, utilsService, toastController, router) {
         this.firebaseService = firebaseService;
         this.utilsService = utilsService;
         this.toastController = toastController;
         this.router = router;
+        this.selectedSegment = 'home'; // Valor inicial
         this.firebaseSvc = core_1.inject(firebase_service_1.FirebaseService);
         this.utilsSvc = core_1.inject(utils_service_1.UtilsService);
         this.toastCtrl = core_1.inject(standalone_1.ToastController);
@@ -72,6 +75,45 @@ var ProfilePage = /** @class */ (function () {
             modal.present();
         }
     };
+    /* ==================== Abrir Settings ==================== */
+    ProfilePage.prototype.openSettings = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var success;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.utilsSvc.presentModal({
+                            component: setting_component_1.SettingComponent,
+                            cssClass: 'setting-modal'
+                        })];
+                    case 1:
+                        success = _a.sent();
+                        if (success)
+                            this.getProducts();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /* ==================== ActPerfil ==================== */
+    ProfilePage.prototype.actPerfil = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var success;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.utilsSvc.presentModal({
+                            component: actperfil_component_1.ActperfilComponent,
+                            cssClass: 'actperfil-modal'
+                        })];
+                    case 1:
+                        success = _a.sent();
+                        if (success)
+                            this.getProducts();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /* ============================================ */
     ProfilePage.prototype.doRefresh = function (event) {
         console.log('Begin async operation');
         this.getProducts();
@@ -124,6 +166,7 @@ var ProfilePage = /** @class */ (function () {
             }
         });
     };
+    /* ================================================================= */
     ProfilePage.prototype.ionViewWillEnter = function () {
         this.getProducts();
     };

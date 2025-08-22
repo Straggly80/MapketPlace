@@ -1,6 +1,10 @@
+* {
+  background-color: #020403;
+}
+
 .toolbar-color {
-  --background:#434343;
-  color: black;
+  --background:#020403;
+  color: white;
 }
 
 ion-back-button.colors {

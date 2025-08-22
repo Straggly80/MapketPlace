@@ -5,14 +5,14 @@ import { ToastController } from '@ionic/angular/standalone';
 import { User } from 'src/app/models/user.model';
 import { ColdObservable } from 'rxjs/internal/testing/ColdObservable';
 
+
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.page.html',
-  styleUrls: ['./settings.page.scss'],
+  selector: 'app-actperfil',
+  templateUrl: './actperfil.component.html',
+  styleUrls: ['./actperfil.component.scss'],
   standalone: false,
 })
-export class SettingsPage implements OnInit {
-
+export class ActperfilComponent  implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
 
@@ -26,8 +26,11 @@ export class SettingsPage implements OnInit {
       return this.utilsSvc.getFromLocalStorage('user');
     }
 
-  ActualizarNombre(){
-    
+  closeModal() {
+    const modal = document.querySelector('ion-modal');
+    if (modal) {
+      modal.dismiss();
+    }
   }
 
   async takeImage() {
@@ -71,3 +74,4 @@ export class SettingsPage implements OnInit {
     }
   }
 }
+

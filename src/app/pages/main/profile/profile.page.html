@@ -1,15 +1,18 @@
 <app-header></app-header>
-<ion-toolbar>
 
-<!--  (click)="openModalnotificaciones()" -->
+
+
+<div class="fixed-toolbar">
+  <ion-toolbar >
+  <!--  (click)="openModalnotificaciones()" -->
   <ion-buttons slot="secondary">
-    <ion-button  expand="block" fill="clear" shape="round" >
+    <ion-button expand="block" fill="clear" shape="round">
       <ion-icon slot="icon-only" name="notifications-outline" style="color: rgb(255, 255, 255);"></ion-icon>
     </ion-button>
   </ion-buttons>
 
   <ion-buttons slot="secondary">
-    <ion-button  expand="block" fill="clear" shape="round" >
+    <ion-button expand="block" fill="clear" shape="round" (click)="openSettings()">
       <ion-icon slot="icon-only" name="settings-outline" style="color: rgb(255, 255, 255);"></ion-icon>
     </ion-button>
   </ion-buttons>
@@ -19,79 +22,114 @@
   <ion-buttons slot="start">
     <ion-menu-button auto-hide="false" class="menu"></ion-menu-button>
   </ion-buttons>
-  <ion-title style="font-weight: bold; font-family: 'poppins'; color: rgb(255, 255, 255);">Perfil</ion-title>
+  <ion-title class="perfil-title">Perfil</ion-title>
 </ion-toolbar>
+</div>
 <ion-content class="ion-padding-top ion-text-center">
 
-<!-- ======================REFRESCAR PAGINA========================================== -->
-   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <!-- ======================REFRESCAR PAGINA========================================== -->
+<!--   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingText="Desliza para refrescar"></ion-refresher-content>
-  </ion-refresher>  
+  </ion-refresher> -->
+  <!-- =======================Imagen del perfil===================================== -->
 
   <ion-avatar style="margin-left: 10px;">
     <img *ngIf="user()?.image" [src]="user()?.image" />
-
     <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
-    
-     
   </ion-avatar>
-   <h2 style="position: absolute; z-index: -1; margin-left: 170px; margin-top: -50px; font-size: 16px; font-weight: bold; font-family: 'poppins';" *ngIf="!loading && products.length">{{products.length}}</h2>
-  <p style="margin-top: -30px; margin-left: 137px;  font-family: 'poppins'; position: absolute; font-size: 11px; font-family: 'poppins';"  >Publicaciones</p>
+  <!-- ==============================CONTADOR DE PRODUCTOS Y SEGUIDORES=================================== -->
+  <h2 class="products" *ngIf="!loading && products.length">{{products.length}}</h2>
+  <p class="Publicaciones">publicaciones</p>
+
+  <h2 class="seguidores"><!-- Aqui iran los seguidores --></h2>
+  <p class="seguidores2">seguidores</p>
+
+  <!--===================NOMBRE DEL USUARIO Y ACCIONES======================-->
+  <div>
+    <h2 class="userName">{{user().name}}</h2>
+
+    <ion-chip color="primary" class="vendedor">Vendedor</ion-chip>
+    <ion-chip color="tertiary" (click)="actPerfil()" class="vendedor2">Editar perfil</ion-chip>
+
+  </div>
+  <!-- ================================================================================== -->
+
+  <!--  -->
+  <br>
+  <br>
+  <br>
+<br>
+  <br>
+  <!-- =====================================SEGMENTOS DE TODO Y FAVORITOS============================================================= -->
+
+  <div class="segmentos">
+    <ion-segment color="light" [(ngModel)]="selectedSegment">
+      <ion-segment-button value="first" content-id="first">
+        <ion-label>
+          <ion-icon name="grid-outline" class="icons"></ion-icon>
+        </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="second" content-id="second">
+        <ion-label>
+          <ion-icon name="bookmarks-outline" class="icons"></ion-icon>
+        </ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
 
 
-  <div><h2 style="position: absolute; z-index: 10 ; margin-left: 10px; margin-top: 3px; font-size: 16px; font-weight: bold; font-family: 'poppins';">{{user().name}}</h2>
+  <!--   <div class="segmentos">
+   <ion-segment color="light"> 
+    <ion-segment-button value="first" content-id="first" style="color: rgb(129, 129, 129);">
+      <ion-label >
+         <ion-icon name="grid-outline" class="icons" ></ion-icon>
+      </ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="second" content-id="second" style="color: rgb(129, 129, 129);">
+      <ion-label>
+        <ion-icon name="bookmarks-outline" class="icons"></ion-icon>
   
-    <ion-chip color="primary" class="vendedor">Vendedor</ion-chip></div>
+
+       </ion-label>
+    </ion-segment-button>
+  </ion-segment>
+ </div> -->
+
+  <!-- <ion-icon name="chevron-down-outline"></ion-icon> -->
+  <!--  <ion-icon name="bookmarks" style="width: 20px; height: 20px;">NECESITO QUE CUANDO CLICKEE APAREZCA ESTE Y DESAPAREZCA EL OTRO</ion-icon> -->
+
+  <!-- ===================================================================================================== -->
 
 
 
-<!--     <h2 style="margin-left: -90px; margin-top: -20px; font-size: 16px; font-weight: bold; font-family: 'poppins';"></h2>
-  <small style="margin-left: -302px;  font-family: 'poppins';">Seguidores</small> -->
-
- <!--  <ion-chip color="tertiary" routerLink='settings' class="editar-boton" >
-    Editar perfil
-  </ion-chip> -->
-
-<br>
-<br>
-<br>
-<br>
 
 
-    <ion-segment>
-  <ion-segment-button value="first" content-id="first">
-    <ion-label>Todo</ion-label>
-  </ion-segment-button>
-  <ion-segment-button value="second" content-id="second">
-    <ion-label>Favoritos</ion-label>
-  </ion-segment-button>
-</ion-segment>
-<br>
-<ion-segment-view>
-  <ion-segment-content id="first">Hola, aqui aun no hay informacion disponible..</ion-segment-content>
-  <ion-segment-content id="second">Aqui ira la seccion de favoritos..</ion-segment-content>
-</ion-segment-view>
+  <ion-segment-view style="color: white;">
+  <ion-segment-content id="first">
+    <div class="profile-gallery">
+      <div class="gallery-grid">
+        <ng-container *ngFor="let p of products">
+          <img *ngIf="p.image" [src]="p.image" class="gallery-img" />
+        </ng-container>
+      </div>
+    </div>
+  </ion-segment-content>
+
+
+
+    
+    <!-- <ion-segment-content id="second">Aqui ira la seccion de favoritos..</ion-segment-content> -->
+  </ion-segment-view>
   <br>
 
 
-<!--   <ion-chip>Default</ion-chip>
-  <ion-chip color="primary">Primary</ion-chip>
-  <ion-chip color="secondary">Secondary</ion-chip>
-  <ion-chip color="tertiary">Tertiary</ion-chip>
-  <ion-chip color="success">Success</ion-chip>
-  <ion-chip color="warning">Warning</ion-chip>
-  <ion-chip color="danger">Danger</ion-chip>
-  <ion-chip color="light">Light</ion-chip>
-  <ion-chip color="medium">Medium</ion-chip>
-  <ion-chip color="dark">Dark</ion-chip> -->
 
-  <!-- 
-<ion-toggle aria-label="Enable Notifications"></ion-toggle>
-<ion-toggle [checked]="true" aria-label="Enable Notifications"></ion-toggle> -->
 
- <!--  <ion-button expand="block" (click)="presentToast('middle')">Present Toast At the Middle</ion-button>
+
+  <!--  <ion-button expand="block" (click)="presentToast('middle')">Present Toast At the Middle</ion-button>
 
   <ion-button id="open-toast">Open Toast</ion-button>
   <ion-toast message="This toast can be swiped to dismiss" trigger="open-toast" swipeGesture="vertical"
     position="bottom" positionAnchor="footer"></ion-toast> -->
+
 </ion-content>

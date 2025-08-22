@@ -42,26 +42,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.SettingsPage = void 0;
+exports.ActperfilComponent = void 0;
 var core_1 = require("@angular/core");
 var firebase_service_1 = require("src/app/services/firebase.service");
 var utils_service_1 = require("src/app/services/utils.service");
-var SettingsPage = /** @class */ (function () {
-    function SettingsPage(firebaseService, utilsService, toastController) {
+var ActperfilComponent = /** @class */ (function () {
+    function ActperfilComponent(firebaseService, utilsService, toastController) {
         this.firebaseService = firebaseService;
         this.utilsService = utilsService;
         this.toastController = toastController;
         this.firebaseSvc = core_1.inject(firebase_service_1.FirebaseService);
         this.utilsSvc = core_1.inject(utils_service_1.UtilsService);
     }
-    SettingsPage.prototype.ngOnInit = function () {
+    ActperfilComponent.prototype.ngOnInit = function () {
     };
-    SettingsPage.prototype.user = function () {
+    ActperfilComponent.prototype.user = function () {
         return this.utilsSvc.getFromLocalStorage('user');
     };
-    SettingsPage.prototype.ActualizarNombre = function () {
+    ActperfilComponent.prototype.closeModal = function () {
+        var modal = document.querySelector('ion-modal');
+        if (modal) {
+            modal.dismiss();
+        }
     };
-    SettingsPage.prototype.takeImage = function () {
+    ActperfilComponent.prototype.takeImage = function () {
         return __awaiter(this, void 0, void 0, function () {
             var user, path, loading, dataUrl, imagePath, _a, error_1;
             return __generator(this, function (_b) {
@@ -124,14 +128,14 @@ var SettingsPage = /** @class */ (function () {
             });
         });
     };
-    SettingsPage = __decorate([
+    ActperfilComponent = __decorate([
         core_1.Component({
-            selector: 'app-settings',
-            templateUrl: './settings.page.html',
-            styleUrls: ['./settings.page.scss'],
+            selector: 'app-actperfil',
+            templateUrl: './actperfil.component.html',
+            styleUrls: ['./actperfil.component.scss'],
             standalone: false
         })
-    ], SettingsPage);
-    return SettingsPage;
+    ], ActperfilComponent);
+    return ActperfilComponent;
 }());
-exports.SettingsPage = SettingsPage;
+exports.ActperfilComponent = ActperfilComponent;

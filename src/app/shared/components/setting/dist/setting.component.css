@@ -1,0 +1,85 @@
+* {
+  --overflow: hidden;
+}
+
+app-header {
+  background-color: #020403;
+}
+
+ion-item {
+  font-size: 14px;
+  color: white;
+  --background:#020403;
+  /*   ion-icon {
+        color: rgb(255, 255, 255);
+    }
+
+    &.active {
+        color: var(--ion-color-primary);
+
+        ion-icon {
+            color: rgb(255, 255, 255);
+        }
+    } */
+}
+
+h4 {
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+ion-menu {
+  --width: 254px;
+  --min-width: 254px;
+  outline: none;
+}
+
+ion-list {
+  background-color: #020403;
+}
+
+ion-toolbar {
+  --background:#020403;
+}
+
+ion-content {
+  --background:#020403;
+  height: 100vh;
+}
+
+ion-icon#colors1,
+ion-icon#colors2,
+ion-icon#colors3,
+ion-icon#colors4,
+ion-icon#colors5 {
+  font-size: 16px;
+  border-radius: 50%;
+  margin: 2%;
+  padding: 2%;
+  margin-left: -5px;
+}
+
+/* --background:#434343; PARA FONDO DE LOS BOTONES, SE QUEDAN CON ESOS COLORES*/
+ion-icon#colors2 {
+  color: #9549ff;
+  background-color: #c8baff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+ion-icon#colors3 {
+  color: #ffe449;
+  background-color: #fcffd6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+ion-icon#colors4 {
+  color: #e20404;
+  background-color: #ff7272;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+ion-icon#colors5 {
+  color: #e20404;
+  background-color: #ff7272;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

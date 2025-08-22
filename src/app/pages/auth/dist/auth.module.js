@@ -6,29 +6,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.SettingsPageModule = void 0;
+exports.AuthPageModule = void 0;
 var core_1 = require("@angular/core");
 var common_1 = require("@angular/common");
 var forms_1 = require("@angular/forms");
 var angular_1 = require("@ionic/angular");
-var settings_routing_module_1 = require("./settings-routing.module");
-var settings_page_1 = require("./settings.page");
+var auth_routing_module_1 = require("./auth-routing.module");
+var auth_page_1 = require("./auth.page");
 var shared_module_1 = require("src/app/shared/shared.module");
-var SettingsPageModule = /** @class */ (function () {
-    function SettingsPageModule() {
+var AuthPageModule = /** @class */ (function () {
+    function AuthPageModule() {
     }
-    SettingsPageModule = __decorate([
+    AuthPageModule = __decorate([
         core_1.NgModule({
             imports: [
                 common_1.CommonModule,
                 forms_1.FormsModule,
                 angular_1.IonicModule,
-                settings_routing_module_1.SettingsPageRoutingModule,
+                auth_routing_module_1.AuthPageRoutingModule,
                 shared_module_1.SharedModule
             ],
-            declarations: [settings_page_1.SettingsPage]
+            declarations: [auth_page_1.AuthPage]
         })
-    ], SettingsPageModule);
-    return SettingsPageModule;
+    ], AuthPageModule);
+    return AuthPageModule;
 }());
-exports.SettingsPageModule = SettingsPageModule;
+exports.AuthPageModule = AuthPageModule;

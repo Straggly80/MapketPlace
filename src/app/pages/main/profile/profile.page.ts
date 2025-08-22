@@ -8,10 +8,13 @@ import { IonButton, ToastController } from '@ionic/angular/standalone';
 import {IonButtons,IonContent,IonHeader,IonModal,IonNav,IonTitle,IonToolbar,} from '@ionic/angular/standalone';
 import { ViewChild } from '@angular/core';
 import { IonNavLink } from '@ionic/angular/standalone';
-import { SettingsPage } from './settings/settings.page';
 import { MainPage } from '../main.page';
 import { orderBy } from 'firebase/firestore';
 import { Router } from '@angular/router';
+import { SettingComponent } from 'src/app/shared/components/setting/setting.component';
+import { ActperfilComponent } from 'src/app/shared/components/actperfil/actperfil.component';
+import { AddUpdateProductComponent } from 'src/app/shared/components/add-update-product/add-update-product.component';
+import { where } from 'firebase/firestore';
 
 
 @Component({
@@ -21,6 +24,8 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class ProfilePage implements OnInit {
+selectedSegment: string = 'home'; // Valor inicial
+
   constructor(private firebaseService: FirebaseService, 
     private utilsService: UtilsService, private toastController: ToastController, private router: Router) {}
 
@@ -44,6 +49,28 @@ openModalnotificaciones() {
     modal.present();
   }
 }
+
+/* ==================== Abrir Settings ==================== */
+   async openSettings() {
+     let success = await this.utilsSvc.presentModal({
+       component: SettingComponent,
+       cssClass: 'setting-modal',
+     });
+
+     if (success) this.getProducts();
+   }
+
+   /* ==================== ActPerfil ==================== */
+   async actPerfil() {
+     let success = await this.utilsSvc.presentModal({
+       component: ActperfilComponent,
+       cssClass: 'actperfil-modal',
+     });
+
+     if (success) this.getProducts();
+   }
+   
+/* ============================================ */
 
   doRefresh(event: any) {
     console.log('Begin async operation');
@@ -103,6 +130,8 @@ getProducts() {
       },
     });
   } 
+
+/* ================================================================= */
 
    ionViewWillEnter() {
     this.getProducts();

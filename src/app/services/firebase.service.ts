@@ -29,6 +29,8 @@ import {
 import { Product } from '../models/product.model';
 import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
 
+import { Firestore } from '@angular/fire/firestore';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -37,6 +39,12 @@ export class FirebaseService {
   firestore = inject(AngularFirestore);
   storage = inject(AngularFireStorage);
   utilsSvc = inject(UtilsService);
+
+
+  archiveDocument(path: string): Promise<void> {
+    const docRef = doc(getFirestore('geohub-origin77'), path);
+    return updateDoc(docRef, { archived: true });
+  }
 
   /* ============================== AUTENTICACION ============================== */
   getAuth() {
@@ -185,3 +193,6 @@ export class FirebaseService {
     return deleteObject(ref(getStorage(), path));
   }
 }
+
+
+
