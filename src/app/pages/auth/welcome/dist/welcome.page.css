@@ -4,7 +4,7 @@ ion-toolbar {
   /* Ajusta este valor al tamaño deseado */
   height: var(--min-height);
   /* Aplica la altura definida */
-  --background:#434343;
+  --background:#020403;
 }
 
 ion-content {

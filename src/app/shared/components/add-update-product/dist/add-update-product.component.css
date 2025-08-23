@@ -16,7 +16,17 @@ ion-toolbar {
   /* Ajusta este valor al tamaño deseado */
   height: var(--min-height);
   /* Aplica la altura definida */
-  --background:#434343;
+  --background:#020403;
+}
+
+.btn-ubicacion {
+  background-color: #636363;
+  border: none;
+  padding: 8px 12px;
+  margin-top: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 /* form {

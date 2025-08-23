@@ -157,7 +157,7 @@ ion-menu-button.menu {
   padding: 10px 20px;
   border: none;
   cursor: pointer;
-  color: red;
+  color: rgb(225, 225, 225);
   transition: color 0s ease;
 }
 
@@ -187,4 +187,5 @@ ion-toolbar {
   position: sticky;
   top: 0;
   z-index: 100;
+   box-shadow: 1px 1px 1px #0c0c0c;
 }
