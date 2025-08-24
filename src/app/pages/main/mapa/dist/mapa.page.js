@@ -100,7 +100,7 @@ var MapaPage = /** @class */ (function () {
                         return [4 /*yield*/, this.getCurrentLocation()];
                     case 2:
                         ubicacion = _a.sent();
-                        console.log('📍 Ubicación actual:', ubicacion);
+                        console.log('Ubicación actual:', ubicacion);
                         return [4 /*yield*/, this.loadGoogleMaps()];
                     case 3:
                         _a.sent();
@@ -123,15 +123,15 @@ var MapaPage = /** @class */ (function () {
                     case 1:
                         permiso = _a.sent();
                         if (permiso.location === 'granted') {
-                            console.log('✅ Permiso de ubicación concedido');
+                            console.log('Permiso de ubicación concedido');
                         }
                         else {
-                            console.warn('❌ Permiso de ubicación denegado');
+                            console.warn('Permiso de ubicación denegado');
                         }
                         return [3 /*break*/, 3];
                     case 2:
                         error_1 = _a.sent();
-                        console.error('⚠️ Error al solicitar permiso', error_1);
+                        console.error('Error al solicitar permiso', error_1);
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
                 }
@@ -262,7 +262,7 @@ var MapaPage = /** @class */ (function () {
                     title: 'Tu ubicación',
                     icon: {
                         url: ((_a = this.user()) === null || _a === void 0 ? void 0 : _a.image) || 'assets/usuario-no-picture.png',
-                        scaledSize: new google.maps.Size(30, 30),
+                        scaledSize: new google.maps.Size(90, 90),
                         anchor: new google.maps.Point(20, 20)
                     }
                 });

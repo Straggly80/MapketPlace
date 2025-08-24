@@ -17,12 +17,21 @@ app-custom-input {
 }
 
 ion-button {
-  --background: #ff5d5d;
+  --background: #ff5353;
   --color: white;
 }
 
 ion-button:hover {
-  --background: #ff4747;
+  --background: #ff3f3f;
+}
+
+ion-button.close-button {
+  font-family: "poppins";
+  color: white;
+}
+
+ion-button.close-button:hover {
+  --background: #000000;
 }
 
 ion-content {

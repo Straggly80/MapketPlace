@@ -65,6 +65,10 @@ var ActperfilComponent = /** @class */ (function () {
             modal.dismiss();
         }
     };
+    /* ====================== ACTUALIZAR NOMBRE ====================================== */
+    /*     necesito que al pulsar el boton de actualizar, se cambie el nombre del usuario en tiempo real
+        y se muestre en la interfaz de usuario */
+    /* ================================================================================== */
     ActperfilComponent.prototype.takeImage = function () {
         return __awaiter(this, void 0, void 0, function () {
             var user, path, loading, dataUrl, imagePath, _a, error_1;

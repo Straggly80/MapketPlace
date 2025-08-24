@@ -3,36 +3,35 @@
 
 
 <div class="fixed-toolbar">
-  <ion-toolbar >
-  <!--  (click)="openModalnotificaciones()" -->
-  <ion-buttons slot="secondary">
-    <ion-button expand="block" fill="clear" shape="round">
-      <ion-icon slot="icon-only" name="notifications-outline" style="color: rgb(255, 255, 255);"></ion-icon>
-    </ion-button>
-  </ion-buttons>
+  <ion-toolbar>
+    <!--  (click)="openModalnotificaciones()" -->
+    <ion-buttons slot="secondary">
+      <ion-button expand="block" fill="clear" shape="round">
+        <ion-icon slot="icon-only" name="notifications-outline" style="color: rgb(255, 255, 255);"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
-  <ion-buttons slot="secondary">
-    <ion-button expand="block" fill="clear" shape="round" (click)="openSettings()">
-      <ion-icon slot="icon-only" name="settings-outline" style="color: rgb(255, 255, 255);"></ion-icon>
-    </ion-button>
-  </ion-buttons>
+    <ion-buttons slot="secondary">
+      <ion-button expand="block" fill="clear" shape="round" (click)="openSettings()">
+        <ion-icon slot="icon-only" name="settings-outline" style="color: rgb(255, 255, 255);"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
-  <ion-buttons slot="primary">
-  </ion-buttons>
-  <ion-buttons slot="start">
-    <ion-menu-button auto-hide="false" class="menu"></ion-menu-button>
-  </ion-buttons>
-  <ion-title class="perfil-title">Perfil</ion-title>
-</ion-toolbar>
+    <ion-buttons slot="primary">
+    </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-menu-button auto-hide="false" class="menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="perfil-title">Perfil</ion-title>
+  </ion-toolbar>
 </div>
-<ion-content class="ion-padding-top ion-text-center">
 
+<ion-content class="ion-padding-top ion-text-center">
   <!-- ======================REFRESCAR PAGINA========================================== -->
-<!--   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+  <!--   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content pullingText="Desliza para refrescar"></ion-refresher-content>
   </ion-refresher> -->
   <!-- =======================Imagen del perfil===================================== -->
-
   <ion-avatar style="margin-left: 10px;">
     <img *ngIf="user()?.image" [src]="user()?.image" />
     <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline"></ion-icon>
@@ -43,22 +42,18 @@
 
   <h2 class="seguidores"><!-- Aqui iran los seguidores --></h2>
   <p class="seguidores2">seguidores</p>
-
   <!--===================NOMBRE DEL USUARIO Y ACCIONES======================-->
   <div>
     <h2 class="userName">{{user().name}}</h2>
-
     <ion-chip color="primary" class="vendedor">Vendedor</ion-chip>
     <ion-chip color="tertiary" (click)="actPerfil()" class="vendedor2">Editar perfil</ion-chip>
-
   </div>
   <!-- ================================================================================== -->
-
   <!--  -->
   <br>
   <br>
   <br>
-<br>
+  <br>
   <br>
   <!-- =====================================SEGMENTOS DE TODO Y FAVORITOS============================================================= -->
 
@@ -105,19 +100,19 @@
 
 
   <ion-segment-view style="color: white;">
-  <ion-segment-content id="first">
-    <div class="profile-gallery">
-      <div class="gallery-grid">
-        <ng-container *ngFor="let p of products">
-          <img *ngIf="p.image" [src]="p.image" class="gallery-img" />
-        </ng-container>
+    <ion-segment-content id="first">
+      <div class="profile-gallery">
+        <div class="gallery-grid">
+          <ng-container *ngFor="let p of products">
+            <img *ngIf="p.image" [src]="p.image" class="gallery-img" />
+          </ng-container>
+        </div>
       </div>
-    </div>
-  </ion-segment-content>
+    </ion-segment-content>
 
 
 
-    
+
     <!-- <ion-segment-content id="second">Aqui ira la seccion de favoritos..</ion-segment-content> -->
   </ion-segment-view>
   <br>

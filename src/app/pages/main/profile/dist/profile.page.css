@@ -191,3 +191,47 @@ ion-toolbar {
   z-index: 100;
   box-shadow: 1px 1px 1px #0c0c0c;
 }
+
+/* Imagen ampliada estilo modal */
+.image-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInBackdrop 0.2s;
+}
+
+@keyframes fadeInBackdrop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.image-modal-img {
+  max-width: 70vw;
+  max-height: 70vh;
+  border-radius: 12px;
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5);
+  background: #222;
+  animation: scaleInImg 0.2s;
+}
+
+@keyframes scaleInImg {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+/* Opcional: cursor para cerrar */
+.image-modal-backdrop {
+  cursor: zoom-out;
+}

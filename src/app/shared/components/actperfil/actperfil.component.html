@@ -2,7 +2,7 @@
 <ion-toolbar>
   <ion-title style="font-weight: bold; font-family: 'poppins'; color: white;">Editar perfil</ion-title>
   <ion-buttons slot="end">
-    <ion-button (click)="closeModal()" style=" font-family: 'poppins'; color: white;">Cerrar</ion-button>
+    <ion-button (click)="closeModal()" class="close-button">Cerrar</ion-button>
   </ion-buttons>
 </ion-toolbar>
 
@@ -11,12 +11,12 @@
     <form class="auth-form">
 
       <h2>Cambiar foto de perfil</h2>
-        <ion-avatar>
+      <ion-avatar>
         <img *ngIf="user()?.image" [src]="user()?.image" />
         <ion-icon *ngIf="!user()?.image" class="empty-icon" name="person-circle-outline" class="empty-icon"></ion-icon>
       </ion-avatar>
-      
-       <ion-button class="photo-btn" (click)="takeImage()" size="small" shape="round">
+
+      <ion-button class="photo-btn" (click)="takeImage()" size="small" shape="round">
         <ion-icon name="camera-reverse-outline"></ion-icon>
       </ion-button>
 
@@ -24,14 +24,54 @@
       <small class="small">{{user().name}}</small>
 
       <!-- NAME -->
-      <app-custom-input autocomplete="name" icon="person-outline" type="name" label="Nuevo nombre"></app-custom-input>
-
-      <ion-button expand="block" fill="clear" shape="round" name="ios">
+      <app-custom-input autocomplete="name" icon="person-outline" type="name" label="Nuevo nombre"
+        [(ngModel)]="user().name"></app-custom-input>
+      <ion-button expand="block" fill="clear" shape="round" name="ios" (click)="updateName()">
         Actualizar
       </ion-button>
-
-    
 
     </form>
   </div>
 </ion-content>
+
+<!--[(ngModel)]="name"
+ 
+[(ngModel)]="user().name"
+
+   async updateProfile() {
+    let user = this.user();
+    let path = `users/${user.uid}`;
+
+    let loading: HTMLIonLoadingElement | undefined;
+
+    try {
+      if (!user.name || user.name?.trim().length === 0) {
+        throw new Error('El nombre no puede estar vacío.');
+      }
+
+      loading = await this.utilsSvc.loading();
+      await loading.present();
+
+      await this.firebaseSvc.updateDocument(path, { name: user.name });
+
+      this.utilsSvc.saveInLocalStorage('user', user);
+
+      await this.utilsSvc.presentToast({
+        message: 'Nombre actualizado exitosamente!',
+        duration: 1500,
+        color: 'light',
+        icon: 'checkmark-circle-outline',
+      });
+    } catch (error: any) {
+      console.error(error);
+      await this.utilsSvc.presentToast({
+        message: error.message || 'Error al actualizar el nombre.',
+        duration: 2500,
+        color: 'danger',
+        icon: 'alert-circle-outline',
+      });
+    } finally {
+      if (loading) {
+        await loading.dismiss();
+      }
+    } -->

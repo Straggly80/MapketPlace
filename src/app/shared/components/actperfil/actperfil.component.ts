@@ -32,7 +32,12 @@ export class ActperfilComponent  implements OnInit {
       modal.dismiss();
     }
   }
+/* ====================== ACTUALIZAR NOMBRE ====================================== */
 
+/*     necesito que al pulsar el boton de actualizar, se cambie el nombre del usuario en tiempo real
+    y se muestre en la interfaz de usuario */
+
+   /* ================================================================================== */
   async takeImage() {
     let user = this.user();
     let path = `users/${user.uid}`;

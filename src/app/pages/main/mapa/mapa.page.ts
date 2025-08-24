@@ -12,6 +12,7 @@ import { MenuController } from '@ionic/angular';
 import { IonModal } from '@ionic/angular';
 import { ViewChild, AfterViewInit } from '@angular/core';
 import { LocationService } from 'src/app/services/location.service';
+import { style } from '@angular/animations';
 
 
 
@@ -62,7 +63,7 @@ export class MapaPage implements OnInit, AfterViewInit {
     await this.solicitarPermisosUbicacion();
 
     const ubicacion = await this.getCurrentLocation();
-    console.log('📍 Ubicación actual:', ubicacion);
+    console.log('Ubicación actual:', ubicacion);
 
     await this.loadGoogleMaps();
     this.inicializarMapa(ubicacion);
@@ -75,12 +76,12 @@ export class MapaPage implements OnInit, AfterViewInit {
     try {
       const permiso = await Geolocation.requestPermissions();
       if (permiso.location === 'granted') {
-        console.log('✅ Permiso de ubicación concedido');
+        console.log('Permiso de ubicación concedido');
       } else {
-        console.warn('❌ Permiso de ubicación denegado');
+        console.warn('Permiso de ubicación denegado');
       }
     } catch (error) {
-      console.error('⚠️ Error al solicitar permiso', error);
+      console.error('Error al solicitar permiso', error);
     }
   }
 
@@ -210,7 +211,7 @@ export class MapaPage implements OnInit, AfterViewInit {
       title: 'Tu ubicación',
       icon: {
         url: this.user()?.image || 'assets/usuario-no-picture.png',
-        scaledSize: new google.maps.Size(30, 30),
+        scaledSize: new google.maps.Size(90, 90),
         anchor: new google.maps.Point(20, 20),
       },
     });

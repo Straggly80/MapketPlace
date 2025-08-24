@@ -6,33 +6,55 @@
   </ion-buttons>
 </ion-toolbar>
 
-<ion-content>
-  <ion-content class="ion-padding">
-    <ion-item button>
-      <ion-icon id="colors2" slot="start" name="document-outline"></ion-icon>
-      <ion-label style="margin-left: 20px; color: #ffffff;">Terminos & Condiciones</ion-label>
-    </ion-item>
 
-    <ion-item button>
-      <ion-icon id="colors3" slot="start" name="help-outline"></ion-icon>
-      <ion-label style="margin-left: 20px; color: #ffffff;">Ayuda</ion-label>
-    </ion-item>
+<ion-content >
 
-    <ion-item button>
-      <ion-icon id="colors4" slot="start" name="log-out-outline"></ion-icon>
-      <ion-label style="margin-left: 20px; color: #ffffff;">Cerrar Sesión</ion-label>
+
+  <ion-list>
+    <ion-item>
+      <ion-icon color="warning" slot="start" name="notifications-outline"></ion-icon>
+      <ion-toggle [enableOnOffLabels]="true" class="labels"  style="color: #ffe449;">Enable Notifications</ion-toggle>
     </ion-item>
 
     <ion-item>
-      <ion-toggle [enableOnOffLabels]="true">Enable Notifications</ion-toggle>
+      <ion-icon color="secondary" slot="start" name="mail-outline"></ion-icon>
+      <ion-toggle class="labels"  style="color: #0084ff;">Receive Emails</ion-toggle>
     </ion-item>
-    <ion-list>
-      <ion-item>
-        <ion-toggle>Receive Emails</ion-toggle>
-      </ion-item>
-      <ion-item>
-        <ion-toggle>Dark Mode</ion-toggle>
-      </ion-item>
-    </ion-list>
-  </ion-content>
+
+
+    <ion-item>
+      <ion-icon color="tertiary" slot="start" name="walk-outline"></ion-icon>
+      <ion-toggle class="labels" style="color: #9549ff;">No molestar</ion-toggle>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-icon color="light" slot="start" name="invert-mode-outline"></ion-icon>
+      <ion-toggle class="labels" >Dark Mode</ion-toggle>
+    </ion-item>
+  </ion-list>
+
+  <hr style="border-color: #1a1a1a; border-width: 1px; width: 150%; margin-left: -20px;">
+
+  <ion-item button>
+    <ion-icon slot="start" name="document-outline" color="tertiary"></ion-icon>
+    <ion-label class="labels" style="color: #9549ff;">Terminos & Condiciones</ion-label>
+  </ion-item>
+
+  <ion-item button>
+    <ion-icon slot="start" name="help-outline" color="warning"></ion-icon>
+    <ion-label class="labels" style="color: #ffe449;">Ayuda</ion-label>
+  </ion-item>
+
+  <ion-item button (click)="EliminarCuenta()">
+    <ion-icon slot="start" name="trash-outline" color="danger"></ion-icon>
+    <ion-label class="labels" style="color: rgb(255, 45, 45);">Eliminar Cuenta</ion-label>
+  </ion-item>
+
+  <ion-item button (click)="CerrarSesion()">
+    <ion-icon slot="start" name="log-out-outline" color="danger"></ion-icon>
+    <ion-label class="labels" style="color: rgb(255, 45, 45);" >Cerrar Sesión</ion-label>
+  </ion-item>
+
+
 </ion-content>

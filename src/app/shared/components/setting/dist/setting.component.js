@@ -106,6 +106,15 @@ var SettingComponent = /** @class */ (function () {
     };
     /* que elimine la cuenta en la que se esta inciada sesion,
     que se elimine el usuario y todos sus datos */
+    SettingComponent.prototype.EliminarCuenta = function () {
+        this.deleteUsuario(this.user());
+        this.closeModal();
+        this.signOut();
+        this.router.navigate(['/login']);
+    };
+    SettingComponent.prototype.CerrarSesion = function () {
+        this.logout();
+    };
     /* AUN NO BORRA NO ESTA TERMINADO */
     SettingComponent.prototype.user = function () {
         return this.utilsSvc.getFromLocalStorage('user');

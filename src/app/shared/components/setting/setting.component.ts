@@ -89,7 +89,16 @@ constructor(
 /* que elimine la cuenta en la que se esta inciada sesion,
 que se elimine el usuario y todos sus datos */
 
+  EliminarCuenta() {
+    this.deleteUsuario(this.user());
+    this.closeModal();
+    this.signOut();
+    this.router.navigate(['/login']);
+  }
 
+  CerrarSesion() {
+    this.logout();
+  }
 
 /* AUN NO BORRA NO ESTA TERMINADO */
     user(): User {
