@@ -1,6 +1,5 @@
 <app-header></app-header>
 <ion-toolbar>
-
   <ion-buttons slot="start">
     <ion-menu-button auto-hide="false"></ion-menu-button>
   </ion-buttons>
@@ -82,8 +81,8 @@
   </ion-list>
 
   <!-- =============== LOADING ===============  -->
-  <ion-list *ngIf="loading">
-    <ion-item class="product-item" *ngFor="let p of [1,1,1,1,1,1]">
+  <ion-list *ngIf="loading" >
+    <ion-item class="product-item" *ngFor="let p of [1,1,1,1,1,1]" >
       <ion-avatar slot="start">
         <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
       </ion-avatar>

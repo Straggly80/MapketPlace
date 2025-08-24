@@ -29,10 +29,15 @@
 
 <!-- ==================MODAL LATERAL======================================= -->
 <ion-menu contentId="menu-content" menuId="menu-content" side="start">
-  <ion-toolbar></ion-toolbar>
-  <app-header title="Menú"></app-header>
+  <ion-toolbar class="app">
+  </ion-toolbar>
+  <ion-toolbar class="app2">
+    <ion-title style="font-weight: bold; font-family: 'poppins'; color: white;">Menú</ion-title>
+  </ion-toolbar>
 
-  <ion-content class="ion-text-center" >
+  
+
+  <ion-content class="ion-text-center">
     <!-- LISTA DE MENÚ -->
     <ion-list >
       <ion-menu-toggle auto-hide="false" *ngFor="let p of pages">

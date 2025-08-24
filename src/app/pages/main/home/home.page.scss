@@ -4,6 +4,7 @@
 
 app-header{
   z-index: 129192;
+
 }
 /* ----------------------------------------- */
 ion-content {
@@ -43,7 +44,6 @@ ion-card {
     height: 80px;
     font-family: 'poppins', sans-serif;
     top: -10px;
-
 }
 
 ion-col {
@@ -51,6 +51,7 @@ ion-col {
     justify-content: center;
     align-items: center;
     column-gap: -15px;
+
     
     
 }
@@ -89,6 +90,6 @@ strong {
    background:#1d1d1d;
   }
 
-ion-item-sliding {
-  --background: #1cea83;
+ion-list{
+  background: #020403;
 }

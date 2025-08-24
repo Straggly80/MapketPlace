@@ -1,0 +1,30 @@
+/* Quita ion-content del selector global y NO pongas height aquí */
+ion-content {
+  --background: #020403;
+  overflow-y: auto;
+  contain: strict;
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+  --background: #020403;
+  box-sizing: border-box;
+}
+
+ion-menu-button.menu {
+  --color: rgb(255, 255, 255);
+}
+
+ion-toolbar {
+  --background: #020403;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+   box-shadow: 1px 1px 1px #0c0c0c;
+   color: white;
+}
+
+.chat-title{
+  font-weight: bold;
+  color: white;
+}

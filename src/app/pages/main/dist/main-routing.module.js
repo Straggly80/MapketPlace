@@ -45,6 +45,18 @@ var routes = [
                     return Promise.resolve().then(function () { return require('./menu/menu.module'); }).then(function (m) { return m.MenuPageModule; });
                 }
             },
+            {
+                path: 'compras',
+                loadChildren: function () {
+                    return Promise.resolve().then(function () { return require('./compras/compras.module'); }).then(function (m) { return m.ComprasPageModule; });
+                }
+            },
+            {
+                path: 'chat',
+                loadChildren: function () {
+                    return Promise.resolve().then(function () { return require('./chat/chat.module'); }).then(function (m) { return m.ChatPageModule; });
+                }
+            },
         ]
     },
 ];

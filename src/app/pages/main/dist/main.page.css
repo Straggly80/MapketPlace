@@ -1,7 +1,13 @@
+ion-menu,
+ion-list,
+ion-toolbar,
+ion-item {
+  --background: #101010f6;
+}
+
 ion-item {
   font-size: 14px;
   color: white;
-  --background:#434343;
 }
 ion-item ion-icon {
   color: white;
@@ -48,7 +54,6 @@ ion-avatar {
 .avatar img {
   position: relative;
   top: 22px;
-  /* ajustar los valores para mover la imagen */
   left: -40px;
   width: 30px;
   height: 30px;
@@ -68,7 +73,6 @@ ion-avatar {
 
 .avatar2 img {
   top: 52px;
-  /* ajustar los valores para mover la imagen */
   left: -40px;
   width: 30px;
   height: 30px;
@@ -79,7 +83,7 @@ ion-avatar {
 }
 
 ion-list {
-  background-color: #434343;
+  background-color: #101010f6;
 }
 
 #imgDeAvatar {
@@ -88,14 +92,18 @@ ion-list {
   margin-right: 27px;
 }
 
-ion-toolbar {
-  --background:#434343;
-  --border-color: #434343;
+.app2 {
+  --background: #101010f6;
+  box-shadow: 1px 1px 1px #161616;
+}
+
+.app {
+  --background:#101010f6;
+  z-index: 129192;
 }
 
 ion-content {
-  --background:#434343;
-  background-color: #434343;
+  --background:#101010f6;
   height: 100vh;
 }
 
@@ -111,7 +119,6 @@ ion-icon#colors5 {
   margin-left: -5px;
 }
 
-/* --background:#434343; PARA FONDO DE LOS BOTONES, SE QUEDAN CON ESOS COLORES*/
 ion-icon#colors1 {
   color: #49aaff;
   background-color: #e0fffd;
@@ -142,39 +149,3 @@ ion-icon#colors5 {
   background-color: #ff7272;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-
-/* ion-icon#colors1:hover,
-ion-icon#colors2:hover,
-ion-icon#colors3:hover,
-ion-icon#colors4:hover,
-ion-icon#colors5:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-} */
-/* ion-icon#colors4 {
-    font-size: 18px;
-    color: #92ff49;
-    background-color: #cbffcb;
-    border-radius: 50%;
-    margin: 1%;
-    padding: 1%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-    margin-left: -5px;
-
-}
-
-ion-icon#colors5 {
-    font-size: 18px;
-    color: #35a509;
-    background-color: #ccffa1;
-    border-radius: 50%;
-    margin: 1%;
-    padding: 1%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-    margin-left: -5px;
-
-} */

@@ -1,7 +1,13 @@
-ion-item{
+ion-menu,
+ion-list,
+ion-toolbar,
+ion-item {
+    --background: #101010f6;
+}
+
+ion-item {
     font-size: 14px;
     color: rgb(255, 255, 255);
-    --background:#434343;
 
     ion-icon {
         color: rgb(255, 255, 255);
@@ -19,15 +25,13 @@ ion-item{
 h4 {
     margin-top: 5px;
     font-weight: bold;
-   
 }
 
 ion-menu {
     --width: 254px;
     --min-width: 254px;
     outline: none;
-    
-    }
+}
 
 ion-avatar {
     width: 120px;
@@ -37,7 +41,7 @@ ion-avatar {
     background: transparent;
 }
 
-.empty-icon{
+.empty-icon {
     font-size: 100px;
 }
 
@@ -51,7 +55,7 @@ ion-avatar {
 }
 .avatar img {
     position: relative;
-    top: 22px; /* ajustar los valores para mover la imagen */
+    top: 22px;
     left: -40px;
     width: 30px;
     height: 30px;
@@ -69,7 +73,7 @@ ion-avatar {
     margin: -20px;
 }
 .avatar2 img {
-    top: 52px; /* ajustar los valores para mover la imagen */
+    top: 52px;
     left: -40px;
     width: 30px;
     height: 30px;
@@ -79,32 +83,33 @@ ion-avatar {
     z-index: 12;
 }
 
-ion-list{
-  
-   background-color: #434343;
+ion-list {
+    background-color: #101010f6;
 }
 
 #imgDeAvatar {
     height: 26px;
-    width:  26px;
+    width: 26px;
     margin-right: 27px;
 }
 
+.app2 {
+    --background: #101010f6;
+     box-shadow: 1px 1px 1px #161616;
+}
 
-ion-toolbar {
-      --background:#434343;
-      --border-color: #434343;
-   }
+.app{
+  --background:#101010f6;
+z-index: 129192;
+}
 
 ion-content {
-     --background:#434343;
-  background-color: #434343;
-  height: 100vh;
-
+    --background:#101010f6;
+    height: 100vh;
 }
 
 ion-icon#colors1,
-ion-icon#colors2,    
+ion-icon#colors2,
 ion-icon#colors3,
 ion-icon#colors4,
 ion-icon#colors5 {
@@ -113,10 +118,7 @@ ion-icon#colors5 {
     margin: 2%;
     padding: 2%;
     margin-left: -5px;
-    
 }
-
-/* --background:#434343; PARA FONDO DE LOS BOTONES, SE QUEDAN CON ESOS COLORES*/
 
 ion-icon#colors1 {
     color: #49aaff;
@@ -148,40 +150,3 @@ ion-icon#colors5 {
     background-color: #ff7272;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-
-/* ion-icon#colors1:hover,
-ion-icon#colors2:hover,
-ion-icon#colors3:hover,
-ion-icon#colors4:hover,
-ion-icon#colors5:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-} */
-
-/* ion-icon#colors4 {
-    font-size: 18px;
-    color: #92ff49;
-    background-color: #cbffcb;
-    border-radius: 50%;
-    margin: 1%;
-    padding: 1%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-    margin-left: -5px;
-    
-}
-
-ion-icon#colors5 {
-    font-size: 18px;
-    color: #35a509;
-    background-color: #ccffa1;
-    border-radius: 50%;
-    margin: 1%;
-    padding: 1%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-    margin-left: -5px;
-    
-} */

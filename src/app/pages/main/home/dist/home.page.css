@@ -86,6 +86,6 @@ strong {
   background: #1d1d1d;
 }
 
-ion-item-sliding {
-  --background: #1cea83;
+ion-list {
+  background: #020403;
 }

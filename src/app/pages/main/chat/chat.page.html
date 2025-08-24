@@ -1,9 +1,16 @@
 <app-header></app-header>
-<ion-buttons slot="primary">
-</ion-buttons>
-<app-header backButton="/main/home" title="Chat"></app-header>
+<div class="fixed-toolbar">
+  <ion-toolbar >
+  <ion-buttons slot="primary">
+  </ion-buttons>
+  <ion-buttons slot="start">
+    <ion-menu-button auto-hide="false" class="menu"></ion-menu-button>
+  </ion-buttons>
+  <ion-title class="chat-title">Chat</ion-title>
+</ion-toolbar>
+</div>
 
 <ion-content [fullscreen]="true">
   <h2 style="text-align: center; margin-top: 160px; color: red; font-family: 'poppins'; font-weight: bold;">Pagina en Construccion..</h2>
-  <p style="text-align: center; margin-top: 0px; font-size: 12px; font-family: 'poppins';">Gracias por su pacienca..😄</p>
+  <p style="text-align: center; margin-top: 0px; font-size: 12px; font-family: 'poppins'; color: white;">Gracias por su pacienca..😄</p>
 </ion-content>

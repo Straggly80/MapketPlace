@@ -60,7 +60,6 @@ var MainPage = /** @class */ (function () {
         this.pages = [
             /*  { title: 'Inicio', url: '/main/menu', icon: 'home' }, */
             { title: 'Mapa', url: '/main/mapa', icon: 'map' },
-            { title: 'Favoritos', url: '/main/favoritos', icon: 'heart-outline' },
             { title: 'Ventas', url: '/main/home', icon: 'bag-outline' },
             { title: 'Compras', url: '/main/compras', icon: 'cart-outline' },
             { title: 'Chat', url: '/main/chat', icon: 'chatbubbles-outline' },

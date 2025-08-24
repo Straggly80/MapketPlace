@@ -1,19 +1,22 @@
-<ion-item class="custom-input" lines="none">
-  
-  
-  <ion-icon 
-  color="primary" 
-  *ngIf="icon"
-  slot="start" 
-  [name]="icon"></ion-icon>
+<ion-item 
+    class="custom-input" 
+    lines="none" 
+    style="--background: rgb(242, 242, 242);"> <!-- COLOR BACKGROUND -->
+    
+  <ion-icon
+    color="primary"
+    *ngIf="icon"
+    slot="start" 
+    [name]="icon"
+    color="dark"></ion-icon><!-- COLOR ICON -->
 
-
-  <ion-input [type]="type" 
-  [autocomplete]="autocomplete" 
-  [label]="label" 
-  [formControl]="control" 
-  label-placement="floating"></ion-input>
-
+  <ion-input 
+    [type]="type" 
+    [autocomplete]="autocomplete" 
+    [label]="label" 
+    [formControl]="control" 
+    label-placement="floating"
+    color="dark"></ion-input> <!-- COLOR TEXT -->
 
   <ion-button *ngIf="isPassword"(click)="showOrHidePassword()" slot="end" fill="clear" shape="round">
     <ion-icon slot="icon-only" [name]="hide ? 'eye' : 'eye-off'"></ion-icon>

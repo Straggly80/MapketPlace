@@ -1,12 +1,12 @@
 <ion-toolbar></ion-toolbar>
-<app-header [isModal]="true"  [title]="product ? 'Actualizar Producto' : 'Agregar Producto'"></app-header>
+<app-header [isModal]="true"  [title]="product ? 'Actualizar Producto' : 'Agregar Producto'" class="actual"></app-header>
 <ion-content>
   <form [formGroup]="form" class="ion-padding ion-text-center" (ngSubmit)="submit()" (keypress.enter)="submit()">
 
     <ion-avatar *ngIf="form.value.image">
       <img [src]="form.value.image" />
     </ion-avatar>
-    <ion-icon class="image-icon" *ngIf="!form.value.image" name="image-outline"></ion-icon> <br>
+    <ion-icon class="image-icon" *ngIf="!form.value.image" name="image-outline" style="color: white;"></ion-icon> <br>
 
     <ion-button (click)="takeImage()" mode="ios" size="small" shape="round" class="img-button">
       Tomar/Seleccionar

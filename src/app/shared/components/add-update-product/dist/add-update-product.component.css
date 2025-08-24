@@ -1,7 +1,10 @@
-@charset "UTF-8";
+ion-content {
+  --background: #020403;
+}
+
 .image-icon {
   font-size: 100px;
-  opacity: 30%;
+  opacity: 50%;
 }
 
 ion-avatar {
@@ -12,60 +15,11 @@ ion-avatar {
 }
 
 ion-toolbar {
-  --min-height: 40px;
-  /* Ajusta este valor al tamaño deseado */
-  height: var(--min-height);
-  /* Aplica la altura definida */
   --background:#020403;
+  z-index: 12932;
 }
 
-.btn-ubicacion {
-  background-color: #636363;
-  border: none;
-  padding: 8px 12px;
-  margin-top: 8px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
+app-header.actual {
+  --background: #020403;
+  box-shadow: 1px 1px 1px #fdfdfd;
 }
-
-/* form {
-  position: relative;
-}
-
-#botonPSN {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10;
-
-  height: 50px;
-
-  --background: rgba(255, 255, 255, 0.1);
-  --color: rgb(46, 46, 46);
-  --border-radius: 16px;
-  --border-width: 0px;
-  --box-shadow: none;
-
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-
-  border: 1px solid rgba(255, 255, 255, 0.911);
-  border-radius: 16px;
-
-  box-shadow:
-    inset 2px 2px 6px rgba(255, 255, 255, 0.3),
-    inset -2px -2px 6px rgba(0, 0, 0, 0.2),
-    0 2px 10px rgba(0, 0, 0, 0.2);
-
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-}
-
-#botonPSN:hover {
-  transform: scale(1.05);
-  box-shadow:
-    inset 2px 2px 6px rgba(255, 255, 255, 0.3),
-    inset -2px -2px 6px rgba(0, 0, 0, 0.2),
-    0 4px 6px rgba(0, 0, 0, 0.3);
-}
- */
